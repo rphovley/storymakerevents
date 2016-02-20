@@ -16,12 +16,13 @@ import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
 
-public class AddScheduleActivity extends AppCompatActivity {
+public class AddScheduleActivity extends AppCompatActivity implements AddScheduleAdapter.AdapterChanged {
     public static String CAME_FROM_SCHEDULE = "came_from_schedule";
 
     RecyclerView scheduleView;
     LinearLayoutManager llm;
     AddScheduleAdapter adapter;
+    List<Schedules> myScheduleList;
     List<Schedules> schedulesList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,6 @@ public class AddScheduleActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(day + " " + start + "-" + end);
         DatabaseHandler dh = new DatabaseHandler(this);
         schedulesList = dh.getScheduleByBreakout(breakoutID);
-
         /*SET UP -- GET VALUES*/
 
         /*SET UP -- RECYCLERVIEW*/
@@ -47,7 +47,7 @@ public class AddScheduleActivity extends AppCompatActivity {
         llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         scheduleView.setLayoutManager(llm);
-        adapter = new AddScheduleAdapter(schedulesList,this);
+        adapter = new AddScheduleAdapter(schedulesList, this);
         scheduleView.setAdapter(adapter);
         dh.close();
         /*SET UP -- RECYCLERVIEW*/
@@ -67,4 +67,13 @@ public class AddScheduleActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void addedPresentation(int position) {
+        adapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void removedPresentation(int position) {
+        adapter.notifyItemChanged(position);
+    }
 }

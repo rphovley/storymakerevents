@@ -50,7 +50,7 @@
                 android:clickable="true"
                 android:layout_margin="@dimen/margin"
                 android:layout_gravity="center"
-                android:background="@drawable/green_add_selector"/>
+                android:background="@drawable/remove_selector"/>
             <ImageView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"

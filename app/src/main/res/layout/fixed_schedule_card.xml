@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/add_schedule_card"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/margin"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="2dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/margin">
+        <innatemobile.storymakerevents.CustomViews.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtPresentationTitle"
+            android:layout_centerHorizontal="true"
+            app:fontName="Roboto-Thin.ttf"
+            android:gravity="center"
+            android:textSize="32sp"
+            android:text="Breakout 1"/>
+
+        <innatemobile.storymakerevents.CustomViews.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtPresenterName"
+            android:layout_gravity="center"
+            app:fontName="Roboto-BoldItalic.ttf"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="10:00am-10:50am"
+            android:layout_below="@+id/txtPresentationTitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

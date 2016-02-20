@@ -327,6 +327,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(TABLE_MY_SCHEDULE, null, content);
         db.close();
     }
+    public void removeFromSchedule(int presentation_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MY_SCHEDULE, SCHEDULE_PRESENTATION_ID + " = ?",
+                new String[] { String.valueOf(presentation_id) });
+        db.close();
+    }
     public List<Schedules> getAllMySchedule(){
         List<Schedules> scheduleList = new ArrayList<Schedules>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -484,8 +490,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         //query the database to return the spreadsheet key for the spreadsheet name
         Cursor cursor = db.query(TABLE_PRESENTATIONS, new String[]{PRESENTATION_ID, PRESENTATION_TITLE, PRESENTATION_DESCRIPTION,
-                        PRESENTATION_SPEAKER_ID, PRESENTATION_IS_INTENSIVE,PRESENTATION_IS_KEYNOTE},
-                        PRESENTATION_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+                        PRESENTATION_SPEAKER_ID, PRESENTATION_IS_INTENSIVE, PRESENTATION_IS_KEYNOTE},
+                PRESENTATION_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
         if(cursor!=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             int presentation_id = cursor.getInt(0);
@@ -552,5 +558,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return null;
     }
+
+
     /********************NOTIFICATION METHODS*******************/
 }
