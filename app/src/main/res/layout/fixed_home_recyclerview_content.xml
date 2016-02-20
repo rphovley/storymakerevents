@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--NEXT CLASS HEADER-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin"
+            android:orientation="vertical">
+            <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                style="@style/top_header_border"/>
+            <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                style="@style/defaultText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Next Class"
+                android:textSize="@dimen/text_header"/>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/synch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:background="@drawable/synch_selector"
+            android:padding="@dimen/margin"
+            android:layout_gravity="left"/>
+    </FrameLayout>
+    <!--NEXT CLASS HEADER-->
+    <!--NEXT CLASS CONTENT-->
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--TITLE NAME-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                    style="@style/clickableLightText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="@dimen/text_header"
+                    android:text="How to Read"/>
+                <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                    style="@style/clickableLightText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_header"
+                    android:textColor="@color/text_color_light"
+                    android:text="Art Hovley"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+            <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                style="@style/clickableLightText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/text_color_light"
+                android:text="Friday 2:00-3:00 PM Room 201" />
+            <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                style="@style/defaultText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorCardBackground"
+                android:text="Art Hovley lectures on the difference between 'reading' and 'not reading', exploring the alphabet, and using pictures to understand words." />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                    style="@style/clickableLightText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:textColor="@color/text_color_light"
+                    android:text="Feedback"/>
+                <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                    style="@style/clickableLightText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:textColor="@color/text_color_light"
+                    android:text="About the Author"/>
+            </LinearLayout>
+            <!--TITLE NAME-->
+            <!--DAY TIME ROOM-->
+            <!--DAY TIME ROOM-->
+            <!--DESCRIPTION-->
+            <!--DESCRIPTION-->
+            <!--SURVEY SPEAKER-->
+            <!--SURVEY SPEAKER-->
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <!--NEXT CLASS CONTENT-->
+    <!--MY UPCOMING CLASS HEADER-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:orientation="vertical">
+        <innatemobile.storymakerevents.CustomViews.RobotoTextView
+            style="@style/top_header_border"/>
+        <innatemobile.storymakerevents.CustomViews.RobotoTextView
+            style="@style/defaultText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="My Upcoming Classes"
+            android:textSize="@dimen/text_header"/>
+    </LinearLayout>
+    <!--MY UPCOMING CLASS HEADER-->
+
+</LinearLayout>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">storymakerevents</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!--URL TO GET SPREADSHEETS FROM-->
+    <string name="spreadsheet_url">https://spreadsheets.google.com/tq?key=</string>
+    <string name="spreadsheet_key">1Y8jMldIfTCOdiirkINlMHJNij1C_ura01Ol40AwZxHs</string>
+    <string name="sLDS">LDS</string>
+    <string name="sStorymakers">Storymakers</string>
+    <string name="sConference">Conference</string>
+    <string name="sNotificationDefault">Welcome to Storymakers 2016!  Click on "Full Schedule" to view presentations.  Select presentations to be a part of your personal schedule!</string>
+    <string name="sFirstClass">Add your first class</string>
+    <string name="title_activity_add_schedule">AddScheduleActivity</string>
+</resources>

@@ -1,0 +1,43 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="innatemobile.storymakerevents.Fragments.HomeFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--NOTIFICATIONS-->
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/notificationCard">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorCardBackground">
+                    <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                        style="@style/defaultText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_large"
+                        android:text="@string/sNotificationDefault"
+                        android:id="@+id/txtNotification"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:paddingLeft="@dimen/margin"
+                        android:paddingTop="@dimen/margin"
+                        android:clickable="true"
+                        android:id="@+id/close_notification"
+                        android:src="@drawable/ic_highlight_remove_24dp"
+                        />
+            </FrameLayout>
+        </android.support.v7.widget.CardView>
+        <!--NOTIFICATIONS-->
+        <include layout="@layout/recyclerview_container"/>
+    </LinearLayout>
+
+</FrameLayout>
