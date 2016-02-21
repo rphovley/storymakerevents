@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/margin"
+    android:orientation="horizontal">
 
     <innatemobile.storymakerevents.CustomViews.RobotoTextView
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/breakoutName"
+    android:layout_weight=".2"
     app:fontName="Roboto-Thin.ttf"
+    android:layout_gravity="center_vertical"
     android:gravity="left"
     android:textSize="32sp"
-    android:text="Breakout 1"
-
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
+    android:text="Breakout 1" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight=".8">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnAddEmpty"
-        android:background="@drawable/ic_add_circle_green_24dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:background="@drawable/grey_add_selector"
+        />
+    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

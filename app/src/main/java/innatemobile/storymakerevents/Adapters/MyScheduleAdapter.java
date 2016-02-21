@@ -84,7 +84,7 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
         public UpcomingScheduleCardViewHolder(final View itemView) {
             super(itemView);
             txtPresentationName = (TextView) itemView.findViewById(R.id.txtPresentationTitle);
-            txtSpeakerName      = (TextView) itemView.findViewById(R.id.txtPresenterName);
+            txtSpeakerName      = (TextView) itemView.findViewById(R.id.txtSpeakerName);
             /*txtBreakoutName = (TextView) itemView.findViewById(R.id.breakoutName);
             txtBreakoutTime = (TextView) itemView.findViewById(R.id.breakoutTime);
             cardBreakout    = itemView.findViewById(R.id.breakout_card);

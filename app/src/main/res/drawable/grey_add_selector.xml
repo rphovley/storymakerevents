@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true"
-        android:drawable="@drawable/ic_sync_24dp_pressed"/> <!-- pressed -->
-    <item android:drawable="@drawable/ic_sync_24dp"/> <!-- default -->
+        android:drawable="@drawable/ic_add_circle_grey_pressed_24dp"/> <!-- pressed -->
+    <item android:drawable="@drawable/ic_add_circle_grey_24dp"/> <!-- default -->
 </selector>

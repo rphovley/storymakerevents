@@ -3,16 +3,21 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="cardTextSize">16sp</dimen>
+
     <!--splash screen text-->
     <dimen name="splashTitleSize">42sp</dimen>
     <dimen name="add_buton_height">36dp</dimen>
+
+    <dimen name="margin">10dp</dimen>
+    <dimen name="small_margin">5dp</dimen>
+    <dimen name="tiny_margin">2dp</dimen>
+    <dimen name="custom_tab_layout_height">64dp</dimen>
+    <dimen name="first_class_icon_size">64dp</dimen>
+
+    <!--Text Sizes-->
     <dimen name="text_large">20sp</dimen>
     <dimen name="text_header_large">25sp</dimen>
     <dimen name="text_header">20sp</dimen>
-    <dimen name="margin">10dp</dimen>
-    <dimen name="small_margin">5dp</dimen>
-    <dimen name="custom_tab_layout_height">64dp</dimen>
-    <dimen name="first_class_icon_size">64dp</dimen>
     <dimen name="sDefaultTextSize">12sp</dimen>
+    <dimen name="cardTextSize">16sp</dimen>
 </resources>
