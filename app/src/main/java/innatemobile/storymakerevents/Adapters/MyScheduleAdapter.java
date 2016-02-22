@@ -40,17 +40,19 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
     @Override
     public void onBindViewHolder(UpcomingScheduleCardViewHolder holder, int position) {
         dh = new DatabaseHandler(activity);
-        int presentation_id = schedulesList.get(position).getPresentation_id();
-        Presentations presentation = dh.getPresentation(presentation_id);
-        int speaker_id = presentation.getSpeaker_id();
-        Speakers speaker = dh.getSpeaker(speaker_id);
-        if (speaker != null) {
-            String speakerName = speaker.getName();
-            holder.txtSpeakerName.setText(speakerName);
-        }
-        if (presentation != null) {
-            String presentationName = presentation.getTitle();
-            holder.txtPresentationName.setText(presentationName);
+        if(!schedulesList.get(position).isEmptyBreakout()) {
+            int presentation_id = schedulesList.get(position).getPresentation_id();
+            Presentations presentation = dh.getPresentation(presentation_id);
+            int speaker_id = presentation.getSpeaker_id();
+            Speakers speaker = dh.getSpeaker(speaker_id);
+            if (speaker != null) {
+                String speakerName = speaker.getName();
+                holder.txtSpeakerName.setText(speakerName);
+            }
+            if (presentation != null) {
+                String presentationName = presentation.getTitle();
+                holder.txtPresentationName.setText(presentationName);
+            }
         }
 
         dh.close();
@@ -85,10 +87,6 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
             super(itemView);
             txtPresentationName = (TextView) itemView.findViewById(R.id.txtPresentationTitle);
             txtSpeakerName      = (TextView) itemView.findViewById(R.id.txtSpeakerName);
-            /*txtBreakoutName = (TextView) itemView.findViewById(R.id.breakoutName);
-            txtBreakoutTime = (TextView) itemView.findViewById(R.id.breakoutTime);
-            cardBreakout    = itemView.findViewById(R.id.breakout_card);
-            cardBreakout.setOnClickListener(this);*/
         }
 
         @Override

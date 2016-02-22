@@ -11,7 +11,16 @@ public class Schedules {
     private int section_id;
     private boolean isPresentation;
     private String location;
+    //isEmptyBreakout is a post database processing variable
+    private boolean isEmptyBreakout;
 
+    public boolean isEmptyBreakout() {
+        return isEmptyBreakout;
+    }
+
+    public void setIsEmptyBreakout(boolean isEmptyBreakout) {
+        this.isEmptyBreakout = isEmptyBreakout;
+    }
 
     public Schedules() {
 

@@ -15,13 +15,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import innatemobile.storymakerevents.Adapters.AddScheduleAdapter;
 import innatemobile.storymakerevents.Adapters.UpcomingScheduleAdapter;
+import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
@@ -93,6 +99,17 @@ public class HomeFragment extends Fragment {
         /*SET UP --RECYCLERVIEW*/
         DatabaseHandler dh = new DatabaseHandler(getContext());
         schedulesList = dh.getAllMySchedule();
+        String previousDay = "";
+        schedulesList = setEmptyScheduleSpots(schedulesList);
+        for(int i = 0; i < schedulesList.size(); i++){ // add in the day headers
+            Breakouts breakout = dh.getBreakout(schedulesList.get(i).getBreakout_id());
+            if(!breakout.getDayOfWeek().equals(previousDay)){
+                schedulesList.add(i, null);
+                i++;
+                previousDay = breakout.getDayOfWeek();
+            }
+        }
+
         dh.close();
         scheduleView = (RecyclerView) view.findViewById(R.id.recyclerview);
         scheduleView.setHasFixedSize(true);
@@ -103,6 +120,75 @@ public class HomeFragment extends Fragment {
         scheduleView.setAdapter(adapter);
         /*SET UP --RECYCLERVIEW*/
         return view;
+    }
+    private List<Schedules>  setEmptyScheduleSpots(List<Schedules> mySchedule){
+        DatabaseHandler dh = new DatabaseHandler(getContext());
+        List<Breakouts> breakoutsList = dh.getAllBreakouts();
+        List<Integer> ar = new ArrayList<>();
+        for(int i = 0; i < breakoutsList.size(); i++){ // Get all the breakouts into a list
+            int breakout_id = -1;
+            try {
+                breakout_id = Integer.parseInt(breakoutsList.get(i).getBreakoutName());
+            }catch(NumberFormatException e){
+                //Toast.makeText(getContext(), "Not an Integer!: " + breakoutsList.get(i).getBreakoutName(), Toast.LENGTH_SHORT).show();
+            }
+            if(breakout_id != -1){//Check to see if we have something scheduled in that breakout
+                Breakouts breakout = dh.getBreakout(breakout_id);
+                mySchedule = isBreakoutInSchedule(mySchedule, breakout);//do we have something in our schedule for that breakout?
+            }
+        }
+        dh.close();
+        return mySchedule;
+    }
+
+    public List<Schedules> isBreakoutInSchedule(List<Schedules> mySchedule, Breakouts testBreakout){
+        int index = 0;
+        int currentBreakoutId = 0;
+        DatabaseHandler dh = new DatabaseHandler(getContext());
+        Boolean isBreakoutInSchedule = false;
+        Date mySchedTime = new Date(0);
+
+        while (!isBreakoutInSchedule && mySchedTime.getTime() <= testBreakout.getDateAndStartTime().getTime()){ //while we are still looking for the time
+            //gets the time for the schedule item currently being checked
+            currentBreakoutId = mySchedule.get(index).getBreakout_id();
+            Breakouts mySchedBreakout = dh.getBreakout(currentBreakoutId);
+            mySchedTime.setTime(mySchedBreakout.getDateAndStartTime().getTime());
+            Date test = testBreakout.getDateAndStartTime();
+            Date test2 = mySchedTime;
+            if(mySchedule.get(index).isPresentation() && test.getTime() == test2.getTime()){
+                isBreakoutInSchedule = true;
+            }
+            index++;
+        }
+        if(!isBreakoutInSchedule){
+            Schedules schedule = new Schedules();
+            schedule.setId(1000 + index - 1);
+            schedule.setIsPresentation(false);
+            schedule.setBreakout_id(testBreakout.getId());
+            schedule.setIsEmptyBreakout(true);
+            mySchedule.add(index-1, schedule);
+        }
+
+
+/*
+        while(currentBreakoutId <= breakout_id){//if we don't have something scheduled, we need to insert a blank into schedulesList
+            if(mySchedule.get(index)!=null) {
+                currentBreakoutId = mySchedule.get(index).getBreakout_id();
+                Schedules sched = mySchedule.get(index);
+                if (sched.isPresentation() && breakout_id == sched.getBreakout_id()) {
+
+                    Schedules schedule = new Schedules();
+                    schedule.setId(1000 + index);
+                    schedule.setIsPresentation(false);
+                    schedule.setBreakout_id(breakout_id);
+                    schedule.setIsEmptyBreakout(true);
+                    mySchedule.add(index, sched);
+                }
+            }
+
+            index++;
+        }*/
+        return mySchedule;
     }
 
     @Override

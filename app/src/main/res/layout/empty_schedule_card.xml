@@ -1,32 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/margin"
+    android:layout_marginBottom="@dimen/small_margin"
+    android:layout_marginLeft="@dimen/small_margin"
+    app:cardBackgroundColor="@color/grey_300"
+    app:cardElevation="5dp"
     android:orientation="horizontal">
-
-    <innatemobile.storymakerevents.CustomViews.RobotoTextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/breakoutName"
-    android:layout_weight=".2"
-    app:fontName="Roboto-Thin.ttf"
-    android:layout_gravity="center_vertical"
-    android:gravity="left"
-    android:textSize="32sp"
-    android:text="Breakout 1" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight=".8">
-    <TextView
-        android:layout_width="wrap_content"
+        android:orientation="horizontal">
+        <innatemobile.storymakerevents.CustomViews.RobotoTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnAddEmpty"
-        android:background="@drawable/grey_add_selector"
-        />
-    </LinearLayout>
+        android:id="@+id/txtBreakoutName"
+        android:layout_weight=".2"
+        app:fontName="Roboto-Thin.ttf"
+        android:layout_gravity="center_vertical"
+        android:gravity="left"
+        android:textSize="32sp"
+        android:text="Breakout 1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight=".8">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnAddEmpty"
+            android:background="@drawable/grey_add_selector"
+            />
+        </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
+        <innatemobile.storymakerevents.CustomViews.RobotoTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtEmptyTime"
+            android:layout_marginLeft="@dimen/tab_margin"
+            app:fontName="RobotoCondensed-Bold.ttf"
+            android:text="Time"/>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

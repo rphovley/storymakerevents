@@ -20,4 +20,5 @@
     <dimen name="text_header">20sp</dimen>
     <dimen name="sDefaultTextSize">12sp</dimen>
     <dimen name="cardTextSize">16sp</dimen>
+    <dimen name="tab_margin">48dp</dimen>
 </resources>

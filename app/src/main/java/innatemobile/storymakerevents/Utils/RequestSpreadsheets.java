@@ -13,7 +13,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import java.util.List;
+
 import innatemobile.storymakerevents.Activities.MainActivity;
+import innatemobile.storymakerevents.Models.Breakouts;
+import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
 
@@ -48,15 +52,17 @@ public class RequestSpreadsheets {
             @Override
             public void onResponse(String response) {
                 /*Log.d(TAG, response.toString());*/
+                DatabaseHandler dh = new DatabaseHandler(activity);
                 if(isSynch){
                     progress = new ProgressDialog(activity);
                     progress.setMessage("Getting most recent Storymaker's schedule and Notifications.");
                     progress.show();
-                    activity.deleteDatabase("storymakersSchedule");
+                    dh.clearForSynch();
+                    //activity.deleteDatabase("storymakersSchedule");
                 }
                 ParseJSON parsed = new ParseJSON(activity);
                 parsed.uploadSheet(response, ParseJSON.SPREADSHEET_CALL);
-                DatabaseHandler dh = new DatabaseHandler(activity);
+
 
 
                 if(isFirst || isSynch) {

@@ -107,7 +107,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_SCHEDULE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_SCHEDULE + "("
                 + SCHEDULE_ID + " INTEGER PRIMARY KEY," + SCHEDULE_PRESENTATION_ID + " INTEGER,"
                 + SCHEDULE_BREAKOUT_ID + " INTEGER," + SCHEDULE_SECTION + " INTEGER,"
-                + SCHEDULE_LOCATION + " TEXT," + SCHEDULE_IS_PRESENTATION + " INTEGER"+ ")";
+                + SCHEDULE_LOCATION + " TEXT," + SCHEDULE_IS_PRESENTATION + " INTEGER" + ")";
         db.execSQL(CREATE_SCHEDULE_TABLE);
         /******************SCHEDULE***********************/
 
@@ -115,7 +115,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_MY_SCHEDULE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_MY_SCHEDULE + "("
                 + SCHEDULE_ID + " INTEGER PRIMARY KEY," + SCHEDULE_PRESENTATION_ID + " INTEGER,"
                 + SCHEDULE_BREAKOUT_ID + " INTEGER," + SCHEDULE_SECTION + " INTEGER,"
-                + SCHEDULE_LOCATION + " TEXT," + SCHEDULE_IS_PRESENTATION + " INTEGER"+ ")";
+                + SCHEDULE_LOCATION + " TEXT," + SCHEDULE_IS_PRESENTATION + " INTEGER" +  ")";
         db.execSQL(CREATE_MY_SCHEDULE_TABLE);
         /******************MY SCHEDULE***********************/
 
@@ -154,6 +154,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void clearForSynch(){
+        String clearForSynch = "DELETE FROM " + TABLE_BREAKOUTS +  ";";
+        clearForSynch += "DELETE FROM " + TABLE_PRESENTATIONS +  ";";
+        clearForSynch += "DELETE FROM " + TABLE_SCHEDULE +  ";";
+        clearForSynch += "DELETE FROM " + TABLE_NOTIFICATIONS +  ";";
+        clearForSynch += "DELETE FROM " + TABLE_SPEAKERS +  ";";
+        clearForSynch += "DELETE FROM " + TABLE_SPREADSHEETS +  ";";
+        clearForSynch += "VACUUM;";
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(clearForSynch);
+    }
     /********************SPREADSHEET METHODS****************/
     public void addSpreadsheet(Spreadsheets sheet){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -333,10 +344,32 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[] { String.valueOf(presentation_id) });
         db.close();
     }
-    public List<Schedules> getAllMySchedule(){
+    /*public List<Schedules> getAllMySchedule(){
         List<Schedules> scheduleList = new ArrayList<Schedules>();
         SQLiteDatabase db = this.getReadableDatabase();
         //query the database to return the Animal key for the Animal name
+        String selectQuery = "SELECT  * FROM " + TABLE_MY_SCHEDULE;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if(cursor.moveToFirst() && cursor.getCount() > 0){
+            do {
+                Schedules schedule = new Schedules();
+                schedule.setId(Integer.parseInt(cursor.getString(0)));
+                schedule.setPresentation_id(Integer.parseInt(cursor.getString(1)));
+                schedule.setBreakout_id(Integer.parseInt(cursor.getString(2)));
+                schedule.setSection_id(Integer.parseInt(cursor.getString(3)));
+                schedule.setLocation(cursor.getString(4));
+                schedule.setIsPresentationDB(Integer.parseInt(cursor.getString(5)));
+                schedule.setIsEmptyBreakoutDB(Integer.parseInt(cursor.getString(6)));
+                scheduleList.add(schedule);
+            }while(cursor.moveToNext());
+        }
+        db.close();
+        return scheduleList;
+    }*/
+    public List<Schedules> getAllMySchedule(){
+        List<Schedules> scheduleList = new ArrayList<Schedules>();
+        SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_MY_SCHEDULE +
                 " my JOIN " + TABLE_BREAKOUTS + " br ON my." + SCHEDULE_BREAKOUT_ID + "=br." + BREAKOUT_ID +
                 " ORDER BY " + "br. " + BREAKOUT_DATE + ", br." +BREAKOUT_START;
@@ -440,7 +473,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //query the database to return the spreadsheet key for the spreadsheet name
         String selectQuery = "SELECT  * FROM " + TABLE_BREAKOUTS;
         Cursor cursor = db.rawQuery(selectQuery, null);
-        if(cursor.moveToFirst() && cursor!=null && cursor.getCount() > 0){
+        if(cursor!=null && cursor.moveToFirst() && cursor.getCount() > 0){
             do {
                 Breakouts breakout = new Breakouts(Integer.parseInt(cursor.getString(0)), cursor.getString(1),
                         cursor.getString(2), cursor.getString(3), cursor.getString(4));

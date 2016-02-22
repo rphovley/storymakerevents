@@ -102,9 +102,9 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new HomeFragment(), "HOME");
-        adapter.addFrag(new MyScheduleFragment(), "MYSCHEDULE");
-        adapter.addFrag(new BreakoutFragment(), "SCHEDULE");
-        adapter.addFrag(new AllSpeakersFragment(), "NOTIFICATIONS");
+        adapter.addFrag(new MyScheduleFragment(), "SCHEDULE");
+        adapter.addFrag(new BreakoutFragment(), "ADD");
+        adapter.addFrag(new AllSpeakersFragment(), "FEEDBACK");
         viewPager.setAdapter(adapter);
     }
 
@@ -141,8 +141,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return "";
-        }
+            return "";        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -100,7 +100,11 @@ public class Breakouts {
     public Date getDate() {
         return date;
     }
-
+    public Date getDateAndStartTime(){
+        Date startDateAndTime = new Date(0);
+        startDateAndTime.setTime(getDate().getTime()+ getStart().getTime());
+        return startDateAndTime;
+    }
     public String getDayOfWeek(){
         return dayFormat.format(getDate());
     }
