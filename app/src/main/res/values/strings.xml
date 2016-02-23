@@ -16,4 +16,9 @@
     <string name="sFirstClass">Add your first class</string>
     <string name="title_activity_add_schedule">AddScheduleActivity</string>
     <string name="title_activity_presentation">PresentationActivity</string>
+    <string name="sMyClasses">My Classes</string>
+    <string name="sAddClass">Add Class</string>
+    <string name="sFeedback">Feedback</string>
+    <string name="sConferenceFeedback">Click here to take conference feedback</string>
+    <string name="sCourseFeedback">Click here to take course feedback</string>
 </resources>

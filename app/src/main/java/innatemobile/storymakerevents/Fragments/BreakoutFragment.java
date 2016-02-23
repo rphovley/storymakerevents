@@ -34,7 +34,7 @@ public class BreakoutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.recyclerview_container, container, false);
+        View view = inflater.inflate(R.layout.breakout_fragment, container, false);
         breakoutView = (RecyclerView) view.findViewById(R.id.recyclerview);
         breakoutView.setHasFixedSize(true);
         llm = new LinearLayoutManager(getContext());

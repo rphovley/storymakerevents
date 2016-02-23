@@ -27,10 +27,10 @@ public class PresentationActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        int breakoutID = getIntent().getExtras().getInt(BreakoutAdapter.BREAKOUT_ID_TAG);
-        String start = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_START_TAG);
-        String end = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_END_TAG);
-        String day = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_DAY_TAG);
+        breakoutID = getIntent().getExtras().getInt(BreakoutAdapter.BREAKOUT_ID_TAG);
+        start = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_START_TAG);
+        end = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_END_TAG);
+        day = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_DAY_TAG);
         int pres_id = getIntent().getExtras().getInt(AddScheduleAdapter.PRESENTATION_ID);
         DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
         Presentations pres = dh.getPresentation(pres_id);
