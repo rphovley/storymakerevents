@@ -56,7 +56,7 @@ public class Presentations {
     }
 
     public int isIntensive() {
-        if (isIntensive==true) {
+        if (isIntensive) {
             return 1;
         }else{
             return 0;
@@ -91,14 +91,14 @@ public class Presentations {
         if(isKeynote == 1){
             this.isKeynote = true;
         }else{
-            this.isIntensive = false;
+            this.isKeynote = false;
         }
     }
     public void setIsKeynoteJSON(String isKeynote) {
         if(isKeynote.toLowerCase().equals("yes")) {
-            this.isIntensive = true;
+            this.isKeynote = true;
         }else{
-            this.isIntensive = false;
+            this.isKeynote = false;
         }
     }
 }

@@ -139,7 +139,17 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
             switch(v.getId()) {
                 case R.id.btnAddToSchedule:
                     dh = new DatabaseHandler(activity);
-                    dh.addMySchedule(schedulesList.get(this.getAdapterPosition()));
+                    Schedules sched = schedulesList.get(this.getAdapterPosition());
+                    Presentations present = dh.getPresentation(sched.getPresentation_id());
+
+                    if(present.isIntensive()==1) {
+                        List<Schedules> intensive = dh.getScheduleIntByPresentation(present.getId(), sched.getSection_id());
+                        for(int i = 0; i< intensive.size(); i++){
+                            dh.addMySchedule(intensive.get(i));
+                        }
+                    }else{
+                        dh.addMySchedule(schedulesList.get(this.getAdapterPosition()));
+                    }
                     ac.addedPresentation(this.getAdapterPosition());
                     dh.close();
                     Snackbar.make(itemView, "Added to Schedule", Snackbar.LENGTH_LONG)
