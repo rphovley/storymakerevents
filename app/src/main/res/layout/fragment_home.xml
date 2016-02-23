@@ -21,7 +21,7 @@
                         style="@style/defaultText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_large"
+                        android:textSize="@dimen/cardTextSize"
                         android:text="@string/sNotificationDefault"
                         android:id="@+id/txtNotification"/>
                     <ImageView

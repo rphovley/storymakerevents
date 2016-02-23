@@ -41,8 +41,10 @@ public class BreakoutAdapter  extends RecyclerView.Adapter<BreakoutAdapter.Break
     @Override
     public void onBindViewHolder(BreakoutCardViewHolder holder, int position) {
         Breakouts breakout = breakoutList.get(position);
-        holder.txtBreakoutName.setText("Breakout "+breakout.getBreakoutName());
-        holder.txtBreakoutTime.setText(breakout.getDayOfWeek()+ " " + breakout.getStartReadable()+"-"+breakout.getEndReadable());
+        String breakoutName = breakout.getDayOfWeek()+ " " + "Breakout "+breakout.getBreakoutName();
+        String breakoutTime = breakout.getStartReadable()+"-"+breakout.getEndReadable();
+        holder.txtBreakoutName.setText(breakoutName);
+        holder.txtBreakoutTime.setText(breakoutTime);
     }
     @Override
     public BreakoutCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

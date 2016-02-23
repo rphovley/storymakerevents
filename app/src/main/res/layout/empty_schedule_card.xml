@@ -6,47 +6,48 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/small_margin"
     android:layout_marginLeft="@dimen/small_margin"
-    app:cardBackgroundColor="@color/grey_300"
-    app:cardElevation="5dp"
+    android:layout_marginRight="@dimen/small_margin"
+    app:cardBackgroundColor="@color/colorCardBackground"
+    app:cardElevation="1dp"
     android:orientation="horizontal">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
         android:orientation="horizontal">
-        <innatemobile.storymakerevents.CustomViews.RobotoTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtBreakoutName"
-        android:layout_weight=".2"
-        app:fontName="Roboto-Thin.ttf"
-        android:layout_gravity="center_vertical"
-        android:gravity="left"
-        android:textSize="32sp"
-        android:text="Breakout 1" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight=".8">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnAddEmpty"
-            android:background="@drawable/grey_add_selector"
-            />
+            android:layout_height="match_parent"
+            android:layout_weight=".15"
+            android:orientation="vertical">
+            <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sDefaultTextSize"
+                android:id="@+id/txtEmptyTime"
+                android:text="Time"/>
+            <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtBreakoutName"
+                android:layout_weight=".2"
+                app:fontName="Roboto-Thin.ttf"
+                android:textSize="@dimen/text_header"
+                android:textAllCaps="true"
+                android:text="Breakout 1" />
         </LinearLayout>
-
-    </LinearLayout>
-        <innatemobile.storymakerevents.CustomViews.RobotoTextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtEmptyTime"
-            android:layout_marginLeft="@dimen/tab_margin"
-            app:fontName="RobotoCondensed-Bold.ttf"
-            android:text="Time"/>
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight=".85"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btnAddEmpty"
+                android:background="@drawable/grey_add_selector" />
+        </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -15,4 +15,5 @@
     <string name="sNotificationDefault">Welcome to Storymakers 2016!  Click on "Full Schedule" to view presentations.  Select presentations to be a part of your personal schedule!</string>
     <string name="sFirstClass">Add your first class</string>
     <string name="title_activity_add_schedule">AddScheduleActivity</string>
+    <string name="title_activity_presentation">PresentationActivity</string>
 </resources>

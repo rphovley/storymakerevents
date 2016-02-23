@@ -45,6 +45,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="innatemobile.storymakerevents.Activities.MainActivity" />
         </activity>
+        <activity
+            android:name=".Activities.PresentationActivity"
+            android:label="@string/title_activity_presentation"
+            android:parentActivityName=".Activities.AddScheduleActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="innatemobile.storymakerevents.Activities.AddScheduleActivity" />
+        </activity>
     </application>
 
 </manifest>

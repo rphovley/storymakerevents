@@ -9,6 +9,7 @@
     android:layout_marginBottom="@dimen/small_margin"
     android:layout_marginLeft="@dimen/small_margin"
     android:layout_marginRight="@dimen/small_margin"
+    app:cardBackgroundColor="@color/white"
     app:cardElevation="@dimen/tiny_margin"
     app:cardCornerRadius="2dp">
     <LinearLayout
@@ -51,7 +52,8 @@
             android:layout_weight=".5"
             android:singleLine="true"
             android:ellipsize="end"
-            android:text="Presentation Title" />
+            android:text="Presentation Title"
+            app:fontName="RobotoCondensed-Bold.ttf"/>
         <innatemobile.storymakerevents.CustomViews.RobotoTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,7 +61,8 @@
             android:gravity="right"
             android:textSize="14sp"
             android:layout_weight=".5"
-            android:text="Speaker" />
+            android:text="Speaker"
+            app:fontName="RobotoCondensed-Bold.ttf"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

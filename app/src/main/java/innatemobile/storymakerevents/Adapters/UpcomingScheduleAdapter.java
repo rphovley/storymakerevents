@@ -59,7 +59,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             Breakouts breakout = dh.getBreakout(breakout_id);
             holder.txtRoom.setText(schedulesList.get(position).getLocation());
             if(breakout!=null) {
-                holder.txtTime.setText(breakout.getDayOfWeek() + " " + breakout.getStartReadable() + " - " + breakout.getEndReadable());
+                holder.txtTime.setText(breakout.getStartReadable() + " - " + breakout.getEndReadable());
             }
             if (speaker != null && holder.txtSpeakerName!=null) {
                 String speakerName = speaker.getName();

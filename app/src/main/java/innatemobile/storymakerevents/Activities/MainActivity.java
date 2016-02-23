@@ -53,14 +53,14 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         home           = ContextCompat.getDrawable(this, R.drawable.ic_home_black_24px);
-        myschedule     = ContextCompat.getDrawable(this, R.drawable.calendar);
+        /*myschedule     = ContextCompat.getDrawable(this, R.drawable.calendar);*/
         schedule       = ContextCompat.getDrawable(this, R.drawable.calendar_add);
         notification   = ContextCompat.getDrawable(this, R.drawable.ic_chat_24dp);
         tab_home       = R.layout.tab_icon;
 
         colorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
         colorIconWhite   = ContextCompat.getColor(this, R.color.color_icons);
-        tabIcons = new ArrayList<>(Arrays.asList(home, myschedule, schedule, notification));
+        tabIcons = new ArrayList<>(Arrays.asList(home, schedule, notification));
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setOffscreenPageLimit(3);
         setupViewPager(viewPager);
@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
         if(getIntent().getExtras()!=null) {//if we came from addschedule, set that as our selected fragment
-            highlightSelectedIcon(2, 0);
-            viewPager.setCurrentItem(2);
+            highlightSelectedIcon(1, 0);
+            viewPager.setCurrentItem(1);
         }
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new HomeFragment(), "HOME");
-        adapter.addFrag(new MyScheduleFragment(), "SCHEDULE");
         adapter.addFrag(new BreakoutFragment(), "ADD");
         adapter.addFrag(new AllSpeakersFragment(), "FEEDBACK");
         viewPager.setAdapter(adapter);

@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">@color/light_blue_700</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorPrimaryBackground">@color/grey_200</color>
+    <color name="colorSecondary">#006064</color>
     <color name="colorCardBackground">@color/white</color>
     <color name="text_color_light">@color/white</color>
     <!--GO TO https://design.google.com/icons/ FOR ICON LINKS-->

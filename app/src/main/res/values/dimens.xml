@@ -21,4 +21,5 @@
     <dimen name="sDefaultTextSize">12sp</dimen>
     <dimen name="cardTextSize">16sp</dimen>
     <dimen name="tab_margin">48dp</dimen>
+    <dimen name="sBreakoutTextSize">28sp</dimen>
 </resources>
