@@ -24,6 +24,7 @@ public class AddScheduleActivity extends AppCompatActivity implements AddSchedul
     AddScheduleAdapter adapter;
     List<Schedules> myScheduleList;
     List<Schedules> schedulesList;
+    boolean cameFromBreakout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,8 @@ public class AddScheduleActivity extends AppCompatActivity implements AddSchedul
         String start = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_START_TAG);
         String end = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_END_TAG);
         String day = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_DAY_TAG);
+        cameFromBreakout = getIntent().getExtras().getBoolean(BreakoutAdapter.BREAKOUT_CAME_FROM_BREAKOUT);
+
         getSupportActionBar().setTitle(day + " " + start + "-" + end);
         DatabaseHandler dh = new DatabaseHandler(this);
         schedulesList = dh.getScheduleByBreakout(breakoutID);
@@ -58,7 +61,9 @@ public class AddScheduleActivity extends AppCompatActivity implements AddSchedul
             case android.R.id.home:
                 // do something useful
                 Intent i = new Intent(this, MainActivity.class);
-                i.putExtra(CAME_FROM_SCHEDULE, true);
+                if(cameFromBreakout) {
+                    i.putExtra(CAME_FROM_SCHEDULE, true);
+                }
                 startActivity(i);
                 return(true);
         }

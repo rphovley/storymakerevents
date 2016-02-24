@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:layout_width="@dimen/first_class_icon_size"
-        android:layout_height="64dp"
-        android:src="@drawable/calendar_add"
-        android:tint="@color/grey_500"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:id="@+id/imageView" />
-    <innatemobile.storymakerevents.CustomViews.RobotoTextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/sFirstClass"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true" />
+        android:orientation="vertical"
+        android:layout_margin="@dimen/tab_margin"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:src="@drawable/calendar_add"
+            android:tint="@color/grey_500"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/imgAddClass" />
+        <innatemobile.storymakerevents.CustomViews.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sFirstClass"
+            android:layout_gravity="center"/>
+    </LinearLayout>
 </RelativeLayout>

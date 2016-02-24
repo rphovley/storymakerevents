@@ -3,15 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/add_schedule_card"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/small_margin"
-    android:layout_marginLeft="@dimen/small_margin"
-    android:layout_marginRight="@dimen/small_margin"
-    app:cardBackgroundColor="@color/white"
-    app:cardElevation="@dimen/tiny_margin"
-    app:cardCornerRadius="2dp">
+    style="@style/smallCard">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,7 +40,7 @@
             android:layout_gravity="center_horizontal"
             app:fontName="Roboto-Thin.ttf"
             android:gravity="center"
-            android:textSize="14sp"
+            android:textSize="@dimen/fixed_card_text_size"
             android:singleLine="true"
             android:ellipsize="end"
             android:textAllCaps="true"

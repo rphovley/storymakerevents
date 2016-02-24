@@ -3,15 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/breakout_card"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/margin"
-    android:layout_marginTop="@dimen/margin"
-    android:layout_marginRight="@dimen/margin"
-    app:cardBackgroundColor="@color/white"
-    app:cardElevation="5dp"
-    app:cardCornerRadius="2dp">
+    style="@style/card">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

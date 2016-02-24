@@ -6,15 +6,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/small_margin"
-    android:layout_marginLeft="@dimen/small_margin"
-    android:layout_marginRight="@dimen/small_margin"
-    app:cardBackgroundColor="@color/white"
-    app:cardElevation="@dimen/tiny_margin"
-    app:cardCornerRadius="2dp">
+    style="@style/smallCard">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/btnLayoutRemoveFromSchedule"
+        style="@style/clicakableCard"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"

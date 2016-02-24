@@ -27,13 +27,38 @@
         <item name="android:clickable">true</item>
         <item name="android:textColor">@color/text_color_light</item>
     </style>
-
+    <!--CLICKABLE TEXT ITEMS-->
     <style name="top_header_border">
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:background">@color/green_500</item>
     </style>
+
+    <!--CARD STYLES-->
+    <style name="defaultCard">
+        <item name="cardBackgroundColor">@color/colorCardBackground</item>
+    </style>
+    <style name="card" parent="defaultCard">
+       <item name="android:layout_marginLeft">@dimen/margin</item>
+       <item name="android:layout_marginTop">@dimen/margin</item>
+       <item name="android:layout_marginRight">@dimen/margin</item>
+       <item name="cardElevation">5dp</item>
+       <item name="cardCornerRadius">5dp</item>
+    </style>
+    <style name="smallCard" parent="defaultCard">
+        <item name="android:layout_marginLeft">@dimen/small_margin</item>
+        <item name="android:layout_marginTop">@dimen/small_margin</item>
+        <item name="android:layout_marginRight">@dimen/small_margin</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardCornerRadius">2dp</item>
+    </style>
+    <style name="clicakableCard">
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/small_card_selector</item>
+    </style>
+    <!--CARD STYLES-->
+
 
     <!--DON"T USE THESE STYLES!  DELETE SOON!  NOT APART OF ACTUAL DESIGN-->
     <!--Splash Screen Style-->

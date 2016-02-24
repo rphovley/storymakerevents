@@ -12,7 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"
+            android:layout_marginTop="@dimen/large_margin"
             android:orientation="vertical">
             <innatemobile.storymakerevents.CustomViews.RobotoTextView
                 style="@style/top_header_border"/>
@@ -55,6 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:textSize="@dimen/text_header"
+                    android:id="@+id/txtNextTitle"
                     android:text="How to Read"/>
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
                     style="@style/clickableLightText"
@@ -63,6 +64,7 @@
                     android:textSize="@dimen/text_header"
                     android:textColor="@color/text_color_light"
                     android:text="Art Hovley"
+                    android:id="@+id/txtNextSpeaker"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
             <innatemobile.storymakerevents.CustomViews.RobotoTextView
@@ -71,12 +73,14 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
                 android:textColor="@color/text_color_light"
+                android:id="@+id/txtNextTimeLocation"
                 android:text="Friday 2:00-3:00 PM Room 201" />
             <innatemobile.storymakerevents.CustomViews.RobotoTextView
                 style="@style/defaultText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorCardBackground"
+                android:id="@+id/txtNextDescription"
                 android:text="Art Hovley lectures on the difference between 'reading' and 'not reading', exploring the alphabet, and using pictures to understand words." />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -111,7 +115,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin"
+        android:layout_marginTop="@dimen/large_margin"
         android:orientation="vertical">
         <innatemobile.storymakerevents.CustomViews.RobotoTextView
             style="@style/top_header_border"/>

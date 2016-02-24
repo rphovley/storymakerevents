@@ -1,14 +1,19 @@
 package innatemobile.storymakerevents.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.SharedPreferencesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -44,21 +49,43 @@ public class SplashActivity extends AppCompatActivity implements RequestSpreadsh
         System.setProperty("http.keepAlive", "false");
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(this);
-        if (!prefs.getBoolean("firstTime", false)) {
+        // run your one time code
+        ConnectivityManager cm =
+                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        if (!prefs.getBoolean("firstTimeSplash", false)) {
+            if(isConnected) {
+                requester = new RequestSpreadsheets(this, false, true, false);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("firstTimeSplash", true);
+                editor.apply();
+            }else{
+                Snackbar.make(findViewById(R.id.splash_main), "No Connection, please try again later.", Snackbar.LENGTH_LONG).show();
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+            }
 
-            // run your one time code
-            requester = new RequestSpreadsheets(this, false, true, false);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("firstTime", true);
-            editor.commit();
         } else {
-            requester = new RequestSpreadsheets(this, false, false, false);
+            if(isConnected) {
+                requester = new RequestSpreadsheets(this, false, false, false);
+            }else{
+                Snackbar.make(findViewById(R.id.splash_main), "No Internet Connection.", Snackbar.LENGTH_LONG).show();
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+            }
         }
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
         /*getApplicationContext().deleteDatabase("storymakersSchedule");*/
-
-        requester.getSpreadsheetKeys();
+        if(isConnected) {
+            requester.getSpreadsheetKeys();
+        }else{
+            Snackbar.make(findViewById(R.id.splash_main), "No Internet Connection.", Snackbar.LENGTH_LONG).show();
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        }
     }
 
     @Override

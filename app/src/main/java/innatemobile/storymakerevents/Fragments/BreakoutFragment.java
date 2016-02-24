@@ -1,25 +1,25 @@
 package innatemobile.storymakerevents.Fragments;
 
 import android.content.Context;
-import android.net.Uri;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.List;
 
 import innatemobile.storymakerevents.Adapters.BreakoutAdapter;
-import innatemobile.storymakerevents.Adapters.SpeakerAdapter;
 import innatemobile.storymakerevents.Models.Breakouts;
-import innatemobile.storymakerevents.Models.Presentations;
-import innatemobile.storymakerevents.Models.Schedules;
-import innatemobile.storymakerevents.Models.Speakers;
 import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
+import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 
 
 public class BreakoutFragment extends Fragment {
@@ -34,17 +34,40 @@ public class BreakoutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.breakout_fragment, container, false);
-        breakoutView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        breakoutView.setHasFixedSize(true);
-        llm = new LinearLayoutManager(getContext());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        breakoutView.setLayoutManager(llm);
         DatabaseHandler dh = new DatabaseHandler(getContext());
         breakoutList = dh.getAllBreakoutsRefined();
+        View view = null;
+        if(breakoutList != null && breakoutList.size()>0) {
+            view = inflater.inflate(R.layout.fragment_breakout, container, false);
+            breakoutView = (RecyclerView) view.findViewById(R.id.recyclerview);
+            breakoutView.setHasFixedSize(true);
+            llm = new LinearLayoutManager(getContext());
+            llm.setOrientation(LinearLayoutManager.VERTICAL);
+            breakoutView.setLayoutManager(llm);
+            adapter = new BreakoutAdapter(breakoutList, getActivity());
+            breakoutView.setAdapter(adapter);
+        }else{
+            view = inflater.inflate(R.layout.fragment_synch_error, container, false);
+            ImageView synchSched = (ImageView) view.findViewById(R.id.imgSyncSchedule);
+            synchSched.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ConnectivityManager cm =
+                            (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+                    NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                    boolean isConnected = activeNetwork != null &&
+                            activeNetwork.isConnectedOrConnecting();
+                    if(isConnected) {
+                        RequestSpreadsheets requestSpreadsheets = new RequestSpreadsheets(getActivity(), true, false, false);
+                        requestSpreadsheets.getSpreadsheetKeys();
+                    }else{
+                        Snackbar.make(v, "No Connection, please try again later.", Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
         dh.close();
-        adapter = new BreakoutAdapter(breakoutList, getActivity());
-        breakoutView.setAdapter(adapter);
         return view;
     }
 

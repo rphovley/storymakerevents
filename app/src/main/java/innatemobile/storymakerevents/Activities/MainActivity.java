@@ -1,9 +1,12 @@
 package innatemobile.storymakerevents.Activities;
 
+
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 
@@ -37,7 +41,7 @@ import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 * have the filters for each breakout.  They will then be able to select schedules until
 * they want to go back.  The main home page will then display their current schedule.
 * */
-public class MainActivity extends AppCompatActivity implements RequestSpreadsheets.iRequestSheet{
+public class MainActivity extends AppCompatActivity implements RequestSpreadsheets.iRequestSheet, HomeFragment.iHomeFragment{
     FragmentManager fragManager = getSupportFragmentManager();
     FragmentTransaction ft;
     TabLayout tabLayout;
@@ -51,16 +55,17 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         home           = ContextCompat.getDrawable(this, R.drawable.ic_home_black_24px);
-        /*myschedule     = ContextCompat.getDrawable(this, R.drawable.calendar);*/
+        myschedule     = ContextCompat.getDrawable(this, R.drawable.calendar);
         schedule       = ContextCompat.getDrawable(this, R.drawable.calendar_add);
         notification   = ContextCompat.getDrawable(this, R.drawable.ic_chat_24dp);
         tab_home       = R.layout.tab_icon;
 
         colorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
         colorIconWhite   = ContextCompat.getColor(this, R.color.color_icons);
-        tabIcons = new ArrayList<>(Arrays.asList(home, schedule, notification));
+        tabIcons = new ArrayList<>(Arrays.asList(home, myschedule, schedule, notification));
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setOffscreenPageLimit(3);
         setupViewPager(viewPager);
@@ -76,6 +81,15 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
             public void onPageSelected(int position) {
                 //add highlight to selected icon
                 highlightSelectedIcon(position, selectedPos);
+            }
+        });
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Add a class!", Snackbar.LENGTH_LONG).show();
+                highlightSelectedIcon(1, 0);
+                viewPager.setCurrentItem(1);
             }
         });
     }
@@ -102,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new HomeFragment(), "HOME");
+        adapter.addFrag(new MyScheduleFragment(), "MY SCHEDULE");
         adapter.addFrag(new BreakoutFragment(), "ADD");
         adapter.addFrag(new AllSpeakersFragment(), "FEEDBACK");
         viewPager.setAdapter(adapter);
@@ -113,6 +128,12 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
             HomeFragment home = (HomeFragment) adapter.getItem(0);
             home.notificationResult();
         }
+    }
+
+    @Override
+    public void addToClassFirst() {
+        highlightSelectedIcon(1, 0);
+        viewPager.setCurrentItem(1);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

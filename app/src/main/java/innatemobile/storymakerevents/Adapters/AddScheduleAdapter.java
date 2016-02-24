@@ -152,26 +152,27 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
                     }
                     ac.addedPresentation(this.getAdapterPosition());
                     dh.close();
-                    Snackbar.make(itemView, "Added to Schedule", Snackbar.LENGTH_LONG)
-                            .setAction("Undo", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Toast.makeText(activity.getApplicationContext(), "UNDO!", Toast.LENGTH_SHORT).show();
-                                }
-                            }).show();
+                    String presName = "";
+                    if(present.getTitle().length()>15){
+                        presName = present.getTitle().substring(0,15) + "...";
+                    }else{
+                        presName = present.getTitle();
+                    }
+                    Snackbar.make(itemView, presName + " Added to Schedule", Snackbar.LENGTH_LONG).show();
                     break;
                 case R.id.btnRemoveFromSchedule:
                     //remove presentation from schedule
                     dh = new DatabaseHandler(activity);
                     dh.removeFromSchedule(schedulesList.get(this.getAdapterPosition()).getPresentation_id());
+                    Presentations presents = dh.getPresentation(schedulesList.get(this.getAdapterPosition()).getPresentation_id());
                     ac.removedPresentation(this.getAdapterPosition());
-                    Snackbar.make(itemView, "Removed From Schedule", Snackbar.LENGTH_LONG)
-                            .setAction("Undo", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Toast.makeText(activity.getApplicationContext(), "UNDO!", Toast.LENGTH_SHORT).show();
-                                }
-                            }).show();
+                    String presName2 = "";
+                    if(presents.getTitle().length()>15){
+                        presName2 = presents.getTitle().substring(0,15) + "...";
+                    }else{
+                        presName2 = presents.getTitle();
+                    }
+                    Snackbar.make(itemView,  presName2 + " Removed From Schedule", Snackbar.LENGTH_LONG).show();
                     break;
                 case R.id.add_schedule_card:
                     Intent i = new Intent(activity, PresentationActivity.class);

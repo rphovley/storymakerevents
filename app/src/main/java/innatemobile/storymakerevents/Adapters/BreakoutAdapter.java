@@ -21,12 +21,14 @@ import innatemobile.storymakerevents.R;
  */
 public class BreakoutAdapter  extends RecyclerView.Adapter<BreakoutAdapter.BreakoutCardViewHolder> {
 
+
     public List<Breakouts> breakoutList;
     public Activity activity;
     public static String BREAKOUT_ID_TAG = "breakout_id";
     public static String BREAKOUT_START_TAG = "start_time";
     public static String BREAKOUT_END_TAG = "end_time";
     public static String BREAKOUT_DAY_TAG = "day";
+    public static final String BREAKOUT_CAME_FROM_BREAKOUT = "came_from_breakout";
     public BreakoutAdapter(List<Breakouts> breakoutList, Activity activity)
     {
         this.breakoutList = breakoutList;
@@ -79,6 +81,7 @@ public class BreakoutAdapter  extends RecyclerView.Adapter<BreakoutAdapter.Break
                     i.putExtra(BREAKOUT_START_TAG, start);
                     i.putExtra(BREAKOUT_END_TAG, end);
                     i.putExtra(BREAKOUT_DAY_TAG, day);
+                    i.putExtra(BREAKOUT_CAME_FROM_BREAKOUT, true);
                     activity.startActivity(i);
                     break;
             }
