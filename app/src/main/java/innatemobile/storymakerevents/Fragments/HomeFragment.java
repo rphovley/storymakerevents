@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,6 +170,7 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
         return view;
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
@@ -208,7 +210,11 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
             }
 
         }
+    }
 
+    @Override
+    public void addClass() {
+        iHome.addToClassFirst();
     }
 
     public interface iHomeFragment {

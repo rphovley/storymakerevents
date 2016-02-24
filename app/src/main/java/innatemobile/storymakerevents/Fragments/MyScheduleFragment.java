@@ -43,6 +43,8 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
     LinearLayoutManager llm;
     MyScheduleAdapter adapter;
     List<Schedules> schedulesList;
+    iMySchedule iMySched;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
         /*SET UP --RECYCLERVIEW*/
         DatabaseHandler dh = new DatabaseHandler(getContext());
         schedulesList = dh.getAllMySchedule();
+        iMySched = (iMySchedule) getActivity();
         if(schedulesList!=null && schedulesList.size()>0) {
             view = inflater.inflate(R.layout.fragment_my_schedule, container, false);
 
@@ -132,14 +135,6 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
         }
     }
 
-    public void notificationResult(){
-        if(txtNotification!=null) {
-            DatabaseHandler dh = new DatabaseHandler(getContext());
-            txtNotification.setText(dh.getLastNotification());
-            dh.close();
-        }
-    }
-
     @Override
     public void removeItem(int selected_id) {
         adapter.removeItem(selected_id);
@@ -158,6 +153,11 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
             }
 
         }
+        iMySched.scheduleChanged();
 
+    }
+
+    public interface iMySchedule{
+        void scheduleChanged();
     }
 }

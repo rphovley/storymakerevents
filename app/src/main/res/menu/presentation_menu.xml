@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activities.MainActivity">
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:icon="@drawable/ic_settings_24dp"
+        android:id="@+id/action_add_class"
+        android:title="@string/sAddClassMenu"
         app:showAsAction="always" />
 </menu>

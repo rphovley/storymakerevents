@@ -349,6 +349,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return null;
     }
+    public List<Schedules> getScheduleByBreakoutPres(int break_id, int pres_id){
+        List<Schedules> scheduleList = new ArrayList<Schedules>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        //query the database to return the spreadsheet key for the spreadsheet name
+        Cursor cursor = db.query(TABLE_SCHEDULE, new String[]{SCHEDULE_ID, SCHEDULE_PRESENTATION_ID, SCHEDULE_BREAKOUT_ID,
+                        SCHEDULE_SECTION, SCHEDULE_LOCATION, SCHEDULE_IS_PRESENTATION},
+                SCHEDULE_BREAKOUT_ID + "=? AND " + SCHEDULE_PRESENTATION_ID + "=?", new String[]{String.valueOf(break_id), String.valueOf(pres_id)}, null, null, null, null);
+        if(cursor.moveToFirst() && cursor.getCount() > 0){
+            do {
+                Schedules schedule = new Schedules();
+                schedule.setId(Integer.parseInt(cursor.getString(0)));
+                schedule.setPresentation_id(Integer.parseInt(cursor.getString(1)));
+                schedule.setBreakout_id(Integer.parseInt(cursor.getString(2)));
+                schedule.setSection_id(Integer.parseInt(cursor.getString(3)));
+                schedule.setLocation(cursor.getString(4));
+                schedule.setIsPresentationDB(Integer.parseInt(cursor.getString(5)));
+                scheduleList.add(schedule);
+            }while(cursor.moveToNext());
+            db.close();
+            return scheduleList;
+        }
+        db.close();
+        return null;
+    }
     /********************SCHEDULE METHODS*******************/
 
     /********************MY SCHEDULE METHODS*******************/
@@ -392,30 +416,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         db.close();
         return scheduleList;
-    }
-    public List<Schedules> getMyScheduleByBreakout(int id){
-        List<Schedules> scheduleList = new ArrayList<Schedules>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        //query the database to return the spreadsheet key for the spreadsheet name
-        Cursor cursor = db.query(TABLE_MY_SCHEDULE, new String[]{SCHEDULE_ID, SCHEDULE_PRESENTATION_ID, SCHEDULE_BREAKOUT_ID,
-                        SCHEDULE_SECTION, SCHEDULE_LOCATION, SCHEDULE_IS_PRESENTATION},
-                SCHEDULE_BREAKOUT_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
-        if(cursor.moveToFirst() && cursor.getCount() > 0){
-            do {
-                Schedules schedule = new Schedules();
-                schedule.setId(Integer.parseInt(cursor.getString(0)));
-                schedule.setPresentation_id(Integer.parseInt(cursor.getString(1)));
-                schedule.setBreakout_id(Integer.parseInt(cursor.getString(2)));
-                schedule.setSection_id(Integer.parseInt(cursor.getString(3)));
-                schedule.setLocation(cursor.getString(4));
-                schedule.setIsPresentationDB(Integer.parseInt(cursor.getString(5)));
-                scheduleList.add(schedule);
-            }while(cursor.moveToNext());
-            db.close();
-            return scheduleList;
-        }
-        db.close();
-        return null;
     }
     public List<Schedules> getMyScheduleByPresentation(int id){
         SQLiteDatabase db = this.getReadableDatabase();

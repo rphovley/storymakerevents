@@ -236,7 +236,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
         protected TextView txtPresentationName, txtSpeakerName, txtRoom, txtTime,
                 txtDayHeader, txtBreakoutName;
         protected TextView txtNotification, txtNextTitle, txtNextSpeaker, txtNextDescription, txtNextTime;
-        protected ImageView synch;
+        protected ImageView synch, imgAddClass;
         protected View btnLayoutRemove;
         public UpcomingScheduleCardViewHolder(final View itemView) {
             super(itemView);
@@ -252,6 +252,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             txtNextSpeaker      = (TextView) itemView.findViewById(R.id.txtNextSpeaker);
             txtNextDescription  = (TextView) itemView.findViewById(R.id.txtNextDescription);
             txtNextTime         = (TextView) itemView.findViewById(R.id.txtNextTimeLocation);
+            imgAddClass         = (ImageView) itemView.findViewById(R.id.imgAddClass);
 
 
             synch = (ImageView) itemView.findViewById(R.id.synch);
@@ -261,6 +262,9 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             if(btnLayoutRemove!=null){
                 btnLayoutRemove.setOnClickListener(this);
                 btnLayoutRemove.setOnLongClickListener(this);
+            }
+            if(imgAddClass!=null){
+                imgAddClass.setOnClickListener(this);
             }
 
         }
@@ -315,6 +319,9 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
                     dh2.close();
                     activity.startActivity(i2);
                     break;
+                case R.id.imgAddClass:
+                    iUpcoming.addClass();
+                    break;
             }
         }
 
@@ -339,5 +346,6 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
     public interface iUpcomingAdapter{
         public void removeItem(int selected_id);
         public void notifyItemsChanged(List<HashMap<Integer, Boolean>> changed);
+        public void addClass();
     }
 }

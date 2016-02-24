@@ -24,4 +24,6 @@
     <string name="sSyncSchedule">Synch schedule</string>
     <string name="sMySchedule">My Schedule</string>
     <string name="sSwipeRightHelp">Swipe right to view full schedule</string>
+    <string name="sViewBio">View Bio</string>
+    <string name="sAddClassMenu">ADD CLASS</string>
 </resources>

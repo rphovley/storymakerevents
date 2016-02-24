@@ -41,7 +41,7 @@ import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 * have the filters for each breakout.  They will then be able to select schedules until
 * they want to go back.  The main home page will then display their current schedule.
 * */
-public class MainActivity extends AppCompatActivity implements RequestSpreadsheets.iRequestSheet, HomeFragment.iHomeFragment{
+public class MainActivity extends AppCompatActivity implements RequestSpreadsheets.iRequestSheet, HomeFragment.iHomeFragment, MyScheduleFragment.iMySchedule{
     FragmentManager fragManager = getSupportFragmentManager();
     FragmentTransaction ft;
     TabLayout tabLayout;
@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
         if(getIntent().getExtras()!=null) {//if we came from addschedule, set that as our selected fragment
-            highlightSelectedIcon(1, 0);
-            viewPager.setCurrentItem(1);
+            highlightSelectedIcon(2, 0);
+            viewPager.setCurrentItem(2);
         }
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Add a class!", Snackbar.LENGTH_LONG).show();
-                highlightSelectedIcon(1, 0);
-                viewPager.setCurrentItem(1);
+                highlightSelectedIcon(2, 0);
+                viewPager.setCurrentItem(2);
             }
         });
     }
@@ -132,14 +132,35 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
 
     @Override
     public void addToClassFirst() {
-        highlightSelectedIcon(1, 0);
-        viewPager.setCurrentItem(1);
+        highlightSelectedIcon(2, 0);
+        viewPager.setCurrentItem(2);
+    }
+
+
+    @Override
+    public void scheduleChanged() {
+        if(adapter.getItem(0) instanceof HomeFragment) {
+            /*HomeFragment home = (HomeFragment) adapter.getItem(0);
+            home.scheduleChanged();*/
+            adapter.update();
+        }
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
+        public void update(){
+            notifyDataSetChanged();
+        }
+        @Override
+        public int getItemPosition(Object object) {
+            if (object instanceof HomeFragment) {
+                return POSITION_NONE;
+            }
+            //don't return POSITION_NONE, avoid fragment recreation.
+            return super.getItemPosition(object);
+        }
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
@@ -163,25 +184,6 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         public CharSequence getPageTitle(int position) {
             return "";        }
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
