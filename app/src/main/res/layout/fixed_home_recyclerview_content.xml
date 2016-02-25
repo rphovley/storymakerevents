@@ -17,12 +17,11 @@
             <innatemobile.storymakerevents.CustomViews.RobotoTextView
                 style="@style/top_header_border"/>
             <innatemobile.storymakerevents.CustomViews.RobotoTextView
-                style="@style/defaultText"
+                style="@style/defaultText.pageHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Next Class"
-                android:textSize="@dimen/text_header"/>
+                android:text="Next Class" />
         </LinearLayout>
         <ImageView
             android:id="@+id/synch"
@@ -117,11 +116,11 @@
         <innatemobile.storymakerevents.CustomViews.RobotoTextView
             style="@style/top_header_border"/>
         <innatemobile.storymakerevents.CustomViews.RobotoTextView
+            style="@style/defaultText.pageHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/sMyClasses"
-            android:textSize="@dimen/text_header"/>
+            android:text="@string/sMyClasses" />
     </LinearLayout>
     <!--MY UPCOMING CLASS HEADER-->
 

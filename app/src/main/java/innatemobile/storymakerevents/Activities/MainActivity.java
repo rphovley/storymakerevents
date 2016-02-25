@@ -1,40 +1,47 @@
 package innatemobile.storymakerevents.Activities;
 
 
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import innatemobile.storymakerevents.Adapters.AddScheduleAdapter;
-import innatemobile.storymakerevents.Fragments.AllSpeakersFragment;
 import innatemobile.storymakerevents.Fragments.BreakoutFragment;
 import innatemobile.storymakerevents.Fragments.FeedbackFragment;
 import innatemobile.storymakerevents.Fragments.HomeFragment;
 import innatemobile.storymakerevents.Fragments.MyScheduleFragment;
 import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.R;
+import innatemobile.storymakerevents.Utils.DatabaseHandler;
 import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 
 /*Main Activity is controlling the fragments coming in and out of the view
@@ -46,6 +53,7 @@ import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 * they want to go back.  The main home page will then display their current schedule.
 * */
 public class MainActivity extends AppCompatActivity implements RequestSpreadsheets.iRequestSheet, HomeFragment.iHomeFragment, MyScheduleFragment.iMySchedule{
+    public final static String TOGGLE_NOTIFICATIONS = "toggle_notifications";
     FragmentManager fragManager = getSupportFragmentManager();
     FragmentTransaction ft;
     TabLayout tabLayout;
@@ -76,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
+        handleNotification();
         if(getIntent().getExtras()!=null) {//if we came from addschedule, set that as our selected fragment
             highlightSelectedIcon(2, 0);
             viewPager.setCurrentItem(2);
@@ -194,6 +203,41 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         @Override
         public CharSequence getPageTitle(int position) {
             return "";        }
+    }
+    public static class AlarmReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Calendar now = GregorianCalendar.getInstance();
+            int dayOfWeek = now.get(Calendar.DATE);
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            if(prefs.getBoolean(MainActivity.TOGGLE_NOTIFICATIONS, false)) {
+                NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(context)
+                                .setSmallIcon(R.drawable.ic_chat_24dp)
+                                .setContentTitle("Test Feedback Notification")
+                                .setContentText("Testing... testing... 1, 2, 3");
+                Intent resultIntent = new Intent(context, MainActivity.class);
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+                stackBuilder.addParentStack(MainActivity.class);
+                stackBuilder.addNextIntent(resultIntent);
+                PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                mBuilder.setContentIntent(resultPendingIntent);
+                NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.notify(1, mBuilder.build());
+            }
+        }
+    }
+    private void handleNotification() {
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 5000, pendingIntent);
+        DatabaseHandler dh = new DatabaseHandler(this);
+        Breakouts breakout = dh.getBreakout(1);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, breakout.getDate().getTime(), pendingIntent);
+
     }
 
 

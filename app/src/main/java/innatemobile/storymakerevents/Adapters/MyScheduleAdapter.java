@@ -39,6 +39,7 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
     private static final int TYPE_MY_SCHEDULE    = 1;
     private static final int TYPE_EMPTY_SCHEDULE = 2;
     private static final int TYPE_DAY_HEADER     = 3;
+    private static final int TYPE_PAGE_HEADER    = 4;
 
     public List<Schedules> schedulesList;
     public Activity activity;
@@ -48,6 +49,7 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
     public MyScheduleAdapter(List<Schedules> schedulesList, Activity activity, Fragment f)
     {
         this.schedulesList     = schedulesList;
+        this.schedulesList.add(0, null);
         this.activity          = activity;
         this.iUpcoming = (iUpcomingAdapter) f;
     }
@@ -62,7 +64,6 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
         int test = holder.getItemViewType();
         dh = new DatabaseHandler(activity);
         if(schedulesList.get(position)!=null && !schedulesList.get(position).isEmptyBreakout()) {
-
             int presentation_id = schedulesList.get(position).getPresentation_id();
             Presentations presentation = dh.getPresentation(presentation_id);
             int speaker_id = presentation.getSpeaker_id();
@@ -82,6 +83,8 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
                 holder.txtPresentationName.setText(presentationName);
             }
 
+        }else if(position==0 && schedulesList.get(position)==null){
+            holder.txtPageHeader.setText("My Schedule");
         }else if(schedulesList.get(position)==null){
             int breakout_id = schedulesList.get(position + 1).getBreakout_id();
             Breakouts breakout = dh.getBreakout(breakout_id);
@@ -110,6 +113,9 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
             case TYPE_DAY_HEADER:
                 itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.day_header, parent, false);
                 break;
+            case TYPE_PAGE_HEADER:
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.page_header, parent, false);
+                break;
         }
         return new UpcomingScheduleCardViewHolder(itemView);
     }
@@ -124,7 +130,9 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
             myScheduleList = dh.getMyScheduleByPresentation(presentation_id);
             dh.close();
         }
-        if (schedulesList.get(position)==null) {//New day header
+        if(position==0){
+            viewType = TYPE_PAGE_HEADER;
+        }else if(schedulesList.get(position)==null) {//New day header
             viewType = TYPE_DAY_HEADER;
         }else if(schedulesList.get(position) != null && schedulesList.get(position).isEmptyBreakout()){
             viewType = TYPE_EMPTY_SCHEDULE;
@@ -178,6 +186,8 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
                 txtDayHeader, txtBreakoutName, txtEmptyTime, btnAddEmpty;
         protected ImageView synch;
         protected View btnLayoutRemove;
+        protected TextView txtPageHeader;
+
         public UpcomingScheduleCardViewHolder(final View itemView) {
             super(itemView);
             txtPresentationName = (TextView) itemView.findViewById(R.id.txtPresentationTitle);
@@ -189,7 +199,7 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
             txtEmptyTime        = (TextView) itemView.findViewById(R.id.txtEmptyTime);
             btnAddEmpty         = (TextView) itemView.findViewById(R.id.btnAddEmpty);
             btnLayoutRemove     = itemView.findViewById(R.id.btnLayoutRemoveFromSchedule);
-
+            txtPageHeader       = (TextView) itemView.findViewById(R.id.txtPageHeader);
             synch = (ImageView) itemView.findViewById(R.id.synch);
             if(synch!=null) {
                 synch.setOnClickListener(this);

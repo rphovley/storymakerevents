@@ -13,6 +13,8 @@
         android:label="StoryMakers"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <receiver
+            android:name=".Activities.MainActivity$AlarmReceiver" />
         <activity
             android:name=".Activities.SplashActivity"
             android:configChanges="orientation|keyboardHidden"

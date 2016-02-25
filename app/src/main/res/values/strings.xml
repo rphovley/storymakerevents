@@ -26,4 +26,5 @@
     <string name="sSwipeRightHelp">Swipe right to view full schedule</string>
     <string name="sViewBio">View Bio</string>
     <string name="sAddClassMenu">ADD CLASS</string>
+    <string name="sFeedbackNotifications">Feedback Notifications</string>
 </resources>

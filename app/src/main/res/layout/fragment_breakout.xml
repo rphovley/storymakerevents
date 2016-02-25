@@ -2,19 +2,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin"
-        android:orientation="vertical">
-        <innatemobile.storymakerevents.CustomViews.RobotoTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/sAddClass"
-            android:textSize="@dimen/text_header"/>
-        <innatemobile.storymakerevents.CustomViews.RobotoTextView
-            style="@style/top_header_border"/>
-    </LinearLayout>
     <include layout="@layout/recyclerview_container"/>
 </LinearLayout>

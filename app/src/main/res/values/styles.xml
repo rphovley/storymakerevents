@@ -15,21 +15,34 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
-    <!--DEFAULT STYLES-->
+    <!--TEXT STYLES-->
     <style name="defaultText">
         <item name="android:paddingLeft">@dimen/margin</item>
         <item name="android:paddingRight">@dimen/margin</item>
         <item name="android:paddingBottom">@dimen/margin</item>
         <item name="android:gravity">center</item>
     </style>
-    <!--CLICKABLE TEXT ITEMS-->
     <style name="defaultText.light">
         <item name="android:textColor">@color/text_color_light</item>
     </style>
     <style name="defaultText.light.clickable">
         <item name="android:clickable">true</item>
     </style>
-    <!--CLICKABLE TEXT ITEMS-->
+    <style name="defaultText.pageHeader">
+        <item name="fontName">RobotoCondensed-Bold.ttf</item>
+        <item name="android:paddingBottom">@dimen/small_margin</item>
+        <item name="android:textSize">@dimen/text_header</item>
+    </style>
+    <style name="presentationText">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/margin</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="presentationText.condensedFont">
+        <item name="fontName">RobotoCondensed-Bold.ttf</item>
+    </style>
+    <!--TEXT STYLES-->
     <style name="top_header_border">
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">1dp</item>
