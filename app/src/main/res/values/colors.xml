@@ -12,7 +12,7 @@
     <drawable name="colorCardBackground">@color/white</drawable>
     <drawable name="colorCardBackgroundPressed">@color/grey_200</drawable>
     <drawable name="nextCardBackground">@color/colorPrimaryDark</drawable>
-    <drawable name="nextCardBackgroundPressed">#33000000</drawable>
+    <drawable name="nextCardBackgroundPressed">#22000000</drawable>
     <!--DRAWABLES FOR ON CLICK CARDS-->
     <!--GO TO https://design.google.com/icons/ FOR ICON LINKS-->
     <!-- Material Design - Color Palette -->

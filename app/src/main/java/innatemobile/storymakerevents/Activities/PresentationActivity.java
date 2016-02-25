@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -23,26 +24,26 @@ import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
 
 public class PresentationActivity extends AppCompatActivity {
-    String start;
-    String end;
-    String day;
+    String sStart;
+    String sEnd;
+    String sDay;
     int breakoutID;
     Presentations pres;
     List<Schedules> sched;
-
-    TextView txtPresentationName, txtPresentationDescription, txtLocation, txtTime, txtSpeaker;
+    ImageView imgUpNav;
+    TextView txtPresentationName, txtPresentationDescription, txtLocation, txtTime, txtSpeaker, txtAddClass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_presentation);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("");*/
         breakoutID = getIntent().getExtras().getInt(BreakoutAdapter.BREAKOUT_ID_TAG);
-        start = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_START_TAG);
-        end = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_END_TAG);
-        day = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_DAY_TAG);
+        sStart = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_START_TAG);
+        sEnd = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_END_TAG);
+        sDay = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_DAY_TAG);
         int pres_id = getIntent().getExtras().getInt(AddScheduleAdapter.PRESENTATION_ID);
         DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
         pres = dh.getPresentation(pres_id);
@@ -60,7 +61,44 @@ public class PresentationActivity extends AppCompatActivity {
         txtLocation                = (TextView) findViewById(R.id.txtLocation);
         txtTime                    = (TextView) findViewById(R.id.txtTime);
         txtSpeaker                 = (TextView) findViewById(R.id.txtSpeakerName);
+        txtAddClass                = (TextView) findViewById(R.id.txtAddClass);
+        imgUpNav                   = (ImageView) findViewById(R.id.imgUpNav);
 
+        txtAddClass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
+                if(pres.isIntensive()==1) {
+                    List<Schedules> intensive = dh.getScheduleIntByPresentation(pres.getId(), sched.get(0).getSection_id());
+                    for(int j = 0; j< intensive.size(); j++){
+                        dh.addMySchedule(intensive.get(j));
+                    }
+                }else{
+                    dh.addMySchedule(sched.get(0));
+                }
+                dh.close();
+                String presName = "";
+                if(pres.getTitle().length()>15){
+                    presName = pres.getTitle().substring(0,15) + "...";
+                }else{
+                    presName = pres.getTitle();
+                }
+                dh.close();
+                Snackbar.make(txtPresentationName, presName + " Added to Schedule", Snackbar.LENGTH_LONG).show();
+            }
+        });
+        imgUpNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // do something useful
+                Intent i = new Intent(getApplication(), AddScheduleActivity.class);
+                i.putExtra(BreakoutAdapter.BREAKOUT_ID_TAG, breakoutID);
+                i.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, sStart);
+                i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, sEnd);
+                i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, sDay);
+                startActivity(i);
+            }
+        });
         txtPresentationName.setText(pres.getTitle());
         txtPresentationDescription.setText(pres.getDescription());
         txtLocation.setText(sched.get(0).getLocation());
@@ -70,7 +108,7 @@ public class PresentationActivity extends AppCompatActivity {
         }
         dh.close();
     }
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.presentation_menu, menu);
@@ -110,6 +148,6 @@ public class PresentationActivity extends AppCompatActivity {
         }
 
         return(super.onOptionsItemSelected(item));
-    }
+    }*/
 
 }

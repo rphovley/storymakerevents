@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,7 +12,36 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:orientation="vertical">
+        <!--BACK BUTTON AND ADD PRESENTATION-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:clickable="true">
+            <ImageView
+                android:id="@+id/imgUpNav"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_arrow_back_24dp"
+                android:clickable="true"
+                android:background="@drawable/home_next_card_selector"/>
+            <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                android:id="@+id/txtAddClass"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="center_vertical|right"
+                android:textAllCaps="true"
+                android:background="@drawable/home_next_card_selector"
+                style="@style/defaultText.light.clickable"
+                android:text="Add Class"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+        <!--BACK BUTTON AND ADD PRESENTATION-->
         <!--BANNER SECTION-->
         <innatemobile.storymakerevents.CustomViews.RobotoTextView
             android:layout_width="match_parent"
@@ -123,6 +151,7 @@
                 android:layout_gravity="left"/>
             <innatemobile.storymakerevents.CustomViews.RobotoTextView
                 style="@style/presentationText"
+                android:id="@+id/txtPresentationDescription"
                 android:lineSpacingExtra="@dimen/small_margin"
                 android:text="Description"/>
         </LinearLayout>
