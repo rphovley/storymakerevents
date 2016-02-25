@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -69,13 +70,13 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
         View view = null;
-
+        iHome = (iHomeFragment) getActivity();
         if(!prefs.getBoolean("firstTimeHome", false)){
             // run your one time code
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("firstTimeHome", true);
             editor.apply();
-            iHome = (iHomeFragment) getActivity();
+
             view = inflater.inflate(R.layout.fragment_home_first, container, false);
             addToClass = (ImageView) view.findViewById(R.id.imgAddClass);
             addToClass.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +94,15 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
                 view = inflater.inflate(R.layout.fragment_home, container, false);
                 final CardView notificationCard = (CardView) view.findViewById(R.id.notificationCard);
                 ImageView closeNotificationCard = (ImageView) view.findViewById(R.id.close_notification);
+                FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Snackbar.make(view, "Add a class!", Snackbar.LENGTH_LONG).show();
+                        iHome.addToClassFirst();
+                    }
+                });
 
                 //all of our big home card views to insert information into
                 closeNotificationCard.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +227,13 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
         iHome.addToClassFirst();
     }
 
+    @Override
+    public void viewPresentation(Breakouts breakout, int pres_id) {
+        iHome.viewPresentation(breakout, pres_id);
+    }
+
     public interface iHomeFragment {
         public void addToClassFirst();
+        public void viewPresentation(Breakouts breakout, int pres_id);
     }
 }

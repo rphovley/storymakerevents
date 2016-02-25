@@ -237,7 +237,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
                 txtDayHeader, txtBreakoutName;
         protected TextView txtNotification, txtNextTitle, txtNextSpeaker, txtNextDescription, txtNextTime;
         protected ImageView synch, imgAddClass;
-        protected View btnLayoutRemove;
+        protected View btnLayoutRemove, nextHomeCard;
         public UpcomingScheduleCardViewHolder(final View itemView) {
             super(itemView);
             txtPresentationName = (TextView) itemView.findViewById(R.id.txtPresentationTitle);
@@ -253,7 +253,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             txtNextDescription  = (TextView) itemView.findViewById(R.id.txtNextDescription);
             txtNextTime         = (TextView) itemView.findViewById(R.id.txtNextTimeLocation);
             imgAddClass         = (ImageView) itemView.findViewById(R.id.imgAddClass);
-
+            nextHomeCard        = itemView.findViewById(R.id.nextHomeCard);
 
             synch = (ImageView) itemView.findViewById(R.id.synch);
             if(synch!=null) {
@@ -265,6 +265,10 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             }
             if(imgAddClass!=null){
                 imgAddClass.setOnClickListener(this);
+            }
+
+            if(nextHomeCard!=null){
+                nextHomeCard.setOnClickListener(this);
             }
 
         }
@@ -322,6 +326,12 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
                 case R.id.imgAddClass:
                     iUpcoming.addClass();
                     break;
+                case R.id.nextHomeCard:
+                    DatabaseHandler dh3 = new DatabaseHandler(activity);
+                    final Schedules sched = dh3.getNextSchedule();
+                    final Breakouts breakout3 = dh3.getBreakout(sched.getBreakout_id());
+                    iUpcoming.viewPresentation(breakout3, sched.getPresentation_id());
+                    break;
             }
         }
 
@@ -347,5 +357,6 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
         public void removeItem(int selected_id);
         public void notifyItemsChanged(List<HashMap<Integer, Boolean>> changed);
         public void addClass();
+        public void viewPresentation(Breakouts breakout, int pres_id);
     }
 }

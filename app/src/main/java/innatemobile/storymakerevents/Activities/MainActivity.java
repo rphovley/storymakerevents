@@ -1,6 +1,7 @@
 package innatemobile.storymakerevents.Activities;
 
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -26,10 +27,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import innatemobile.storymakerevents.Adapters.AddScheduleAdapter;
 import innatemobile.storymakerevents.Fragments.AllSpeakersFragment;
 import innatemobile.storymakerevents.Fragments.BreakoutFragment;
+import innatemobile.storymakerevents.Fragments.FeedbackFragment;
 import innatemobile.storymakerevents.Fragments.HomeFragment;
 import innatemobile.storymakerevents.Fragments.MyScheduleFragment;
+import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 
@@ -83,15 +87,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
                 highlightSelectedIcon(position, selectedPos);
             }
         });
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Add a class!", Snackbar.LENGTH_LONG).show();
-                highlightSelectedIcon(2, 0);
-                viewPager.setCurrentItem(2);
-            }
-        });
+
     }
 
     private void setupTabIcons() {
@@ -118,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         adapter.addFrag(new HomeFragment(), "HOME");
         adapter.addFrag(new MyScheduleFragment(), "MY SCHEDULE");
         adapter.addFrag(new BreakoutFragment(), "ADD");
-        adapter.addFrag(new AllSpeakersFragment(), "FEEDBACK");
+        adapter.addFrag(new FeedbackFragment(), "FEEDBACK");
         viewPager.setAdapter(adapter);
     }
 
@@ -136,6 +132,21 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         viewPager.setCurrentItem(2);
     }
 
+    @Override
+    public void viewPresentation(Breakouts breakout, int pres_id) {
+        Intent i = new Intent(this, PresentationActivity.class);
+
+        int id = breakout.getId();
+        String start = breakout.getStartReadable();
+        String end = breakout.getEndReadable();
+        String day = breakout.getDayOfWeek();
+        i.putExtra(AddScheduleAdapter.BREAKOUT_ID_TAG, id);
+        i.putExtra(AddScheduleAdapter.BREAKOUT_START_TAG, start);
+        i.putExtra(AddScheduleAdapter.BREAKOUT_END_TAG, end);
+        i.putExtra(AddScheduleAdapter.BREAKOUT_DAY_TAG, day);
+        i.putExtra(AddScheduleAdapter.PRESENTATION_ID, pres_id);
+        startActivity(i);
+    }
 
     @Override
     public void scheduleChanged() {

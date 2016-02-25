@@ -44,13 +44,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/nextHomeCard"
+            android:background="@drawable/home_next_card_selector">
             <!--TITLE NAME-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
-                    style="@style/clickableLightText"
+                    style="@style/defaultText.light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -58,21 +60,18 @@
                     android:id="@+id/txtNextTitle"
                     android:text="How to Read"/>
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
-                    style="@style/clickableLightText"
+                    style="@style/defaultText.light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_header"
-                    android:textColor="@color/text_color_light"
                     android:text="Art Hovley"
                     android:id="@+id/txtNextSpeaker"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
             <innatemobile.storymakerevents.CustomViews.RobotoTextView
-                style="@style/clickableLightText"
+                style="@style/defaultText.light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="@color/text_color_light"
                 android:id="@+id/txtNextTimeLocation"
                 android:text="Friday 2:00-3:00 PM Room 201" />
             <innatemobile.storymakerevents.CustomViews.RobotoTextView
@@ -87,18 +86,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
-                    style="@style/clickableLightText"
+                    style="@style/defaultText.light.clickable"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight=".5"
-                    android:textColor="@color/text_color_light"
                     android:text="Feedback"/>
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
-                    style="@style/clickableLightText"
+                    style="@style/defaultText.light.clickable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
-                    android:textColor="@color/text_color_light"
                     android:text="About the Author"/>
             </LinearLayout>
             <!--TITLE NAME-->

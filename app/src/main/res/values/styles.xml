@@ -23,9 +23,11 @@
         <item name="android:gravity">center</item>
     </style>
     <!--CLICKABLE TEXT ITEMS-->
-    <style name="clickableLightText" parent="defaultText">
-        <item name="android:clickable">true</item>
+    <style name="defaultText.light">
         <item name="android:textColor">@color/text_color_light</item>
+    </style>
+    <style name="defaultText.light.clickable">
+        <item name="android:clickable">true</item>
     </style>
     <!--CLICKABLE TEXT ITEMS-->
     <style name="top_header_border">
