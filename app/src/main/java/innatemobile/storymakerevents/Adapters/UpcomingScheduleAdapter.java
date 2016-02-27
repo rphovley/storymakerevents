@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import innatemobile.storymakerevents.Activities.AddScheduleActivity;
+import innatemobile.storymakerevents.Activities.BioActivity;
 import innatemobile.storymakerevents.Activities.PresentationActivity;
 import innatemobile.storymakerevents.Fragments.HomeFragment;
 import innatemobile.storymakerevents.Models.Breakouts;
@@ -239,7 +240,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
 
     public class UpcomingScheduleCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
         protected TextView txtPresentationName, txtSpeakerName, txtRoom, txtTime,
-                txtDayHeader, txtBreakoutName, txtFeedback;
+                txtDayHeader, txtBreakoutName, txtFeedback, txtViewBio;
         protected TextView txtNotification, txtNextTitle, txtNextSpeaker, txtNextDescription, txtNextTime;
         protected ImageView synch, imgAddClass;
         protected View btnLayoutRemove, nextHomeCard;
@@ -258,12 +259,16 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             txtNextDescription  = (TextView) itemView.findViewById(R.id.txtNextDescription);
             txtNextTime         = (TextView) itemView.findViewById(R.id.txtNextTimeLocation);
             txtFeedback         = (TextView) itemView.findViewById(R.id.txtFeedback);
+            txtViewBio          = (TextView) itemView.findViewById(R.id.txtViewBio);
             imgAddClass         = (ImageView) itemView.findViewById(R.id.imgAddClass);
             nextHomeCard        = itemView.findViewById(R.id.nextHomeCard);
 
             synch = (ImageView) itemView.findViewById(R.id.synch);
             if(txtFeedback!=null){
                 txtFeedback.setOnClickListener(this);
+            }
+            if(txtViewBio!=null){
+                txtViewBio.setOnClickListener(this);
             }
             if(synch!=null) {
                 synch.setOnClickListener(this);
@@ -275,7 +280,6 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             if(imgAddClass!=null){
                 imgAddClass.setOnClickListener(this);
             }
-
             if(nextHomeCard!=null){
                 nextHomeCard.setOnClickListener(this);
             }
@@ -299,38 +303,8 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
                         Snackbar.make(v, "No Connection, please try again later.", Snackbar.LENGTH_LONG).show();
                     }
                     break;
-                case R.id.btnAddEmpty:
-                    DatabaseHandler dh = new DatabaseHandler(activity);
-                    Intent i = new Intent(activity, AddScheduleActivity.class);
-                    int id = schedulesList.get(this.getAdapterPosition()).getBreakout_id();
-                    Breakouts breakout = dh.getBreakout(id);
-                    String start = breakout.getStartReadable();
-                    String end = breakout.getEndReadable();
-                    String day = breakout.getDayOfWeek();
-                    i.putExtra(BreakoutAdapter.BREAKOUT_ID_TAG, id);
-                    i.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, start);
-                    i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, end);
-                    i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, day);
-                    i.putExtra(BreakoutAdapter.BREAKOUT_CAME_FROM_BREAKOUT, false);
-                    dh.close();
-                    activity.startActivity(i);
-                    break;
                 case R.id.btnLayoutRemoveFromSchedule:
-                    DatabaseHandler dh2 = new DatabaseHandler(activity);
-                    Intent i2 = new Intent(activity, PresentationActivity.class);
-                    int id2 = schedulesList.get(this.getAdapterPosition()).getBreakout_id();
-                    Breakouts breakout2 = dh2.getBreakout(id2);
-                    String start2 = breakout2.getStartReadable();
-                    String end2 = breakout2.getEndReadable();
-                    String day2 = breakout2.getDayOfWeek();
-                    i2.putExtra(BreakoutAdapter.BREAKOUT_ID_TAG, id2);
-                    i2.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, start2);
-                    i2.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, end2);
-                    i2.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, day2);
-                    i2.putExtra(BreakoutAdapter.BREAKOUT_CAME_FROM_BREAKOUT, false);
-                    i2.putExtra(AddScheduleAdapter.PRESENTATION_ID, schedulesList.get(this.getAdapterPosition()).getPresentation_id());
-                    dh2.close();
-                    activity.startActivity(i2);
+                    switchToPresentation();
                     break;
                 case R.id.imgAddClass:
                     iUpcoming.addClass();
@@ -338,12 +312,16 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
                 case R.id.txtFeedback:
                     switchToFeedback();
                     break;
+                case R.id.txtViewBio:
+                    switchToBio();
+                    break;
                 case R.id.nextHomeCard:
                     DatabaseHandler dh3 = new DatabaseHandler(activity);
                     final Schedules sched = dh3.getNextSchedule();
                     final Breakouts breakout3 = dh3.getBreakout(sched.getBreakout_id());
                     iUpcoming.viewPresentation(breakout3, sched.getPresentation_id());
                     break;
+
             }
         }
 
@@ -363,7 +341,23 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             }
             return false;
         }
-
+        public void switchToPresentation(){
+            DatabaseHandler dh = new DatabaseHandler(activity);
+            Intent i = new Intent(activity, PresentationActivity.class);
+            int id = schedulesList.get(this.getAdapterPosition()).getBreakout_id();
+            Breakouts breakout = dh.getBreakout(id);
+            String start = breakout.getStartReadable();
+            String end = breakout.getEndReadable();
+            String day = breakout.getDayOfWeek();
+            i.putExtra(BreakoutAdapter.BREAKOUT_ID_TAG, id);
+            i.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, start);
+            i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, end);
+            i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, day);
+            i.putExtra(BreakoutAdapter.BREAKOUT_CAME_FROM_BREAKOUT, false);
+            i.putExtra(AddScheduleAdapter.PRESENTATION_ID, schedulesList.get(this.getAdapterPosition()).getPresentation_id());
+            dh.close();
+            activity.startActivity(i);
+        }
         public void switchToFeedback(){
             DatabaseHandler dh = new DatabaseHandler(activity);
             String url = dh.getSpreadsheetLink(Spreadsheets.COURSE_SHEET);
@@ -382,6 +376,15 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             i.setData(Uri.parse(url));
             activity.startActivity(i);
         }
+        public void switchToBio(){
+            Schedules sched = dh.getNextSchedule();
+            Presentations pres = dh.getPresentation(sched.getPresentation_id());
+            Intent i = new Intent(activity, BioActivity.class);
+            i.putExtra(PresentationActivity.SPEAKER_ID, pres.getSpeaker_id());
+            i.putExtra(PresentationActivity.SCHEDULE_ID, sched.getId());
+            activity.startActivity(i);
+        }
+
     }
 
     public interface iUpcomingAdapter{

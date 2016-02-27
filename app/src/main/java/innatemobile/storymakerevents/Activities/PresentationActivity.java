@@ -172,14 +172,18 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
             case R.id.txtFeedback:
                 switchToFeedback();
                 break;
-            case R.id.txtBio:
-                Intent i = new Intent(getApplication(), BioActivity.class);
-                i.putExtra(SPEAKER_ID, speaker.getId());
-                i.putExtra(SCHEDULE_ID, sched.get(0).getId());
-                startActivity(i);
+            case R.id.txtViewBio:
+                switchToBio();
                 break;
         }
     }
+    public void switchToBio(){
+        Intent i = new Intent(getApplication(), BioActivity.class);
+        i.putExtra(SPEAKER_ID, speaker.getId());
+        i.putExtra(SCHEDULE_ID, sched.get(0).getId());
+        startActivity(i);
+    }
+
     public void switchToFeedback(){
         DatabaseHandler dh = new DatabaseHandler(this);
         String url = dh.getSpreadsheetLink(Spreadsheets.COURSE_SHEET);

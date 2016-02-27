@@ -94,6 +94,7 @@
                     android:background="@drawable/home_next_card_selector"/>
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
                     style="@style/defaultText.light.clickable"
+                    android:id="@+id/txtViewBio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"

@@ -49,7 +49,7 @@ public class BioActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        getSupportActionBar().setIcon(R.drawable.ic_home_black_24px);
+       /* getSupportActionBar().setIcon(R.drawable.ic_home_black_24px);*/
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         speaker_id = getIntent().getExtras().getInt(PresentationActivity.SPEAKER_ID);
         schedule_id = getIntent().getExtras().getInt(PresentationActivity.SCHEDULE_ID);
