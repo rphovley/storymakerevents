@@ -33,6 +33,7 @@ public class AddScheduleActivity extends AppCompatActivity implements AddSchedul
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_launcher_white);
         int breakoutID = getIntent().getExtras().getInt(BreakoutAdapter.BREAKOUT_ID_TAG);
         String start = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_START_TAG);
         String end = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_END_TAG);

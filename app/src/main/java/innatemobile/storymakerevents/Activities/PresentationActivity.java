@@ -51,6 +51,7 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_launcher_white);
         getSupportActionBar().setTitle("");
         breakoutID = getIntent().getExtras().getInt(BreakoutAdapter.BREAKOUT_ID_TAG);
         sStart = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_START_TAG);
@@ -135,11 +136,12 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
         switch (item.getItemId()) {
             case android.R.id.home:
                 // do something useful
-                Intent i = new Intent(this, AddScheduleActivity.class);
+                /*Intent i = new Intent(this, AddScheduleActivity.class);
                 i.putExtra(BreakoutAdapter.BREAKOUT_ID_TAG, breakoutID);
                 i.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, sStart);
                 i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, sEnd);
-                i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, sDay);
+                i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, sDay);*/
+                Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
                 return(true);
             case R.id.action_add_class:

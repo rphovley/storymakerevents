@@ -49,6 +49,7 @@ public class BioActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_launcher_white);
        /* getSupportActionBar().setIcon(R.drawable.ic_home_black_24px);*/
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         speaker_id = getIntent().getExtras().getInt(PresentationActivity.SPEAKER_ID);
@@ -99,7 +100,7 @@ public class BioActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // do something useful
-                DatabaseHandler dh = new DatabaseHandler(this);
+                /*DatabaseHandler dh = new DatabaseHandler(this);
                 Schedules sched = dh.getSchedule(schedule_id);
                 Breakouts breakout = dh.getBreakout(sched.getBreakout_id());
                 Intent i = new Intent(this, PresentationActivity.class);
@@ -107,7 +108,8 @@ public class BioActivity extends AppCompatActivity {
                 i.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, breakout.getStartReadable());
                 i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, breakout.getEndReadable());
                 i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, breakout.getDayOfWeek());
-                i.putExtra(AddScheduleAdapter.PRESENTATION_ID, sched.getPresentation_id());
+                i.putExtra(AddScheduleAdapter.PRESENTATION_ID, sched.getPresentation_id());*/
+                Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
                 return (true);
 
