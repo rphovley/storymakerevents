@@ -86,10 +86,12 @@
                 android:orientation="horizontal">
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
                     style="@style/defaultText.light.clickable"
+                    android:id="@+id/txtFeedback"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight=".5"
-                    android:text="Feedback"/>
+                    android:text="Feedback"
+                    android:background="@drawable/home_next_card_selector"/>
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
                     style="@style/defaultText.light.clickable"
                     android:layout_width="match_parent"

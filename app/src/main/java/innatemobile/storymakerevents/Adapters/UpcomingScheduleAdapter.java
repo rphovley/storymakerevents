@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +31,7 @@ import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.Presentations;
 import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Speakers;
+import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
 import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
@@ -234,7 +239,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
 
     public class UpcomingScheduleCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
         protected TextView txtPresentationName, txtSpeakerName, txtRoom, txtTime,
-                txtDayHeader, txtBreakoutName;
+                txtDayHeader, txtBreakoutName, txtFeedback;
         protected TextView txtNotification, txtNextTitle, txtNextSpeaker, txtNextDescription, txtNextTime;
         protected ImageView synch, imgAddClass;
         protected View btnLayoutRemove, nextHomeCard;
@@ -252,10 +257,14 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             txtNextSpeaker      = (TextView) itemView.findViewById(R.id.txtNextSpeaker);
             txtNextDescription  = (TextView) itemView.findViewById(R.id.txtNextDescription);
             txtNextTime         = (TextView) itemView.findViewById(R.id.txtNextTimeLocation);
+            txtFeedback         = (TextView) itemView.findViewById(R.id.txtFeedback);
             imgAddClass         = (ImageView) itemView.findViewById(R.id.imgAddClass);
             nextHomeCard        = itemView.findViewById(R.id.nextHomeCard);
 
             synch = (ImageView) itemView.findViewById(R.id.synch);
+            if(txtFeedback!=null){
+                txtFeedback.setOnClickListener(this);
+            }
             if(synch!=null) {
                 synch.setOnClickListener(this);
             }
@@ -326,6 +335,9 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
                 case R.id.imgAddClass:
                     iUpcoming.addClass();
                     break;
+                case R.id.txtFeedback:
+                    switchToFeedback();
+                    break;
                 case R.id.nextHomeCard:
                     DatabaseHandler dh3 = new DatabaseHandler(activity);
                     final Schedules sched = dh3.getNextSchedule();
@@ -350,6 +362,25 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
                     return true;
             }
             return false;
+        }
+
+        public void switchToFeedback(){
+            DatabaseHandler dh = new DatabaseHandler(activity);
+            String url = dh.getSpreadsheetLink(Spreadsheets.COURSE_SHEET);
+            Schedules sched = dh.getNextSchedule();
+            if(sched !=null && sched.getPresentation_id() != -1){
+                url += dh.getSpreadsheetKey(Spreadsheets.COURSE_SHEET);
+                Presentations pres = dh.getPresentation(sched.getPresentation_id());
+                try {
+                    url += URLEncoder.encode(pres.getTitle(), "UTF-8");
+                }catch(UnsupportedEncodingException e){
+                    Log.d("FeedbackFragment", "UnsupportedEncoding", e);
+                }
+            }
+
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            activity.startActivity(i);
         }
     }
 

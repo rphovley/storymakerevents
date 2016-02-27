@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.cloudinary.Cloudinary;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -34,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import innatemobile.storymakerevents.Adapters.AddScheduleAdapter;
 import innatemobile.storymakerevents.Adapters.UpcomingScheduleAdapter;

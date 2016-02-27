@@ -9,12 +9,12 @@
     <application
         android:name=".Utils.AppController"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="StoryMakers"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <receiver
-            android:name=".Activities.MainActivity$AlarmReceiver" />
+        <receiver android:name=".Activities.MainActivity$AlarmReceiver" />
+
         <activity
             android:name=".Activities.SplashActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -40,8 +40,10 @@
         -->
         <activity
             android:name=".Activities.AddScheduleActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_add_schedule"
             android:parentActivityName=".Activities.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -49,13 +51,19 @@
         </activity>
         <activity
             android:name=".Activities.PresentationActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_presentation"
             android:parentActivityName=".Activities.AddScheduleActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="innatemobile.storymakerevents.Activities.AddScheduleActivity" />
         </activity>
+        <activity
+            android:name=".Activities.BioActivity"
+            android:label="@string/title_activity_bio"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

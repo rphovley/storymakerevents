@@ -102,6 +102,7 @@ public class ParseJSON {
         /*JSONArray row = getSheetRow(rows, SPREADSHEET_CALL);*/
         final int COLUMN_SHEET_ID   = 0;
         final int COLUMN_SHEET_NAME = 1;
+        final int COLUMN_SHEET_LINK = 2;
         final int COLUMN_SHEET_KEY  = 3;
         DatabaseHandler dh = new DatabaseHandler(context);
         Spreadsheets sheet = new Spreadsheets();
@@ -114,6 +115,9 @@ public class ParseJSON {
                         sheet.setId((int) Float.parseFloat(value));
                     case COLUMN_SHEET_NAME:
                         sheet.setName(value);
+                        break;
+                    case COLUMN_SHEET_LINK:
+                        sheet.setLink(value);
                         break;
                     case COLUMN_SHEET_KEY:
                         sheet.setSpreadsheet_key(value);

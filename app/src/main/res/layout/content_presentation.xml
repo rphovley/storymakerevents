@@ -11,11 +11,10 @@
     tools:showIn="@layout/activity_presentation">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <!--BACK BUTTON AND ADD PRESENTATION-->
-        <RelativeLayout
+        <!--<RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
@@ -26,21 +25,24 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_arrow_back_24dp"
                 android:clickable="true"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_marginLeft="@dimen/margin"
                 android:background="@drawable/home_next_card_selector"/>
             <innatemobile.storymakerevents.CustomViews.RobotoTextView
                 android:id="@+id/txtAddClass"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:gravity="center_vertical|right"
+                android:gravity="center"
                 android:textAllCaps="true"
                 android:background="@drawable/home_next_card_selector"
-                style="@style/defaultText.light.clickable"
+                android:clickable="true"
+                android:textColor="@color/text_color_light"
                 android:text="Add Class"
-                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
-        </RelativeLayout>
+        </RelativeLayout>-->
         <!--BACK BUTTON AND ADD PRESENTATION-->
         <!--BANNER SECTION-->
         <innatemobile.storymakerevents.CustomViews.RobotoTextView
@@ -52,7 +54,6 @@
             android:paddingBottom="@dimen/margin"
             android:background="@color/colorPrimaryDark"
             android:id="@id/txtPresentationTitle"
-            android:text="THIS is the presentation"
             android:textColor="@color/text_color_light"
             android:textSize="@dimen/text_header"/>
         <!--BANNER SECTION-->
@@ -80,8 +81,10 @@
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
                     style="@style/presentationText.condensedFont"
                     android:id="@+id/txtSpeakerName"
-                    android:text="Speaker Name"/>
+                    android:text="Speaker Name"
+                    android:layout_height="match_parent" />
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                    android:id="@+id/txtViewBio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
@@ -89,7 +92,7 @@
                     android:textAllCaps="true"
                     android:clickable="true"
                     android:textColor="@color/colorPrimaryDark"
-                    app:fontName="Roboto-Thin.ttf"
+                    app:fontName="RobotoCondensed-Regular.ttf"
                     android:text="@string/sViewBio"
                     android:layout_gravity="center_vertical" />
             </LinearLayout>
@@ -110,7 +113,20 @@
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
                     style="@style/presentationText.condensedFont"
                     android:id="@+id/txtTime"
-                    android:text="Time"/>
+                    android:text="Time"
+                    android:layout_height="match_parent" />
+                <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                    android:id="@+id/txtFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:textAllCaps="true"
+                    android:clickable="true"
+                    android:textColor="@color/colorPrimaryDark"
+                    app:fontName="RobotoCondensed-Regular.ttf"
+                    android:text="@string/sFeedbackPres"
+                    android:layout_gravity="center_vertical" />
             </LinearLayout>
             <!--TIME-->
             <!--LOCATION-->
@@ -129,7 +145,8 @@
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
                     style="@style/presentationText.condensedFont"
                     android:id="@+id/txtLocation"
-                    android:text="Location"/>
+                    android:text="Location"
+                    android:layout_height="match_parent" />
             </LinearLayout>
             <!--LOCATION-->
 

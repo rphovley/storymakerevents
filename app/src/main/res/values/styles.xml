@@ -12,8 +12,11 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 
+    <style name="PresentationTheme" parent="AppTheme.AppBarOverlay">
+        <item name="windowActionBarOverlay">true</item>
+    </style>
 
     <!--TEXT STYLES-->
     <style name="defaultText">
@@ -22,23 +25,28 @@
         <item name="android:paddingBottom">@dimen/margin</item>
         <item name="android:gravity">center</item>
     </style>
+
     <style name="defaultText.light">
         <item name="android:textColor">@color/text_color_light</item>
     </style>
+
     <style name="defaultText.light.clickable">
         <item name="android:clickable">true</item>
     </style>
+
     <style name="defaultText.pageHeader">
         <item name="fontName">RobotoCondensed-Bold.ttf</item>
         <item name="android:paddingBottom">@dimen/small_margin</item>
         <item name="android:textSize">@dimen/text_header</item>
     </style>
+
     <style name="presentationText">
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_marginLeft">@dimen/margin</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="presentationText.condensedFont">
         <item name="fontName">RobotoCondensed-Bold.ttf</item>
     </style>
@@ -54,13 +62,15 @@
     <style name="defaultCard">
         <item name="cardBackgroundColor">@color/colorCardBackground</item>
     </style>
+
     <style name="card" parent="defaultCard">
-       <item name="android:layout_marginLeft">@dimen/margin</item>
-       <item name="android:layout_marginTop">@dimen/margin</item>
-       <item name="android:layout_marginRight">@dimen/margin</item>
-       <item name="cardElevation">5dp</item>
-       <item name="cardCornerRadius">5dp</item>
+        <item name="android:layout_marginLeft">@dimen/margin</item>
+        <item name="android:layout_marginTop">@dimen/margin</item>
+        <item name="android:layout_marginRight">@dimen/margin</item>
+        <item name="cardElevation">5dp</item>
+        <item name="cardCornerRadius">5dp</item>
     </style>
+
     <style name="smallCard" parent="defaultCard">
         <item name="android:layout_marginLeft">@dimen/small_margin</item>
         <item name="android:layout_marginTop">@dimen/small_margin</item>
@@ -68,6 +78,7 @@
         <item name="cardElevation">2dp</item>
         <item name="cardCornerRadius">2dp</item>
     </style>
+
     <style name="clicakableCard">
         <item name="android:clickable">true</item>
         <item name="android:background">@drawable/small_card_selector</item>

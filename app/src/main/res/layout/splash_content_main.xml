@@ -11,6 +11,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         style="@style/splashStyle">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher_white"
+            android:layout_marginRight="@dimen/margin_mega"
+            android:layout_marginLeft="@dimen/margin_mega"
+            android:layout_marginBottom="@dimen/large_margin"
+            android:adjustViewBounds="true" />
         <innatemobile.storymakerevents.CustomViews.RobotoTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

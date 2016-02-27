@@ -24,6 +24,7 @@
             app:cardCornerRadius="2dp"
             style="@style/card">
             <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                android:id="@+id/txtConferenceFeedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -40,6 +41,7 @@
             app:cardCornerRadius="2dp"
             style="@style/card">
             <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                android:id="@+id/txtCourseFeedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

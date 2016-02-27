@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="innatemobile.storymakerevents.Activities.BioActivity"
+    tools:showIn="@layout/activity_bio">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!--BACK BUTTON AND ADD PRESENTATION-->
+        <!--<RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:clickable="true">
+            <ImageView
+                android:id="@+id/imgUpNav"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_arrow_back_24dp"
+                android:clickable="true"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_marginLeft="@dimen/margin"
+                android:background="@drawable/home_next_card_selector"/>
+            <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                android:id="@+id/txtAddClass"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:background="@drawable/home_next_card_selector"
+                android:clickable="true"
+                android:textColor="@color/text_color_light"
+                android:text="Add Class"
+                android:layout_marginRight="@dimen/margin"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>-->
+        <!--BACK BUTTON AND ADD PRESENTATION-->
+        <!--SPEAKER IMAGE-->
+        <ImageView
+            android:id="@+id/imgSpeaker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:src="@drawable/ic_person_big"/>
+        <!--SPEAKER IMAGE-->
+        <!--BANNER SECTION-->
+        <innatemobile.storymakerevents.CustomViews.RobotoTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin"
+            android:paddingTop="@dimen/margin"
+            android:paddingRight="@dimen/margin"
+            android:paddingBottom="@dimen/margin"
+            android:background="@color/colorPrimaryDark"
+            android:id="@id/txtSpeakerName"
+            android:textColor="@color/text_color_light"
+            android:textSize="@dimen/text_header_large"
+            android:gravity="center"
+            android:text="Speaker Name"/>
+        <!--BANNER SECTION-->
+        <!--CONTENT SECTION-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin">
+            <!--SPEAKER NAME-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:background="@drawable/ic_person_24dp"
+                    android:padding="@dimen/margin"
+                    android:layout_gravity="left"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                        style="@style/presentationText.condensedFont"
+                        android:id="@+id/txtSpeakerName"
+                        android:text="Speaker Name"
+                        android:layout_height="wrap_content" />
+                    <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                        style="@style/presentationText"
+                        android:id="@+id/txtBio"
+                        android:lineSpacingExtra="@dimen/small_margin"
+                        android:layout_marginTop="@dimen/large_margin"
+                        android:text="Description"/>
+                </LinearLayout>
+            </LinearLayout>
+            <!--SPEAKER NAME-->
+        </LinearLayout>
+        <!--CONTENT SECTION-->
+
+        <!--DESCRIPTION-->
+
+        <!--DESCRIPTION-->
+    </LinearLayout>
+</ScrollView>

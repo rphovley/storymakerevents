@@ -27,4 +27,6 @@
     <string name="sViewBio">View Bio</string>
     <string name="sAddClassMenu">ADD CLASS</string>
     <string name="sFeedbackNotifications">Feedback Notifications</string>
+    <string name="title_activity_bio">BioActivity</string>
+    <string name="sFeedbackPres">Feedback</string>
 </resources>

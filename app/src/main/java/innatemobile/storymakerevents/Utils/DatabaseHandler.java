@@ -31,29 +31,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // Database Name
     private static final String DATABASE_NAME = "storymakersSchedule";
 
     // Table Names
-    private static final String TABLE_SPREADSHEETS  = "spreadsheets";
-    private static final String TABLE_SPEAKERS      = "speakers";
-    private static final String TABLE_SCHEDULE      = "schedule";
-    private static final String TABLE_BREAKOUTS     = "breakouts";
+    private static final String TABLE_SPREADSHEETS = "spreadsheets";
+    private static final String TABLE_SPEAKERS = "speakers";
+    private static final String TABLE_SCHEDULE = "schedule";
+    private static final String TABLE_BREAKOUTS = "breakouts";
     private static final String TABLE_PRESENTATIONS = "presentations";
     private static final String TABLE_NOTIFICATIONS = "notifications";
-    private static final String TABLE_MY_SCHEDULE   = "my_schedule";
+    private static final String TABLE_MY_SCHEDULE = "my_schedule";
 
     // Spreadsheet Column Names
     private static final String SPREADSHEET_ID = "id";
     private static final String SPREADSHEET_NAME = "name";
+    private static final String SPREADSHEET_LINK = "spreadsheet_link";
     private static final String SPREADSHEET_KEY = "spreadsheet_key";
 
     //Speaker Column Names
     private static final String SPEAKER_ID = "id";
     private static final String SPEAKER_NAME = "name";
-    private static final String SPEAKER_BIO  = "bio";
+    private static final String SPEAKER_BIO = "bio";
     private static final String SPEAKER_IMAGE = "image";
 
     //Schedule & My Schedule Column Names
@@ -65,23 +66,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String SCHEDULE_IS_PRESENTATION = "is_presentation";
 
     //Breakout Column Names
-    private static final String BREAKOUT_ID    = "id";
+    private static final String BREAKOUT_ID = "id";
     private static final String BREAKOUT_START = "start";
-    private static final String BREAKOUT_END   = "end";
-    private static final String BREAKOUT_DATE  = "date";
-    private static final String BREAKOUT_NAME  = "name";
+    private static final String BREAKOUT_END = "end";
+    private static final String BREAKOUT_DATE = "date";
+    private static final String BREAKOUT_NAME = "name";
 
     //Presentation Column Names
-    private static final String PRESENTATION_ID           = "id";
-    private static final String PRESENTATION_TITLE        = "title";
-    private static final String PRESENTATION_DESCRIPTION  = "description";
-    private static final String PRESENTATION_SPEAKER_ID   = "speaker_id";
+    private static final String PRESENTATION_ID = "id";
+    private static final String PRESENTATION_TITLE = "title";
+    private static final String PRESENTATION_DESCRIPTION = "description";
+    private static final String PRESENTATION_SPEAKER_ID = "speaker_id";
     private static final String PRESENTATION_IS_INTENSIVE = "is_intensive";
-    private static final String PRESENTATION_IS_KEYNOTE   = "is_keynote";
+    private static final String PRESENTATION_IS_KEYNOTE = "is_keynote";
 
     //Notification Column Names
     private static final String NOTIFICATION_ID = "id";
-    private static final String NOTIFICATION    = "notification";
+    private static final String NOTIFICATION = "notification";
 
 
     public DatabaseHandler(Context context) {
@@ -93,15 +94,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //CREATE OUR TABLES
         /******************SPREADSHEETS*******************/
         String CREATE_SPREADSHEETS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_SPREADSHEETS + "("
-                + SPREADSHEET_ID + " INTEGER PRIMARY KEY," + SPREADSHEET_NAME + " TEXT,"
-                + SPREADSHEET_KEY + " TEXT" + ")";
+                + SPREADSHEET_ID + " INTEGER PRIMARY KEY," + SPREADSHEET_NAME + " TEXT," +
+                SPREADSHEET_LINK + " TEXT, " + SPREADSHEET_KEY + " TEXT" + ")";
         db.execSQL(CREATE_SPREADSHEETS_TABLE);
         /******************SPREADSHEETS*******************/
 
         /******************SPEAKERS***********************/
         String CREATE_SPEAKERS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_SPEAKERS + "("
                 + SPEAKER_ID + " INTEGER PRIMARY KEY," + SPEAKER_NAME + " TEXT," +
-                SPEAKER_BIO + " TEXT," +SPEAKER_IMAGE + " TEXT" + ")";
+                SPEAKER_BIO + " TEXT," + SPEAKER_IMAGE + " TEXT" + ")";
         db.execSQL(CREATE_SPEAKERS_TABLE);
         /******************SPEAKERS***********************/
 
@@ -117,20 +118,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_MY_SCHEDULE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_MY_SCHEDULE + "("
                 + SCHEDULE_ID + " INTEGER PRIMARY KEY," + SCHEDULE_PRESENTATION_ID + " INTEGER,"
                 + SCHEDULE_BREAKOUT_ID + " INTEGER," + SCHEDULE_SECTION + " INTEGER,"
-                + SCHEDULE_LOCATION + " TEXT," + SCHEDULE_IS_PRESENTATION + " INTEGER" +  ")";
+                + SCHEDULE_LOCATION + " TEXT," + SCHEDULE_IS_PRESENTATION + " INTEGER" + ")";
         db.execSQL(CREATE_MY_SCHEDULE_TABLE);
         /******************MY SCHEDULE***********************/
 
         /******************BREAKOUTS***********************/
         String CREATE_BREAKOUT_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_BREAKOUTS + "("
                 + BREAKOUT_ID + " INTEGER PRIMARY KEY," + BREAKOUT_START + " TEXT,"
-                + BREAKOUT_END + " TEXT, " + BREAKOUT_DATE + " TEXT,"+ BREAKOUT_NAME + " TEXT"+")";
+                + BREAKOUT_END + " TEXT, " + BREAKOUT_DATE + " TEXT," + BREAKOUT_NAME + " TEXT" + ")";
         db.execSQL(CREATE_BREAKOUT_TABLE);
         /******************BREAKOUTS***********************/
 
         /******************PRESENTATIONS***********************/
         String CREATE_PRESENTATION_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_PRESENTATIONS + "("
-                + PRESENTATION_ID + " INTEGER PRIMARY KEY," + PRESENTATION_DESCRIPTION+ " TEXT,"
+                + PRESENTATION_ID + " INTEGER PRIMARY KEY," + PRESENTATION_DESCRIPTION + " TEXT,"
                 + PRESENTATION_TITLE + " TEXT, " + PRESENTATION_SPEAKER_ID + " INTEGER, "
                 + PRESENTATION_IS_INTENSIVE + " INTEGER, " + PRESENTATION_IS_KEYNOTE + " INTEGER" + ")";
         db.execSQL(CREATE_PRESENTATION_TABLE);
@@ -138,7 +139,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         /******************NOTIFICATIONS***********************/
         String CREATE_NOTIFICATION_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATIONS + "("
-                + NOTIFICATION_ID + " INTEGER PRIMARY KEY," + NOTIFICATION+ " TEXT" + ")";
+                + NOTIFICATION_ID + " INTEGER PRIMARY KEY," + NOTIFICATION + " TEXT" + ")";
         db.execSQL(CREATE_NOTIFICATION_TABLE);
         /******************NOTIFICATIONS***********************/
     }
@@ -156,33 +157,39 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void clearForSynch(){
-        String clearForSynch = "DELETE FROM " + TABLE_BREAKOUTS +  ";";
-        clearForSynch += "DELETE FROM " + TABLE_PRESENTATIONS +  ";";
-        clearForSynch += "DELETE FROM " + TABLE_SCHEDULE +  ";";
-        clearForSynch += "DELETE FROM " + TABLE_NOTIFICATIONS +  ";";
-        clearForSynch += "DELETE FROM " + TABLE_SPEAKERS +  ";";
-        clearForSynch += "DELETE FROM " + TABLE_SPREADSHEETS +  ";";
-        clearForSynch += "VACUUM;";
+    public void clearForSynch() {
+        String clearForSynch = "VACUUM;";
         SQLiteDatabase db = this.getWritableDatabase();
+
+
+        db.delete(TABLE_BREAKOUTS, null, null);
+        db.delete(TABLE_PRESENTATIONS, null, null);
+        db.delete(TABLE_SCHEDULE, null, null);
+        db.delete(TABLE_NOTIFICATIONS, null, null);
+        db.delete(TABLE_SPEAKERS, null, null);
+        db.delete(TABLE_SPREADSHEETS, null, null);
         db.execSQL(clearForSynch);
     }
-    /********************SPREADSHEET METHODS****************/
-    public void addSpreadsheet(Spreadsheets sheet){
+
+    /********************
+     * SPREADSHEET METHODS
+     ****************/
+    public void addSpreadsheet(Spreadsheets sheet) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues content = new ContentValues();
         content.put(SPREADSHEET_ID, sheet.getId());
         content.put(SPREADSHEET_NAME, sheet.getName());
+        content.put(SPREADSHEET_LINK, sheet.getLink());
         content.put(SPREADSHEET_KEY, sheet.getSpreadsheet_key());
         db.insert(TABLE_SPREADSHEETS, null, content);
         db.close();
     }
-    public String getSpreadsheetKey(String name){
+    public String getSpreadsheetKey(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
         //query the database to return the spreadsheet key for the spreadsheet name
         Cursor cursor = db.query(TABLE_SPREADSHEETS, new String[]{SPREADSHEET_KEY},
                 SPREADSHEET_NAME + "=?", new String[]{name}, null, null, null, null);
-        if(cursor!=null && cursor.getCount() > 0){
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             db.close();
             return cursor.getString(0);
@@ -190,10 +197,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return null;
     }
-
+    public String getSpreadsheetLink(String name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        //query the database to return the spreadsheet key for the spreadsheet name
+        Cursor cursor = db.query(TABLE_SPREADSHEETS, new String[]{SPREADSHEET_LINK},
+                SPREADSHEET_NAME + "=?", new String[]{name}, null, null, null, null);
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            db.close();
+            return cursor.getString(0);
+        }
+        db.close();
+        return null;
+    }
     /********************SPREADSHEET METHODS****************/
-    /********************SPEAKER METHODS*******************/
-    public void addSpeaker(Speakers speaker){
+    /********************
+     * SPEAKER METHODS
+     *******************/
+    public void addSpeaker(Speakers speaker) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues content = new ContentValues();
         content.put(SPEAKER_ID, speaker.getId());
@@ -203,13 +224,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(TABLE_SPEAKERS, null, content);
         db.close();
     }
-    public Speakers getSpeaker(int id){
+
+    public Speakers getSpeaker(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         //query the database to return the spreadsheet key for the spreadsheet name
         Cursor cursor = db.query(TABLE_SPEAKERS, new String[]{SPEAKER_ID, SPEAKER_NAME, SPEAKER_BIO, SPEAKER_IMAGE},
                 SPEAKER_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
         int count = cursor.getCount();
-        if(cursor!=null && cursor.getCount() > 0){
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             Speakers speaker = new Speakers(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3));
             db.close();
@@ -218,22 +240,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return null;
     }
-    public List<Speakers> getAllSpeakers(){
+
+    public List<Speakers> getAllSpeakers() {
         List<Speakers> speakerList = new ArrayList<Speakers>();
         SQLiteDatabase db = this.getReadableDatabase();
         //query the database to return the Animal key for the Animal name
         String selectQuery = "SELECT  * FROM " + TABLE_SPEAKERS;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
-                Speakers speaker= new Speakers();
+                Speakers speaker = new Speakers();
                 speaker.setId(Integer.parseInt(cursor.getString(0)));
                 speaker.setName(cursor.getString(1));
                 speaker.setBio(cursor.getString(2));
                 speaker.setImage(cursor.getString(3));
                 speakerList.add(speaker);
-            }while(cursor.moveToNext());
+            } while (cursor.moveToNext());
             db.close();
             return speakerList;
         }
@@ -242,8 +265,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
     /********************SPEAKER METHODS*******************/
 
-    /********************SCHEDULE METHODS*******************/
-    public void addSchedule(Schedules schedule){
+    /********************
+     * SCHEDULE METHODS
+     *******************/
+    public void addSchedule(Schedules schedule) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues content = new ContentValues();
         content.put(SCHEDULE_ID, schedule.getId());
@@ -254,6 +279,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         content.put(SCHEDULE_IS_PRESENTATION, schedule.isPresentationDB());
         db.insert(TABLE_SCHEDULE, null, content);
         db.close();
+    }
+
+    public Schedules getSchedule(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        //query the database to return the spreadsheet key for the spreadsheet name
+        Cursor cursor = db.query(TABLE_SCHEDULE, new String[]{SCHEDULE_ID, SCHEDULE_PRESENTATION_ID, SCHEDULE_BREAKOUT_ID,
+                        SCHEDULE_SECTION, SCHEDULE_LOCATION, SCHEDULE_IS_PRESENTATION},
+                BREAKOUT_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            Schedules schedule = new Schedules();
+            schedule.setId(Integer.parseInt(cursor.getString(0)));
+            schedule.setPresentation_id(Integer.parseInt(cursor.getString(1)));
+            schedule.setBreakout_id(Integer.parseInt(cursor.getString(2)));
+            schedule.setSection_id(Integer.parseInt(cursor.getString(3)));
+            schedule.setLocation(cursor.getString(4));
+            schedule.setIsPresentationDB(Integer.parseInt(cursor.getString(5)));
+            db.close();
+            return schedule;
+        }
+        db.close();
+        return null;
+
     }
     public List<Schedules> getAllSchedule(){
         List<Schedules> scheduleList = new ArrayList<Schedules>();

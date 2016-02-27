@@ -10,18 +10,16 @@ public class Spreadsheets {
     public static final String BREAKOUTS_SHEET     = "Breakouts" ;
     public static final String PRESENTATIONS_SHEET = "Presentations";
     public static final String NOTIFICATIONS_SHEET = "Notifications";
+    public static final String CONFERENCE_SHEET    = "Conference Feedback";
+    public static final String COURSE_SHEET        = "Course Feedback";
 
     private int id;
     private String name;
+    private String link;
+
     private String spreadsheet_key;
 
     public Spreadsheets() {
-    }
-
-    public Spreadsheets(int id, String name, String spreadsheet_key) {
-        this.id = id;
-        this.name = name;
-        this.spreadsheet_key = spreadsheet_key;
     }
 
     public String getName() {
@@ -31,7 +29,13 @@ public class Spreadsheets {
     public void setName(String name) {
         this.name = name;
     }
+    public String getLink() {
+        return link;
+    }
 
+    public void setLink(String link) {
+        this.link = link;
+    }
     public String getSpreadsheet_key() {
         return spreadsheet_key;
     }
