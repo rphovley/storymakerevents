@@ -13,12 +13,10 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
@@ -46,49 +44,48 @@ import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 
 /*Main Activity is controlling the fragments coming in and out of the view
 *
-* The initial screen is to display the current schedule.  If there is nothing in their
+* The initial screen is to display the current schedule.  If there is nothing in the
 * schedule, then the screen will display a small add icon, and the plus floating action
 * button.  When either are pressed, it will take them to the full schedule page, which will
 * have the filters for each breakout.  They will then be able to select schedules until
 * they want to go back.  The main home page will then display their current schedule.
 * */
-public class MainActivity extends AppCompatActivity implements RequestSpreadsheets.iRequestSheet, HomeFragment.iHomeFragment, MyScheduleFragment.iMySchedule{
+public class MainActivity extends AppCompatActivity implements RequestSpreadsheets.iRequestSheet,
+        HomeFragment.iHomeFragment, MyScheduleFragment.iMySchedule{
+    /************Class Scope Variables**********/
     public final static String TOGGLE_NOTIFICATIONS = "toggle_notifications";
-    FragmentManager fragManager = getSupportFragmentManager();
-    FragmentTransaction ft;
     TabLayout tabLayout;
     ViewPager viewPager;
     Drawable home, myschedule, schedule, notification;
-    int tab_home, tab_my_schedule, tab_schedule, tab_notification;
     int colorPrimaryDark, colorIconWhite;
     int selectedPos = 0;
     private List<Drawable> tabIcons;
     ViewPagerAdapter adapter;
+    /************Class Scope Variables**********/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+
+        /***************TAB ICONS, VIEWPAGER INITIALIZATION AND LOGIC*************/
+        /*TAB ICONS*/
         home           = ContextCompat.getDrawable(this, R.drawable.ic_home_black_24px);
         myschedule     = ContextCompat.getDrawable(this, R.drawable.calendar);
         schedule       = ContextCompat.getDrawable(this, R.drawable.calendar_add);
         notification   = ContextCompat.getDrawable(this, R.drawable.ic_chat_24dp);
-        tab_home       = R.layout.tab_icon;
 
         colorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
         colorIconWhite   = ContextCompat.getColor(this, R.color.color_icons);
         tabIcons = new ArrayList<>(Arrays.asList(home, myschedule, schedule, notification));
+        /*VIEWPAGER*/
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setOffscreenPageLimit(3);
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
-        handleNotification();
-        if(getIntent().getExtras()!=null) {//if we came from addschedule, set that as our selected fragment
-            highlightSelectedIcon(2, 0);
-            viewPager.setCurrentItem(2);
-        }
+
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -96,9 +93,21 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
                 highlightSelectedIcon(position, selectedPos);
             }
         });
+        /***************TAB ICONS INITIALIZATION AND LOGIC*************/
+
+
+        if(getIntent().getExtras()!=null) {//if we came from addschedule, set that as our selected fragment
+            highlightSelectedIcon(2, 0);
+            viewPager.setCurrentItem(2);
+        }
+        handleNotification();
+
 
     }
 
+    /*
+    * Sets up the tab icons to have correct colors, especially on older devices
+    * */
     private void setupTabIcons() {
         if(tabLayout!=null) {
             for(int i = 0; i < tabIcons.size(); i++) {
@@ -110,6 +119,9 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
             }
         }
     }
+    /*
+    * Change the item at "position" to be highlighted, and remove highlighting from "unselected" tab
+    * */
     private void highlightSelectedIcon(int position, int unselected){
         tabIcons.get(position).setColorFilter(new
                 PorterDuffColorFilter(ContextCompat.getColor(this, R.color.colorPrimaryDark), PorterDuff.Mode.MULTIPLY));
@@ -117,7 +129,9 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
                 PorterDuffColorFilter(ContextCompat.getColor(this, R.color.color_icons), PorterDuff.Mode.MULTIPLY));
         selectedPos = position;
     }
-
+    /*
+    * Add fragments to the viewpager
+    * */
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new HomeFragment(), "HOME");
@@ -127,6 +141,11 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         viewPager.setAdapter(adapter);
     }
 
+    /*
+    * Method to notify the notification view that we have updated information.
+    * Ensures that if new information is in the system, the home fragment updates with it.
+    * *Implemented from RequestSpreadsheets.iRequestSheet
+    * */
     @Override
     public void communicateNotificationResult() {
         if(adapter.getItem(0) instanceof HomeFragment) {
@@ -135,16 +154,22 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         }
     }
 
+    /*
+    * Sets the current item in the viewpager to "MySchedule" Tab
+    * *Implemented from HomeFragment.iHomeFragment
+    * */
     @Override
     public void addToClassFirst() {
         highlightSelectedIcon(2, 0);
         viewPager.setCurrentItem(2);
     }
-
+    /*
+    * switch to Presentation activity
+    * *Implemented from HomeFragment.iHomeFragment
+    * */
     @Override
     public void viewPresentation(Breakouts breakout, int pres_id) {
         Intent i = new Intent(this, PresentationActivity.class);
-
         int id = breakout.getId();
         String start = breakout.getStartReadable();
         String end = breakout.getEndReadable();
@@ -157,6 +182,10 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         startActivity(i);
     }
 
+    /*
+    *  update the upcoming schedule adapter when the MySchedule has changed
+    * Implemented from MyScheduleAdapter.iMySchedule
+    * */
     @Override
     public void scheduleChanged() {
         if(adapter.getItem(0) instanceof HomeFragment) {
@@ -204,12 +233,14 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         public CharSequence getPageTitle(int position) {
             return "";        }
     }
+
+    /*
+    * AlarmReceiver posts notifications to phone from alarms set
+    * */
     public static class AlarmReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Calendar now = GregorianCalendar.getInstance();
-            int dayOfWeek = now.get(Calendar.DATE);
             SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(context);
             if(prefs.getBoolean(MainActivity.TOGGLE_NOTIFICATIONS, false)) {
@@ -229,6 +260,9 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
             }
         }
     }
+    /*
+    * Test notification
+    * */
     private void handleNotification() {
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
