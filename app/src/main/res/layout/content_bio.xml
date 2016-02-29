@@ -63,7 +63,7 @@
             android:textColor="@color/text_color_light"
             android:textSize="@dimen/text_header_large"
             android:gravity="center"
-            android:text="Speaker Name"/>
+            android:text=""/>
         <!--BANNER SECTION-->
         <!--CONTENT SECTION-->
         <LinearLayout
@@ -94,7 +94,7 @@
                     <innatemobile.storymakerevents.CustomViews.RobotoTextView
                         style="@style/presentationText.condensedFont"
                         android:id="@+id/txtSpeakerName"
-                        android:text="Speaker Name"
+                        android:text=""
                         android:layout_height="wrap_content" />
                     <innatemobile.storymakerevents.CustomViews.RobotoTextView
                         style="@style/presentationText"

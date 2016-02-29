@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/cardTextSize"
                         android:gravity="left"
-                        android:text="Speaker Name"
+                        android:text=""
                         android:id="@+id/txtSpeakerName"
                         android:layout_alignParentRight="true" />
                 </RelativeLayout>

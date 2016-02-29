@@ -81,7 +81,7 @@
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
                     style="@style/presentationText.condensedFont"
                     android:id="@+id/txtSpeakerName"
-                    android:text="Speaker Name"
+                    android:text=""
                     android:layout_height="match_parent" />
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
                     android:id="@+id/txtViewBio"
