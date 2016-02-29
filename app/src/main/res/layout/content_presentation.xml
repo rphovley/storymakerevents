@@ -91,7 +91,7 @@
                     android:layout_marginLeft="@dimen/margin"
                     android:textAllCaps="true"
                     android:clickable="true"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/text_selector"
                     app:fontName="RobotoCondensed-Regular.ttf"
                     android:text="@string/sViewBio"
                     android:layout_gravity="center_vertical" />
@@ -102,6 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="@dimen/activity_vertical_margin"
+                android:clickable="true"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="wrap_content"
@@ -123,7 +124,7 @@
                     android:layout_marginLeft="@dimen/margin"
                     android:textAllCaps="true"
                     android:clickable="true"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/text_selector"
                     app:fontName="RobotoCondensed-Regular.ttf"
                     android:text="@string/sFeedbackPres"
                     android:layout_gravity="center_vertical" />

@@ -28,8 +28,6 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import innatemobile.storymakerevents.Adapters.AddScheduleAdapter;
@@ -100,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
             highlightSelectedIcon(2, 0);
             viewPager.setCurrentItem(2);
         }
-        handleNotification();
+
 
 
     }

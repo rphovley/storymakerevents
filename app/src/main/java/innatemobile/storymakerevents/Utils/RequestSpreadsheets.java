@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -84,6 +85,7 @@ public class RequestSpreadsheets {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Snackbar.make(null, "Error on Spreadsheet Request", Snackbar.LENGTH_SHORT);
             }
         });
         // Adding request to request queue
@@ -108,6 +110,7 @@ public class RequestSpreadsheets {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("TAG", "ERROR getting speaker", error);
+                Snackbar.make(null, "Error on Speaker Request", Snackbar.LENGTH_SHORT);
             }
         });
         AppController.getInstance().addToRequestQueue(strReq, TAG_REQUEST_STRING);
@@ -131,6 +134,7 @@ public class RequestSpreadsheets {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("TAG", "ERROR getting schedule", error);
+                Snackbar.make(null, "Error on Schedule Request", Snackbar.LENGTH_SHORT);
             }
         });
         AppController.getInstance().addToRequestQueue(strReq, TAG_GET_SCHEDULE);
@@ -154,6 +158,7 @@ public class RequestSpreadsheets {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("TAG", "ERROR getting breakout", error);
+                Snackbar.make(null, "Error on Breakout Request", Snackbar.LENGTH_SHORT);
             }
         });
         AppController.getInstance().addToRequestQueue(strReq, TAG_GET_BREAKOUT);
@@ -176,6 +181,7 @@ public class RequestSpreadsheets {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("TAG", "ERROR getting presentations", error);
+                Snackbar.make(null, "Error on Presentation Request", Snackbar.LENGTH_SHORT);
                 allComplete();
             }
         });
@@ -202,6 +208,7 @@ public class RequestSpreadsheets {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("TAG", "ERROR getting notifications", error);
+                Snackbar.make(null, "Error on Notification Request", Snackbar.LENGTH_SHORT);
             }
         });
         AppController.getInstance().addToRequestQueue(strReq, TAG_REQUEST_STRING);

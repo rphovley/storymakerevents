@@ -49,26 +49,28 @@ import innatemobile.storymakerevents.Utils.DatabaseHandler;
 import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The HomeFragment displays a handful of "most" relevant information about the
+ * conference to the user at the time.
  */
 public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iUpcomingAdapter {
 
     public HomeFragment() {
         // Required empty public constructor
     }
-    ImageView synch, addToClass;
+    /************Class Scope Variables**********/
+    ImageView addToClass;
     TextView txtNotification;
-
     RecyclerView scheduleView;
     LinearLayoutManager llm;
     UpcomingScheduleAdapter adapter;
     List<Schedules> schedulesList;
     iHomeFragment iHome;
+    /************Class Scope Variables**********/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
         View view = null;

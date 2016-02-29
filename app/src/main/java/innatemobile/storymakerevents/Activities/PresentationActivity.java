@@ -77,7 +77,11 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
         txtViewBio                 = (TextView) findViewById(R.id.txtViewBio);
         txtFeedback                = (TextView) findViewById(R.id.txtFeedback);
         txtFeedback.setOnClickListener(this);
-        txtViewBio.setOnClickListener(this);
+        if(speaker!=null) {
+            txtViewBio.setOnClickListener(this);
+        }else{
+            txtViewBio.setVisibility(View.GONE);
+        }
         /*txtAddClass                = (TextView) findViewById(R.id.txtAddClass);
         imgUpNav                   = (ImageView) findViewById(R.id.imgUpNav);
 
