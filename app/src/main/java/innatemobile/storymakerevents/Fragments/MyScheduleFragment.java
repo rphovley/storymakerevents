@@ -111,7 +111,6 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
     private List<Schedules>  setEmptyScheduleSpots(List<Schedules> mySchedule){
         DatabaseHandler dh = new DatabaseHandler(getContext());
         List<Breakouts> breakoutsList = dh.getAllBreakouts();
-        List<Integer> ar = new ArrayList<>();
         for(int i = 0; i < breakoutsList.size(); i++){ // Get all the breakouts into a list
             int breakout_id = -1;
             try {
