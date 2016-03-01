@@ -24,11 +24,12 @@ import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
+import innatemobile.storymakerevents.Utils.AppController;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
 import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Displays the users schedule
  */
 public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iUpcomingAdapter {
 
@@ -36,14 +37,15 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
     public MyScheduleFragment() {
         // Required empty public constructor
     }
+    /************Class Scope Variables**********/
     ImageView synch;
     TextView txtNotification;
-
     RecyclerView scheduleView;
     LinearLayoutManager llm;
     MyScheduleAdapter adapter;
     List<Schedules> schedulesList;
     iMySchedule iMySched;
+    /************Class Scope Variables**********/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,15 +53,16 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
         // Inflate the layout for this fragment
         View view = null;
 
-        /*SET UP --RECYCLERVIEW*/
+
         DatabaseHandler dh = new DatabaseHandler(getContext());
         schedulesList = dh.getAllMySchedule();
         iMySched = (iMySchedule) getActivity();
-        if(schedulesList!=null && schedulesList.size()>0) {
+        /************WHEN THE DATABASE HAS BEEN LOADED CORRECTLY**********/
+        if(AppController.checkDatabaseForContent(getContext())) {
             view = inflater.inflate(R.layout.fragment_my_schedule, container, false);
 
             dh.close();
-        /*SET UP --RECYCLERVIEW*/
+            /*SET UP --RECYCLERVIEW*/
             String previousDay = "";
             schedulesList = setEmptyScheduleSpots(schedulesList);
             for (int i = 0; i < schedulesList.size(); i++) { // add in the day headers
@@ -79,7 +82,10 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
             scheduleView.setLayoutManager(llm);
             adapter = new MyScheduleAdapter(schedulesList, getActivity(), this);
             scheduleView.setAdapter(adapter);
-        }else{//if there's nothing, show only the synch button to get schedule
+            /*SET UP --RECYCLERVIEW*/
+        }
+        /************NEED TO RELOAD THE DATA**********/
+        else{//if there's nothing, show only the synch button to get schedule
             view = inflater.inflate(R.layout.fragment_synch_error, container, false);
             ImageView synchSched = (ImageView) view.findViewById(R.id.imgSyncSchedule);
             synchSched.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +106,6 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
                 }
             });
         }
-        /*SET UP --RECYCLERVIEW*/
         return view;
     }
     private List<Schedules>  setEmptyScheduleSpots(List<Schedules> mySchedule){

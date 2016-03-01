@@ -76,6 +76,7 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
                 .getDefaultSharedPreferences(getActivity());
         View view = null;
         iHome = (iHomeFragment) getActivity();
+        /************FIRST TIME USE**********/
         if(!prefs.getBoolean("firstTimeHome", false)){ // action to run on first use of app
             // run your one time code
             SharedPreferences.Editor editor = prefs.edit();
@@ -89,7 +90,9 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
                     iHome.addToClassFirst();
                 }
             });
-        }else{ // every other time
+        }
+        /************EVERY OTHER TIME**********/
+        else{ // every other time
             DatabaseHandler dh = new DatabaseHandler(getContext());
             schedulesList = dh.getNextThreeSchedule();
             if(AppController.checkDatabaseForContent(getContext())) { //if the database has valid content, proceed normally
