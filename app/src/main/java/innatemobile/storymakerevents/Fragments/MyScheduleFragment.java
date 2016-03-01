@@ -38,7 +38,7 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
         // Required empty public constructor
     }
     /************Class Scope Variables**********/
-    ImageView synch;
+
     TextView txtNotification;
     RecyclerView scheduleView;
     LinearLayoutManager llm;
