@@ -45,6 +45,7 @@ import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Speakers;
 import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
+import innatemobile.storymakerevents.Utils.AppController;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
 import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 
@@ -75,12 +76,11 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
                 .getDefaultSharedPreferences(getActivity());
         View view = null;
         iHome = (iHomeFragment) getActivity();
-        if(!prefs.getBoolean("firstTimeHome", false)){
+        if(!prefs.getBoolean("firstTimeHome", false)){ // action to run on first use of app
             // run your one time code
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("firstTimeHome", true);
             editor.apply();
-
             view = inflater.inflate(R.layout.fragment_home_first, container, false);
             addToClass = (ImageView) view.findViewById(R.id.imgAddClass);
             addToClass.setOnClickListener(new View.OnClickListener() {
@@ -89,12 +89,10 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
                     iHome.addToClassFirst();
                 }
             });
-        }else{
+        }else{ // every other time
             DatabaseHandler dh = new DatabaseHandler(getContext());
             schedulesList = dh.getNextThreeSchedule();
-            //check for schedulesList size, if has something proceed as normally
-            if(schedulesList!=null && schedulesList.size()>0)
-            {
+            if(AppController.checkDatabaseForContent(getContext())) { //if the database has valid content, proceed normally
                 view = inflater.inflate(R.layout.fragment_home, container, false);
                 final CardView notificationCard = (CardView) view.findViewById(R.id.notificationCard);
                 ImageView closeNotificationCard = (ImageView) view.findViewById(R.id.close_notification);
@@ -108,10 +106,10 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
                     }
                 });
 
-                //all of our big home card views to insert information into
+
                 closeNotificationCard.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v) { //what to do to our notification card on click
                         notificationCard.animate().alpha(0.0f).setListener(new Animator.AnimatorListener() {
                             @Override
                             public void onAnimationStart(Animator animation) {
@@ -137,7 +135,7 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
                 });
 
 
-            /*SET UP --RECYCLERVIEW*/
+                /*SET UP --RECYCLERVIEW*/
                 String previousDay = "";
                 for (int i = 0; i < schedulesList.size(); i++) { // add in the day headers
                     Breakouts breakout = dh.getBreakout(schedulesList.get(i).getBreakout_id());
@@ -147,8 +145,6 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
                         previousDay = breakout.getDayOfWeek();
                     }
                 }
-
-
                 scheduleView = (RecyclerView) view.findViewById(R.id.recyclerview);
                 scheduleView.setHasFixedSize(true);
                 llm = new LinearLayoutManager(getContext());
@@ -156,6 +152,7 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
                 scheduleView.setLayoutManager(llm);
                 adapter = new UpcomingScheduleAdapter(schedulesList, getActivity(), this);
                 scheduleView.setAdapter(adapter);
+                /*SET UP --RECYCLERVIEW*/
             }else{//if there's nothing, show only the synch button to get schedule
                 view = inflater.inflate(R.layout.fragment_synch_error, container, false);
                 ImageView synchSched = (ImageView) view.findViewById(R.id.imgSyncSchedule);
@@ -180,7 +177,7 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
             dh.close();
         }
 
-        /*SET UP --RECYCLERVIEW*/
+
         return view;
     }
 

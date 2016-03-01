@@ -1,6 +1,7 @@
 package innatemobile.storymakerevents.Utils;
 
 import android.app.Application;
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -65,6 +66,24 @@ public class AppController extends Application {
         if (mRequestQueue != null) {
             mRequestQueue.cancelAll(tag);
         }
+    }
+
+    public static boolean checkDatabaseForContent(Context c){
+        DatabaseHandler dh = new DatabaseHandler(c);
+        if(dh.getAllSchedule() == null || dh.getAllSchedule().size() == 0){
+            return false;
+        }
+        if(dh.getAllPresentations() == null || dh.getAllPresentations().size() == 0){
+            return false;
+        }
+        if(dh.getAllBreakouts() == null || dh.getAllBreakouts().size() == 0){
+            return false;
+        }
+        if(dh.getAllSpeakers() == null || dh.getAllSpeakers().size() == 0){
+            return false;
+        }
+
+        return true;
     }
 
 }
