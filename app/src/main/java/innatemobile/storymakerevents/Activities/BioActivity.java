@@ -65,10 +65,11 @@ public class BioActivity extends AppCompatActivity {
         txtBio = (TextView) findViewById(R.id.txtBio);
         txtSpeakerName = (TextView) findViewById(R.id.txtSpeakerName);
         imgSpeaker = (ImageView) findViewById(R.id.imgSpeaker);
-        String url1 = "http://res.cloudinary.com/innatemobile/image/upload/sample.jpg";
-        String url2 = cloudinary.url().imageTag("sample.jpg");
-        /*ImageLoader imgLoader = AppController.getInstance().getImageLoader();
-        imgLoader.get(url1, new ImageLoader.ImageListener() {
+        String url = "http://res.cloudinary.com/innatemobile/image/upload/";
+        String image_name = speaker.getImage().toUpperCase().replace(" ", "_");
+        url += image_name;
+        ImageLoader imgLoader = AppController.getInstance().getImageLoader();
+        imgLoader.get(url, new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 if (response.getBitmap() != null) {
@@ -82,7 +83,7 @@ public class BioActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
             }
-        });*/
+        });
         if(speaker!=null) {
             txtBio.setText(speaker.getBio());
             txtSpeakerName.setText(speaker.getName());

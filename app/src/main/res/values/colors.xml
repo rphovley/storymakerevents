@@ -6,7 +6,7 @@
     <color name="colorPrimaryBackground">@color/grey_200</color>
     <color name="colorSecondary">#006064</color>
     <color name="colorCardBackground">@color/white</color>
-    <color name="colorTransparent">#00000000</color>
+    <color name="colorTransparent">#33000000</color>
     <color name="colorPrimaryDarker">@color/cyan_900</color>
     <color name="text_color_light">@color/white</color>
 

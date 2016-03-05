@@ -52,7 +52,7 @@
             android:paddingTop="@dimen/tab_margin_large"
             android:paddingRight="@dimen/margin"
             android:paddingBottom="@dimen/margin"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimaryDarker"
             android:id="@id/txtPresentationTitle"
             android:textColor="@color/text_color_light"
             android:textSize="@dimen/text_header"/>

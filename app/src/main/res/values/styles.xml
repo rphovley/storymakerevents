@@ -18,6 +18,16 @@
         <item name="windowActionBarOverlay">true</item>
     </style>
 
+    <style name="transparentBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowActionBarOverlay">false</item>
+        <item name="windowActionBarOverlay">false</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+
     <!--TEXT STYLES-->
     <style name="defaultText">
         <item name="android:paddingLeft">@dimen/margin</item>

@@ -26,8 +26,6 @@ import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
  * List out the available times for classes in breakout format
  */
 public class BreakoutFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     /************Class Scope Variables**********/
     RecyclerView breakoutView;

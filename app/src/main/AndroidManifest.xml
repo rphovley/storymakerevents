@@ -62,6 +62,8 @@
         </activity>
         <activity
             android:name=".Activities.BioActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_bio"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

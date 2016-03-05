@@ -47,7 +47,8 @@
             android:id="@+id/imgSpeaker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimaryDarker"
+            android:adjustViewBounds="true"
             android:src="@drawable/ic_person_big"/>
         <!--SPEAKER IMAGE-->
         <!--BANNER SECTION-->
@@ -58,7 +59,7 @@
             android:paddingTop="@dimen/margin"
             android:paddingRight="@dimen/margin"
             android:paddingBottom="@dimen/margin"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimaryDarker"
             android:id="@id/txtSpeakerName"
             android:textColor="@color/text_color_light"
             android:textSize="@dimen/text_header_large"
@@ -100,7 +101,6 @@
                         style="@style/presentationText"
                         android:id="@+id/txtBio"
                         android:lineSpacingExtra="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/large_margin"
                         android:text="Description"/>
                 </LinearLayout>
             </LinearLayout>
