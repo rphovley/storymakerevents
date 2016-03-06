@@ -18,6 +18,8 @@ import com.android.volley.toolbox.Volley;
 public class AppController extends Application {
     public static final String TAG = AppController.class
             .getSimpleName();
+    public static long startTime = 0;
+    public static long timeSinceLoad = 0;
 
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;

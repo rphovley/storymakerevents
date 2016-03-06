@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import innatemobile.storymakerevents.Activities.MainActivity;
 import innatemobile.storymakerevents.Models.Presentations;
 import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
+import innatemobile.storymakerevents.Utils.AppController;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
 import innatemobile.storymakerevents.Utils.ParseJSON;
 
@@ -57,7 +59,8 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         toggle.setOnClickListener(this);
         txtConference.setOnClickListener(this);
         txtCourse.setOnClickListener(this);
-
+        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
+        Log.d("FEEDBACK", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
         return view;
     }
 

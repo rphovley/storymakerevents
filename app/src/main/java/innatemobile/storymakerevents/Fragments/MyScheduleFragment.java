@@ -5,10 +5,12 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +54,8 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = null;
-
+        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
+        Log.d("START MY SCHEDULE", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
 
         DatabaseHandler dh = new DatabaseHandler(getContext());
         schedulesList = dh.getAllMySchedule();
@@ -64,16 +67,23 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
             dh.close();
             /*SET UP --RECYCLERVIEW*/
             String previousDay = "";
+            AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
+            Log.d("BEFORE EMPTYSPOTS LIST", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
             schedulesList = setEmptyScheduleSpots(schedulesList);
+            AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
+            Log.d("BEFORE HEADERS LIST", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
             for (int i = 0; i < schedulesList.size(); i++) { // add in the day headers
                 Breakouts breakout = dh.getBreakout(schedulesList.get(i).getBreakout_id());
+                AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
+                Log.d("IN HEADERS LIST", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
                 if (!breakout.getDayOfWeek().equals(previousDay)) {
                     schedulesList.add(i, null);
                     i++;
                     previousDay = breakout.getDayOfWeek();
                 }
             }
-
+            AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
+            Log.d("AFTER MODIFIED LIST", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
             dh.close();
             scheduleView = (RecyclerView) view.findViewById(R.id.recyclerview);
             scheduleView.setHasFixedSize(true);
@@ -106,11 +116,16 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
                 }
             });
         }
+
+        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
+        Log.d("MY SCHEDULE FRAGMENT", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
         return view;
     }
     private List<Schedules>  setEmptyScheduleSpots(List<Schedules> mySchedule){
         DatabaseHandler dh = new DatabaseHandler(getContext());
         List<Breakouts> breakoutsList = dh.getAllBreakouts();
+        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
+        Log.d("BEFOREISBREAKOUTIN", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
         for(int i = 0; i < breakoutsList.size(); i++){ // Get all the breakouts into a list
             int breakout_id = -1;
             try {
@@ -124,6 +139,8 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
             }
         }
         dh.close();
+        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
+        Log.d("AFTERISBREAKOUTIN", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
         return mySchedule;
     }
     @Override

@@ -12,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 
@@ -37,6 +39,7 @@ import innatemobile.storymakerevents.Fragments.HomeFragment;
 import innatemobile.storymakerevents.Fragments.MyScheduleFragment;
 import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.R;
+import innatemobile.storymakerevents.Utils.AppController;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
 import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppController.startTime = SystemClock.currentThreadTimeMillis();
         setContentView(R.layout.activity_main);
 
         /***************TAB ICONS, VIEWPAGER INITIALIZATION AND LOGIC*************/
@@ -100,7 +104,8 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         }
 
 
-
+        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
+        Log.d("MAIN ACTIVITY", "Time since Main Activity Load: "+String.valueOf(AppController.timeSinceLoad + " ms"));
     }
 
     /*

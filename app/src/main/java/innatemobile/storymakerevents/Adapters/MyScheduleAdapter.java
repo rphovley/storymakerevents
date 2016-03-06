@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ import innatemobile.storymakerevents.Models.Presentations;
 import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Speakers;
 import innatemobile.storymakerevents.R;
+import innatemobile.storymakerevents.Utils.AppController;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
 import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 
@@ -63,6 +66,8 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
     public void onBindViewHolder(UpcomingScheduleCardViewHolder holder, int position) {
         int test = holder.getItemViewType();
         dh = new DatabaseHandler(activity);
+        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
+        Log.d("ON BIND VIEWHOLDER", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
         if(schedulesList.get(position)!=null && !schedulesList.get(position).isEmptyBreakout()) {
             int presentation_id = schedulesList.get(position).getPresentation_id();
             Presentations presentation = dh.getPresentation(presentation_id);
@@ -122,6 +127,8 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
 
     @Override
     public int getItemViewType(int position) {
+        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
+        Log.d("GET ITEMVIEW TYPE", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
         int viewType = TYPE_FIXED_SCHEDULE;
         List<Schedules> myScheduleList = null;
         if(position!=0 && schedulesList.get(position)!=null) {
@@ -211,6 +218,8 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.Up
                 btnLayoutRemove.setOnClickListener(this);
                 btnLayoutRemove.setOnLongClickListener(this);
             }
+            AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
+            Log.d("CARD VIEW HOLDER", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
 
         }
 
