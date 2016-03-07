@@ -28,6 +28,7 @@ import java.util.List;
 
 import innatemobile.storymakerevents.Adapters.UpcomingScheduleAdapter;
 import innatemobile.storymakerevents.Models.Breakouts;
+import innatemobile.storymakerevents.Models.ScheduleBreakout;
 import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
@@ -50,7 +51,7 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
     RecyclerView scheduleView;
     LinearLayoutManager llm;
     UpcomingScheduleAdapter adapter;
-    List<Schedules> schedulesList;
+    List<ScheduleBreakout> schedulesList;
     iHomeFragment iHome;
     /************Class Scope Variables**********/
 
@@ -127,7 +128,7 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
                 /*SET UP --RECYCLERVIEW*/
                 String previousDay = "";
                 for (int i = 0; i < schedulesList.size(); i++) { // add in the day headers
-                    Breakouts breakout = dh.getBreakout(schedulesList.get(i).getBreakout_id());
+                    Breakouts breakout = schedulesList.get(i).breakout;
                     if (!breakout.getDayOfWeek().equals(previousDay)) {
                         schedulesList.add(i, null);
                         i++;

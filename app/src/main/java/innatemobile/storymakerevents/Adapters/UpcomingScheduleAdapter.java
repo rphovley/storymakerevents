@@ -30,6 +30,7 @@ import innatemobile.storymakerevents.Activities.PresentationActivity;
 import innatemobile.storymakerevents.Fragments.HomeFragment;
 import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.Presentations;
+import innatemobile.storymakerevents.Models.ScheduleBreakout;
 import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Speakers;
 import innatemobile.storymakerevents.Models.Spreadsheets;
@@ -49,12 +50,12 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
     private static final int TYPE_HEADER_FIRST   = 5;
     private static final int TYPE_HELP_TEXT      = 6;
 
-    public List<Schedules> schedulesList;
+    public List<ScheduleBreakout> schedulesList;
     public Activity activity;
     DatabaseHandler dh;
     iUpcomingAdapter iUpcoming;
 
-    public UpcomingScheduleAdapter(List<Schedules> schedulesList, Activity activity, Fragment f)
+    public UpcomingScheduleAdapter(List<ScheduleBreakout> schedulesList, Activity activity, Fragment f)
     {
         this.schedulesList     = schedulesList;
         schedulesList.add(0,null); //add the fixed item for the next card
@@ -72,15 +73,15 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
     public void onBindViewHolder(UpcomingScheduleCardViewHolder holder, int position) {
         int test = holder.getItemViewType();
         dh = new DatabaseHandler(activity);
-        if(schedulesList.get(position)!=null && !schedulesList.get(position).isEmptyBreakout()) {
+        if(schedulesList.get(position)!=null && !schedulesList.get(position).schedule.isEmptyBreakout()) {
 
-            int presentation_id = schedulesList.get(position).getPresentation_id();
+            int presentation_id = schedulesList.get(position).schedule.getPresentation_id();
             Presentations presentation = dh.getPresentation(presentation_id);
             int speaker_id = presentation.getSpeaker_id();
             Speakers speaker = dh.getSpeaker(speaker_id);
-            int breakout_id =schedulesList.get(position).getBreakout_id();
+            int breakout_id =schedulesList.get(position).schedule.getBreakout_id();
             Breakouts breakout = dh.getBreakout(breakout_id);
-            holder.txtRoom.setText(schedulesList.get(position).getLocation());
+            holder.txtRoom.setText(schedulesList.get(position).schedule.getLocation());
             if(breakout!=null) {
                 holder.txtTime.setText(breakout.getStartReadable() + " - " + breakout.getEndReadable());
             }
@@ -94,7 +95,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             }
 
         }else if(position!=0 && position!=schedulesList.size() - 1&& schedulesList.get(position)==null){ //DAY HEADER
-            int breakout_id =schedulesList.get(position + 1).getBreakout_id();
+            int breakout_id =schedulesList.get(position + 1).schedule.getBreakout_id();
             Breakouts breakout = dh.getBreakout(breakout_id);
             holder.txtDayHeader.setText(breakout.getDayOfWeek());
         }else if(getItemViewType(position)==TYPE_HEADER){ //NEXT CLASS HEADER
@@ -175,9 +176,9 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
         Breakouts breakout = null;
         if(position!=0 && schedulesList.get(position)!=null) {
             dh = new DatabaseHandler(activity);
-            int presentation_id = schedulesList.get(position).getPresentation_id();
+            int presentation_id = schedulesList.get(position).schedule.getPresentation_id();
             myScheduleList = dh.getMyScheduleByPresentation(presentation_id);
-            int breakout_id =schedulesList.get(position).getBreakout_id();
+            int breakout_id =schedulesList.get(position).schedule.getBreakout_id();
             breakout = dh.getBreakout(breakout_id);
             dh.close();
         }
@@ -195,7 +196,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             viewType = TYPE_HELP_TEXT;
         }else if (myScheduleList.get(0).isPresentation()) {
             viewType = TYPE_MY_SCHEDULE;
-        }else if (!myScheduleList.get(0).isPresentation() && !schedulesList.get(position).isEmptyBreakout()) {
+        }else if (!myScheduleList.get(0).isPresentation() && !schedulesList.get(position).schedule.isEmptyBreakout()) {
             viewType = TYPE_FIXED_SCHEDULE;
         }
         return viewType;
@@ -203,14 +204,14 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
 
     public void removeItem(int selected_id) {
         DatabaseHandler dh = new DatabaseHandler(activity);
-        Presentations pres = dh.getPresentation(schedulesList.get(selected_id).getPresentation_id());
+        Presentations pres = dh.getPresentation(schedulesList.get(selected_id).schedule.getPresentation_id());
         dh.removeFromSchedule(pres.getId());
         ArrayList<HashMap<Integer, Boolean>> changed = new ArrayList<>();
         HashMap<Integer,Boolean> hash = new HashMap<>();
         if(pres.isIntensive()==1) {
             for (int i = 0; i < schedulesList.size(); i++) {
-                if(schedulesList.get(i)!=null && schedulesList.get(i).getPresentation_id()==pres.getId()){
-                    Breakouts breakout = dh.getBreakout(schedulesList.get(i).getBreakout_id());
+                if(schedulesList.get(i)!=null && schedulesList.get(i).schedule.getPresentation_id()==pres.getId()){
+                    Breakouts breakout = dh.getBreakout(schedulesList.get(i).schedule.getBreakout_id());
                     schedulesList.remove(i);
                     int sizeBefore = schedulesList.size();
                     schedulesList = MyScheduleAdapter.isBreakoutInSchedule(schedulesList, breakout ,activity);
@@ -223,7 +224,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
                 }
             }
         }else {
-            Breakouts breakout = dh.getBreakout(schedulesList.get(selected_id).getBreakout_id());
+            Breakouts breakout = dh.getBreakout(schedulesList.get(selected_id).schedule.getBreakout_id());
             schedulesList.remove(selected_id);
             int sizeBefore = schedulesList.size();
             schedulesList = MyScheduleAdapter.isBreakoutInSchedule(schedulesList, breakout ,activity);
@@ -344,8 +345,8 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
         public void switchToPresentation(){
             DatabaseHandler dh = new DatabaseHandler(activity);
             Intent i = new Intent(activity, PresentationActivity.class);
-            int id = schedulesList.get(this.getAdapterPosition()).getBreakout_id();
-            Breakouts breakout = dh.getBreakout(id);
+            int id = schedulesList.get(this.getAdapterPosition()).schedule.getBreakout_id();
+            Breakouts breakout = schedulesList.get(this.getAdapterPosition()).breakout;
             String start = breakout.getStartReadable();
             String end = breakout.getEndReadable();
             String day = breakout.getDayOfWeek();
@@ -354,7 +355,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, end);
             i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, day);
             i.putExtra(BreakoutAdapter.BREAKOUT_CAME_FROM_BREAKOUT, false);
-            i.putExtra(AddScheduleAdapter.PRESENTATION_ID, schedulesList.get(this.getAdapterPosition()).getPresentation_id());
+            i.putExtra(AddScheduleAdapter.PRESENTATION_ID, schedulesList.get(this.getAdapterPosition()).schedule.getPresentation_id());
             dh.close();
             activity.startActivity(i);
         }

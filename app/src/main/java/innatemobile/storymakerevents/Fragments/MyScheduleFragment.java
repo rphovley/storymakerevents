@@ -23,6 +23,7 @@ import java.util.List;
 
 import innatemobile.storymakerevents.Adapters.MyScheduleAdapter;
 import innatemobile.storymakerevents.Models.Breakouts;
+import innatemobile.storymakerevents.Models.ScheduleBreakout;
 import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
@@ -45,7 +46,7 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
     RecyclerView scheduleView;
     LinearLayoutManager llm;
     MyScheduleAdapter adapter;
-    List<Schedules> schedulesList;
+    List<ScheduleBreakout> schedulesList;
     iMySchedule iMySched;
     /************Class Scope Variables**********/
 
@@ -58,7 +59,7 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
         Log.d("START MY SCHEDULE", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
 
         DatabaseHandler dh = new DatabaseHandler(getContext());
-        schedulesList = dh.getAllMySchedule();
+        schedulesList = dh.getMyScheduleJoin();
         iMySched = (iMySchedule) getActivity();
         /************WHEN THE DATABASE HAS BEEN LOADED CORRECTLY**********/
         if(AppController.checkDatabaseForContent(getContext())) {
@@ -73,7 +74,7 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
             AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
             Log.d("BEFORE HEADERS LIST", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
             for (int i = 0; i < schedulesList.size(); i++) { // add in the day headers
-                Breakouts breakout = dh.getBreakout(schedulesList.get(i).getBreakout_id());
+                Breakouts breakout = dh.getBreakout(schedulesList.get(i).schedule.getBreakout_id());
                 AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
                 Log.d("IN HEADERS LIST", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
                 if (!breakout.getDayOfWeek().equals(previousDay)) {
@@ -121,7 +122,7 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
         Log.d("MY SCHEDULE FRAGMENT", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
         return view;
     }
-    private List<Schedules>  setEmptyScheduleSpots(List<Schedules> mySchedule){
+    private List<ScheduleBreakout>  setEmptyScheduleSpots(List<ScheduleBreakout> mySchedule){
         DatabaseHandler dh = new DatabaseHandler(getContext());
         List<Breakouts> breakoutsList = dh.getAllBreakouts();
         AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;

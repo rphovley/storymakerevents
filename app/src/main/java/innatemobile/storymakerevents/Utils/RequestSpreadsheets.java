@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 
 import java.util.List;
@@ -84,8 +86,7 @@ public class RequestSpreadsheets {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                //VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Snackbar.make(null, "Error on Spreadsheet Request", Snackbar.LENGTH_SHORT);
+                VolleyLog.d("Request Spreadsheet:", "Error: " + error.getMessage());
             }
         });
         // Adding request to request queue
@@ -218,7 +219,7 @@ public class RequestSpreadsheets {
 
         if(hasSpeaker && hasSchedule && hasBreakout && hasPresentation) {
             Intent i = new Intent(activity, MainActivity.class);
-            if(isSynch && progress.isShowing()) {
+            if (progress.isShowing()){
                 progress.dismiss();
             }
             activity.startActivity(i);

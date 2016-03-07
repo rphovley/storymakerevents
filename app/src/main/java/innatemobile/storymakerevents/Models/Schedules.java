@@ -1,18 +1,25 @@
 package innatemobile.storymakerevents.Models;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+
 /**
  * Created by rphovley on 1/30/2016.
  */
 public class Schedules {
 
+    /****************SCHEDULE VARS***************/
     private int id;
     private int presentation_id;
     private int breakout_id;
     private int section_id;
     private boolean isPresentation;
     private String location;
-    //isEmptyBreakout is a post database processing variable
     private boolean isEmptyBreakout;
+    /***************SCHEDULE VARS***************/
+    //isEmptyBreakout is a post database processing variable
+
 
     public boolean isEmptyBreakout() {
         return isEmptyBreakout;

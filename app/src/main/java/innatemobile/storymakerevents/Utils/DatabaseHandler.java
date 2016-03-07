@@ -15,11 +15,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.Notifications;
 import innatemobile.storymakerevents.Models.Presentations;
+import innatemobile.storymakerevents.Models.ScheduleBreakout;
 import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Speakers;
 import innatemobile.storymakerevents.Models.Spreadsheets;
@@ -465,6 +469,59 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return scheduleList;
     }
+    public List<ScheduleBreakout> getMyScheduleJoin(){
+        List<ScheduleBreakout> scheduleList = new ArrayList<ScheduleBreakout>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_MY_SCHEDULE +
+                " my JOIN " + TABLE_BREAKOUTS + " br ON my." + SCHEDULE_BREAKOUT_ID + "=br." + BREAKOUT_ID +
+                " ORDER BY " + "br. " + BREAKOUT_DATE + ", br." +BREAKOUT_START;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if(cursor.moveToFirst() && cursor.getCount() > 0){
+            do {
+                Schedules schedule = new Schedules();
+                Breakouts breakouts = new Breakouts();
+                schedule.setId(Integer.parseInt(cursor.getString(0)));
+                schedule.setPresentation_id(Integer.parseInt(cursor.getString(1)));
+                schedule.setBreakout_id(Integer.parseInt(cursor.getString(2)));
+                schedule.setSection_id(Integer.parseInt(cursor.getString(3)));
+                schedule.setLocation(cursor.getString(4));
+                schedule.setIsPresentationDB(Integer.parseInt(cursor.getString(5)));
+                breakouts.setStart(cursor.getString(7));
+                breakouts.setEnd(cursor.getString(8));
+                breakouts.setDate(cursor.getString(9));
+                breakouts.setBreakoutName(cursor.getString(10));
+                ScheduleBreakout scheduleBreakout = new ScheduleBreakout(schedule, breakouts);
+                scheduleList.add(scheduleBreakout);
+            }while(cursor.moveToNext());
+        }
+        db.close();
+        return scheduleList;
+    }
+    public LinkedHashMapIndex<String,Schedules> getAllMyScheduleHash(){
+        LinkedHashMapIndex<String,Schedules> scheduleList = new LinkedHashMapIndex<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_MY_SCHEDULE +
+                " my JOIN " + TABLE_BREAKOUTS + " br ON my." + SCHEDULE_BREAKOUT_ID + "=br." + BREAKOUT_ID +
+                " ORDER BY " + "br. " + BREAKOUT_DATE + ", br." +BREAKOUT_START;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if(cursor.moveToFirst() && cursor.getCount() > 0){
+            do {
+                Schedules schedule = new Schedules();
+                schedule.setId(Integer.parseInt(cursor.getString(0)));
+                schedule.setPresentation_id(Integer.parseInt(cursor.getString(1)));
+                schedule.setBreakout_id(Integer.parseInt(cursor.getString(2)));
+                schedule.setSection_id(Integer.parseInt(cursor.getString(3)));
+                schedule.setLocation(cursor.getString(4));
+                schedule.setIsPresentationDB(Integer.parseInt(cursor.getString(5)));
+                String startTime = cursor.getString(7);
+                String date = cursor.getString(9);
+                scheduleList.put(startTime + date, schedule);
+            }while(cursor.moveToNext());
+        }
+        db.close();
+        return scheduleList;
+    }
     public List<Schedules> getMyScheduleByPresentation(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         List<Schedules> scheduleList = new ArrayList<Schedules>();
@@ -517,9 +574,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     }
-    public List<Schedules> getNextThreeSchedule(){
+    public List<ScheduleBreakout> getNextThreeSchedule(){
         SQLiteDatabase db = this.getReadableDatabase();
-        List<Schedules> scheduleList = new ArrayList<Schedules>();
+        List<ScheduleBreakout> scheduleList = new ArrayList<ScheduleBreakout>();
         Calendar cal = new GregorianCalendar();
         Long lTime = cal.getTime().getTime();
         Date d = new Date(lTime);
@@ -534,13 +591,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if(cursor!=null && cursor.moveToFirst() && cursor.getCount() > 0){
             do {
                 Schedules schedule = new Schedules();
+                Breakouts breakouts = new Breakouts();
                 schedule.setId(Integer.parseInt(cursor.getString(0)));
                 schedule.setPresentation_id(Integer.parseInt(cursor.getString(1)));
                 schedule.setBreakout_id(Integer.parseInt(cursor.getString(2)));
                 schedule.setSection_id(Integer.parseInt(cursor.getString(3)));
                 schedule.setLocation(cursor.getString(4));
                 schedule.setIsPresentationDB(Integer.parseInt(cursor.getString(5)));
-                scheduleList.add(schedule);
+                breakouts.setStart(cursor.getString(7));
+                breakouts.setEnd(cursor.getString(8));
+                breakouts.setDate(cursor.getString(9));
+                breakouts.setBreakoutName(cursor.getString(10));
+                ScheduleBreakout scheduleBreakout = new ScheduleBreakout(schedule, breakouts);
+                scheduleList.add(scheduleBreakout);
             }while(cursor.moveToNext());
             return scheduleList;
         }
@@ -558,6 +621,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             return count;
         }
         return 0;
+    }
+    public boolean isBreakoutInSchedule(Breakouts breakout){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT COUNT(my." + SCHEDULE_ID + ") FROM " + TABLE_MY_SCHEDULE +
+                " my JOIN " + TABLE_BREAKOUTS + " br ON my." + SCHEDULE_BREAKOUT_ID + "=br." + BREAKOUT_ID +
+                " WHERE DATETIME(br." + BREAKOUT_DATE +" || ' ' || br." + BREAKOUT_START + ") == DateTime(?" + "|| ' ' || ?);";
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{breakout.getStringDate(), breakout.getStartString()});
+        if(cursor!=null && cursor.moveToFirst() && cursor.getCount() > 0){
+            if(Integer.parseInt(cursor.getString(0))>0){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        return false;
     }
     /********************MY SCHEDULE METHODS*******************/
 
