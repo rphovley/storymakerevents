@@ -34,6 +34,7 @@ import java.util.List;
 
 import innatemobile.storymakerevents.Adapters.AddScheduleAdapter;
 import innatemobile.storymakerevents.Fragments.BreakoutFragment;
+import innatemobile.storymakerevents.Fragments.ErrorFragment;
 import innatemobile.storymakerevents.Fragments.FeedbackFragment;
 import innatemobile.storymakerevents.Fragments.HomeFragment;
 import innatemobile.storymakerevents.Fragments.MyScheduleFragment;
@@ -133,9 +134,15 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
     * */
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new HomeFragment(), "HOME");
-        adapter.addFrag(new MyScheduleFragment(), "MY SCHEDULE");
-        adapter.addFrag(new BreakoutFragment(), "ADD");
+        if(AppController.checkDatabaseForContent(this)) {
+            adapter.addFrag(new HomeFragment(), "HOME");
+            adapter.addFrag(new MyScheduleFragment(), "MY SCHEDULE");
+            adapter.addFrag(new BreakoutFragment(), "ADD");
+        }else{
+            adapter.addFrag(new ErrorFragment(), "HOME");
+            adapter.addFrag(new ErrorFragment(), "MY SCHEDULE");
+            adapter.addFrag(new ErrorFragment(), "ADD");
+        }
         adapter.addFrag(new FeedbackFragment(), "FEEDBACK");
         viewPager.setAdapter(adapter);
     }

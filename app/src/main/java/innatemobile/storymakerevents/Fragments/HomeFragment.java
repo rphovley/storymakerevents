@@ -81,7 +81,6 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
         else{ // every other time
             DatabaseHandler dh = new DatabaseHandler(getContext());
             schedulesList = dh.getNextThreeSchedule();
-            if(AppController.checkDatabaseForContent(getContext())) { //if the database has valid content, proceed normally
                 view = inflater.inflate(R.layout.fragment_home, container, false);
                 final CardView notificationCard = (CardView) view.findViewById(R.id.notificationCard);
                 ImageView closeNotificationCard = (ImageView) view.findViewById(R.id.close_notification);
@@ -142,29 +141,7 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
                 adapter = new UpcomingScheduleAdapter(schedulesList, getActivity(), this);
                 scheduleView.setAdapter(adapter);
                 /*SET UP --RECYCLERVIEW*/
-            }else{//if there's nothing, show only the synch button to get schedule
-                view = inflater.inflate(R.layout.fragment_synch_error, container, false);
-                ImageView synchSched = (ImageView) view.findViewById(R.id.imgSyncSchedule);
-                synchSched.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ConnectivityManager cm =
-                                (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-                        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-                        boolean isConnected = activeNetwork != null &&
-                                activeNetwork.isConnectedOrConnecting();
-                        if(isConnected) {
-                            RequestSpreadsheets requestSpreadsheets = new RequestSpreadsheets(getActivity(), true, false, false);
-                            requestSpreadsheets.getSpreadsheetKeys();
-                        }else{
-                            Snackbar.make(v, "No Connection, please try again later.", Snackbar.LENGTH_LONG).show();
-                        }
-                    }
-                });
             }
-            dh.close();
-        }
         AppController.logTimes("END HOME FRAGMENT");
         return view;
     }

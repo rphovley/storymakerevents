@@ -2,14 +2,15 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/breakout_card"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     style="@style/card">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/margin">
+        android:padding="@dimen/margin"
+        android:id="@+id/breakout_card"
+        style="@style/clicakableCard">
         <innatemobile.storymakerevents.CustomViews.RobotoTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
