@@ -28,8 +28,7 @@ import java.util.List;
 
 import innatemobile.storymakerevents.Adapters.UpcomingScheduleAdapter;
 import innatemobile.storymakerevents.Models.Breakouts;
-import innatemobile.storymakerevents.Models.ScheduleBreakout;
-import innatemobile.storymakerevents.Models.Schedules;
+import innatemobile.storymakerevents.Models.ScheduleJoined;
 import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.AppController;
@@ -51,14 +50,14 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
     RecyclerView scheduleView;
     LinearLayoutManager llm;
     UpcomingScheduleAdapter adapter;
-    List<ScheduleBreakout> schedulesList;
+    List<ScheduleJoined> schedulesList;
     iHomeFragment iHome;
     /************Class Scope Variables**********/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        AppController.logTimes("START OF HOME FRAGMENT");
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
         View view = null;
@@ -166,9 +165,7 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
             }
             dh.close();
         }
-
-        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
-        Log.d("HOME FRAGMENT", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
+        AppController.logTimes("END HOME FRAGMENT");
         return view;
     }
 

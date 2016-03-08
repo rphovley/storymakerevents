@@ -2,7 +2,9 @@ package innatemobile.storymakerevents.Utils;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.SystemClock;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -19,7 +21,7 @@ public class AppController extends Application {
     public static final String TAG = AppController.class
             .getSimpleName();
     public static long startTime = 0;
-    public static long timeSinceLoad = 0;
+    private static long lastTime = 0;
 
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
@@ -34,6 +36,18 @@ public class AppController extends Application {
 
     public static synchronized AppController getInstance() {
         return mInstance;
+    }
+
+    public static void logTimes(String TAG){
+        //Log.d(TAG,"Time since Main Activity Load: " + timeSinceLoad() + " ms");
+        Log.d(TAG,"Time since last Item Logged: " + timeSinceLast() + " ms");
+        lastTime = SystemClock.currentThreadTimeMillis();
+    }
+    private static String timeSinceLast(){
+        return String.valueOf(SystemClock.currentThreadTimeMillis() - lastTime);
+    }
+    private static String timeSinceLoad(){
+        return String.valueOf(SystemClock.currentThreadTimeMillis() - startTime);
     }
 
     public RequestQueue getRequestQueue() {

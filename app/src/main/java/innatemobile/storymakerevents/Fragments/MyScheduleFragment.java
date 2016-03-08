@@ -17,14 +17,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import innatemobile.storymakerevents.Adapters.MyScheduleAdapter;
 import innatemobile.storymakerevents.Models.Breakouts;
-import innatemobile.storymakerevents.Models.ScheduleBreakout;
-import innatemobile.storymakerevents.Models.Schedules;
+import innatemobile.storymakerevents.Models.ScheduleJoined;
 import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.AppController;
@@ -46,7 +44,7 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
     RecyclerView scheduleView;
     LinearLayoutManager llm;
     MyScheduleAdapter adapter;
-    List<ScheduleBreakout> schedulesList;
+    List<ScheduleJoined> schedulesList;
     iMySchedule iMySched;
     /************Class Scope Variables**********/
 
@@ -55,8 +53,7 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = null;
-        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
-        Log.d("START MY SCHEDULE", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
+        AppController.logTimes("START MY SCHEDULE");
 
         DatabaseHandler dh = new DatabaseHandler(getContext());
         schedulesList = dh.getMyScheduleJoin();
@@ -68,23 +65,23 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
             dh.close();
             /*SET UP --RECYCLERVIEW*/
             String previousDay = "";
-            AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
-            Log.d("BEFORE EMPTYSPOTS LIST", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
+
+            AppController.logTimes("BEFORE EMPTYSPOTS LIST");
             schedulesList = setEmptyScheduleSpots(schedulesList);
-            AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
-            Log.d("BEFORE HEADERS LIST", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
+
+            AppController.logTimes("BEFORE HEADERS LIST");
             for (int i = 0; i < schedulesList.size(); i++) { // add in the day headers
-                Breakouts breakout = dh.getBreakout(schedulesList.get(i).schedule.getBreakout_id());
-                AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
-                Log.d("IN HEADERS LIST", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
+                Breakouts breakout = schedulesList.get(i).breakout;
+
+                AppController.logTimes("IN HEADERS LIST");
                 if (!breakout.getDayOfWeek().equals(previousDay)) {
                     schedulesList.add(i, null);
                     i++;
                     previousDay = breakout.getDayOfWeek();
                 }
             }
-            AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
-            Log.d("AFTER MODIFIED LIST", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
+
+            AppController.logTimes("AFTER MODIFIED LIST");
             dh.close();
             scheduleView = (RecyclerView) view.findViewById(R.id.recyclerview);
             scheduleView.setHasFixedSize(true);
@@ -118,15 +115,15 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
             });
         }
 
-        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
-        Log.d("MY SCHEDULE FRAGMENT", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
+
+        AppController.logTimes("MY SCHEDULE FRAGMENT");
         return view;
     }
-    private List<ScheduleBreakout>  setEmptyScheduleSpots(List<ScheduleBreakout> mySchedule){
+    private List<ScheduleJoined>  setEmptyScheduleSpots(List<ScheduleJoined> mySchedule){
         DatabaseHandler dh = new DatabaseHandler(getContext());
         List<Breakouts> breakoutsList = dh.getAllBreakouts();
-        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
-        Log.d("BEFOREISBREAKOUTIN", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
+
+        AppController.logTimes("BEFOREISBREAKOUTIN");
         for(int i = 0; i < breakoutsList.size(); i++){ // Get all the breakouts into a list
             int breakout_id = -1;
             try {
@@ -140,8 +137,8 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
             }
         }
         dh.close();
-        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
-        Log.d("AFTERISBREAKOUTIN", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
+
+        AppController.logTimes("AFTERISBREAKOUTIN");
         return mySchedule;
     }
     @Override

@@ -78,8 +78,7 @@ public class BreakoutFragment extends Fragment {
         }
         dh.close();
 
-        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
-        Log.d("BREAKOUT FRAGMENT", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
+        AppController.logTimes("BREAKOUT FRAGMENT");
         return view;
     }
 

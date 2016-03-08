@@ -59,8 +59,6 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         toggle.setOnClickListener(this);
         txtConference.setOnClickListener(this);
         txtCourse.setOnClickListener(this);
-        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
-        Log.d("FEEDBACK", "Time since Main Activity Load: " + String.valueOf(AppController.timeSinceLoad + " ms"));
         return view;
     }
 

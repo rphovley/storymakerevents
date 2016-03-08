@@ -3,7 +3,6 @@ package innatemobile.storymakerevents.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -24,13 +22,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import innatemobile.storymakerevents.Activities.AddScheduleActivity;
 import innatemobile.storymakerevents.Activities.BioActivity;
 import innatemobile.storymakerevents.Activities.PresentationActivity;
-import innatemobile.storymakerevents.Fragments.HomeFragment;
 import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.Presentations;
-import innatemobile.storymakerevents.Models.ScheduleBreakout;
+import innatemobile.storymakerevents.Models.ScheduleJoined;
 import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Speakers;
 import innatemobile.storymakerevents.Models.Spreadsheets;
@@ -50,12 +46,12 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
     private static final int TYPE_HEADER_FIRST   = 5;
     private static final int TYPE_HELP_TEXT      = 6;
 
-    public List<ScheduleBreakout> schedulesList;
+    public List<ScheduleJoined> schedulesList;
     public Activity activity;
     DatabaseHandler dh;
     iUpcomingAdapter iUpcoming;
 
-    public UpcomingScheduleAdapter(List<ScheduleBreakout> schedulesList, Activity activity, Fragment f)
+    public UpcomingScheduleAdapter(List<ScheduleJoined> schedulesList, Activity activity, Fragment f)
     {
         this.schedulesList     = schedulesList;
         schedulesList.add(0,null); //add the fixed item for the next card

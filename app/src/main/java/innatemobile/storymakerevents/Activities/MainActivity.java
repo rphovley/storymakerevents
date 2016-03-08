@@ -76,13 +76,13 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         myschedule     = ContextCompat.getDrawable(this, R.drawable.calendar);
         schedule       = ContextCompat.getDrawable(this, R.drawable.calendar_add);
         notification   = ContextCompat.getDrawable(this, R.drawable.ic_chat_24dp);
-
         colorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
         colorIconWhite   = ContextCompat.getColor(this, R.color.color_icons);
         tabIcons = new ArrayList<>(Arrays.asList(home, myschedule, schedule, notification));
+
         /*VIEWPAGER*/
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(1);
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -95,17 +95,13 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
                 highlightSelectedIcon(position, selectedPos);
             }
         });
+
         /***************TAB ICONS INITIALIZATION AND LOGIC*************/
-
-
         if(getIntent().getExtras()!=null) {//if we came from addschedule, set that as our selected fragment
             highlightSelectedIcon(2, 0);
             viewPager.setCurrentItem(2);
         }
-
-
-        AppController.timeSinceLoad = SystemClock.currentThreadTimeMillis() - AppController.startTime;
-        Log.d("MAIN ACTIVITY", "Time since Main Activity Load: "+String.valueOf(AppController.timeSinceLoad + " ms"));
+        AppController.logTimes("MAIN ACTIVITY");
     }
 
     /*
