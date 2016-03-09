@@ -32,6 +32,7 @@ import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Speakers;
 import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
+import innatemobile.storymakerevents.Utils.AppController;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
 
 public class PresentationActivity extends AppCompatActivity implements View.OnClickListener{
@@ -86,49 +87,13 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
         txtViewBio                 = (TextView) findViewById(R.id.txtViewBio);
         txtFeedback                = (TextView) findViewById(R.id.txtFeedback);
         txtFeedback.setOnClickListener(this);
-        if(speaker!=null) {
+
+        if(speaker!=null && speaker.getName()!=null) {
             txtViewBio.setOnClickListener(this);
         }else{
             txtViewBio.setVisibility(View.GONE);
         }
-        /*txtAddClass                = (TextView) findViewById(R.id.txtAddClass);
-        imgUpNav                   = (ImageView) findViewById(R.id.imgUpNav);
 
-        txtAddClass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
-                if(pres.isIntensive()==1) {
-                    List<Schedules> intensive = dh.getScheduleIntByPresentation(pres.getId(), sched.get(0).getSection_id());
-                    for(int j = 0; j< intensive.size(); j++){
-                        dh.addMySchedule(intensive.get(j));
-                    }
-                }else{
-                    dh.addMySchedule(sched.get(0));
-                }
-                dh.close();
-                String presName = "";
-                if(pres.getTitle().length()>15){
-                    presName = pres.getTitle().substring(0,15) + "...";
-                }else{
-                    presName = pres.getTitle();
-                }
-                dh.close();
-                Snackbar.make(txtPresentationName, presName + " Added to Schedule", Snackbar.LENGTH_LONG).show();
-            }
-        });
-        imgUpNav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // do something useful
-                Intent i = new Intent(getApplication(), AddScheduleActivity.class);
-                i.putExtra(BreakoutAdapter.BREAKOUT_ID_TAG, breakoutID);
-                i.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, sStart);
-                i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, sEnd);
-                i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, sDay);
-                startActivity(i);
-            }
-        });*/
         txtPresentationName.setText(pres.getTitle());
         txtPresentationDescription.setText(pres.getDescription());
         txtLocation.setText(sched.get(0).getLocation());
@@ -138,24 +103,22 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
         }
         dh.close();
     }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.presentation_menu, menu);
+        if(sched.get(0)!=null && !sched.get(0).isPresentation()){
+            menu.findItem(R.id.action_add_class).setVisible(false);
+        }
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // do something useful
-                /*Intent i = new Intent(this, AddScheduleActivity.class);
-                i.putExtra(BreakoutAdapter.BREAKOUT_ID_TAG, breakoutID);
-                i.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, sStart);
-                i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, sEnd);
-                i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, sDay);*/
-                Intent i = new Intent(this, MainActivity.class);
-                startActivity(i);
+                AppController.switchToMain(this, AppController.HOME_POS, -1);
                 return(true);
             case R.id.action_add_class:
                 DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
@@ -175,6 +138,7 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
                     presName = pres.getTitle();
                 }
                 Snackbar.make(txtPresentationName, presName + " Added to Schedule", Snackbar.LENGTH_LONG).show();
+                AppController.switchToMain(this, AppController.SCHEDULE_POS, sched.get(0).getId());
                 return(true);
         }
 
@@ -192,6 +156,7 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
                 break;
         }
     }
+
     public void switchToBio(){
         Intent i = new Intent(getApplication(), BioActivity.class);
         i.putExtra(SPEAKER_ID, speaker.getId());

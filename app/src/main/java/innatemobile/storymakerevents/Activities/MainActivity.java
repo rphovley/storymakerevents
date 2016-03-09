@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
     Drawable home, myschedule, schedule, notification;
     int colorPrimaryDark, colorIconWhite;
     int selectedPos = 0;
+    int selectedSchedId = 0;
     private List<Drawable> tabIcons;
     ViewPagerAdapter adapter;
     /************Class Scope Variables**********/
@@ -71,6 +72,10 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         AppController.startTime = SystemClock.currentThreadTimeMillis();
         setContentView(R.layout.activity_main);
 
+        if(getIntent().getExtras()!=null){
+            selectedPos     = getIntent().getExtras().getInt(AppController.HIGHLIGHTED_POSITION_TAG);
+            selectedSchedId = getIntent().getExtras().getInt(AppController.SCHEDULE_ID_TAG);
+        }
         /***************TAB ICONS, VIEWPAGER INITIALIZATION AND LOGIC*************/
         /*TAB ICONS*/
         home           = ContextCompat.getDrawable(this, R.drawable.ic_home_black_24px);
@@ -88,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
-
+        highlightSelectedIcon(selectedPos, 3);
+        viewPager.setCurrentItem(selectedPos);
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -98,10 +104,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         });
 
         /***************TAB ICONS INITIALIZATION AND LOGIC*************/
-        if(getIntent().getExtras()!=null) {//if we came from addschedule, set that as our selected fragment
-            highlightSelectedIcon(2, 0);
-            viewPager.setCurrentItem(2);
-        }
+        startNotifications();
         AppController.logTimes("MAIN ACTIVITY");
     }
 
@@ -115,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
                 tab.setImageDrawable(tabIcons.get(i));
                 tab.setColorFilter(ContextCompat.getColor(this, R.color.white));
                 tabLayout.getTabAt(i).setCustomView(tab);
-                highlightSelectedIcon(selectedPos, 1);
             }
         }
     }
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         if(AppController.checkDatabaseForContent(this)) {
             adapter.addFrag(new HomeFragment(), "HOME");
-            adapter.addFrag(new MyScheduleFragment(), "MY SCHEDULE");
+            adapter.addFrag(MyScheduleFragment.newInstance(selectedSchedId), "MY SCHEDULE");
             adapter.addFrag(new BreakoutFragment(), "ADD");
         }else{
             adapter.addFrag(new ErrorFragment(), "HOME");
@@ -197,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         if(adapter.getItem(0) instanceof HomeFragment) {
             /*HomeFragment home = (HomeFragment) adapter.getItem(0);
             home.scheduleChanged();*/
-            adapter.update();
+            //adapter.update();
         }
     }
 
@@ -269,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
     /*
     * Test notification
     * */
-    private void handleNotification() {
+    private void startNotifications() {
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);

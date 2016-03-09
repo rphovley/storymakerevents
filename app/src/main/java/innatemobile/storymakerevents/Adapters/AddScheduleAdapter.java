@@ -16,12 +16,14 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 import innatemobile.storymakerevents.Activities.AddScheduleActivity;
+import innatemobile.storymakerevents.Activities.MainActivity;
 import innatemobile.storymakerevents.Activities.PresentationActivity;
 import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.Presentations;
 import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Speakers;
 import innatemobile.storymakerevents.R;
+import innatemobile.storymakerevents.Utils.AppController;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
 
 /**
@@ -159,6 +161,7 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
                         presName = present.getTitle();
                     }
                     Snackbar.make(itemView, presName + " Added to Schedule", Snackbar.LENGTH_LONG).show();
+                    AppController.switchToMain(activity, AppController.SCHEDULE_POS, sched.getId());
                     break;
                 case R.id.btnRemoveFromSchedule:
                     //remove presentation from schedule

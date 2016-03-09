@@ -1,5 +1,7 @@
 package innatemobile.storymakerevents.Adapters;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,15 +47,16 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
 
     public List<ScheduleJoined> schedulesList;
     public Activity activity;
+    int selectedIndex = -1;
     DatabaseHandler dh;
     iUpcomingAdapter iUpcoming;
 
-    public MyScheduleAdapter(List<ScheduleJoined> schedulesList, Activity activity, Fragment f)
+    public MyScheduleAdapter(List<ScheduleJoined> schedulesList, Activity activity, Fragment f, int selectedIndex)
     {
         this.schedulesList     = schedulesList;
-        this.schedulesList.add(0, null);
         this.activity          = activity;
         this.iUpcoming = (iUpcomingAdapter) f;
+        this.selectedIndex = selectedIndex;
     }
 
     @Override
@@ -93,6 +97,9 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
             dh = new DatabaseHandler(activity);
             Breakouts breakout = schedulesList.get(position).breakout;
             holder.txtEmptyTime.setText(breakout.getStartReadable() + "-" + breakout.getEndReadable());
+        }
+        if(selectedIndex == position && AppController.firstTimeFlash){
+            highlightSelected(holder);
         }
         dh.close();
     }
@@ -273,6 +280,27 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
         }
     }
 
+    public void highlightSelected(final MyScheduleCardViewHolder holder){
+        int colorFrom = ContextCompat.getColor(activity, R.color.amber_400);
+        int colorTo = ContextCompat.getColor(activity, R.color.white);
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        colorAnimation.setDuration(1500); // milliseconds
+        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                //textView.setBackgroundColor((int) animator.getAnimatedValue());
+                if (holder.btnLayoutRemove != null) {
+                    Snackbar.make(holder.btnLayoutRemove, "Added to Schedule", Snackbar.LENGTH_SHORT).show();
+                    holder.btnLayoutRemove.setBackgroundColor((Integer) animator.getAnimatedValue());
+
+                }
+            }
+
+        });
+        colorAnimation.start();
+        AppController.firstTimeFlash = false;
+    }
     public void goToPresentation(int position){
         DatabaseHandler dh = new DatabaseHandler(activity);
         Intent i = new Intent(activity, PresentationActivity.class);
@@ -289,10 +317,6 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
         i.putExtra(AddScheduleAdapter.PRESENTATION_ID, schedulesList.get(position).schedule.getPresentation_id());
         dh.close();
         activity.startActivity(i);
-    }
-    public interface iUpcomingAdapter{
-        void removeItem(int selected_id);
-        void notifyItemsChanged(List<HashMap<Integer, Boolean>> changed);
     }
 
     public static List<ScheduleJoined> isBreakoutInSchedule(List<ScheduleJoined> mySchedule, Breakouts breakout, Context c){
@@ -329,5 +353,9 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
 
 
         return mySchedule;
+    }
+    public interface iUpcomingAdapter{
+        void removeItem(int selected_id);
+        void notifyItemsChanged(List<HashMap<Integer, Boolean>> changed);
     }
 }

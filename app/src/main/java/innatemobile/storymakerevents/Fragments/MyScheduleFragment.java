@@ -38,82 +38,74 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
     public MyScheduleFragment() {
         // Required empty public constructor
     }
-    /************Class Scope Variables**********/
 
+    public static MyScheduleFragment newInstance(int selectedSchedId){
+        MyScheduleFragment f = new MyScheduleFragment();
+        AppController.firstTimeFlash = true;
+        Bundle args = new Bundle();
+        args.putInt(SELECTED_ID, selectedSchedId);
+        f.setArguments(args);
+        return f;
+    }
+    /************Class Scope Variables**********/
+    private static final String SELECTED_ID = "selected_id";
     TextView txtNotification;
     RecyclerView scheduleView;
     LinearLayoutManager llm;
     MyScheduleAdapter adapter;
     List<ScheduleJoined> schedulesList;
     iMySchedule iMySched;
+    int selectedIndex = 0;
+    View view;
     /************Class Scope Variables**********/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = null;
+        view = inflater.inflate(R.layout.fragment_my_schedule, container, false);
         AppController.logTimes("START MY SCHEDULE");
 
         DatabaseHandler dh = new DatabaseHandler(getContext());
         schedulesList = dh.getMyScheduleJoin();
         iMySched = (iMySchedule) getActivity();
-        /************WHEN THE DATABASE HAS BEEN LOADED CORRECTLY**********/
-        if(AppController.checkDatabaseForContent(getContext())) {
-            view = inflater.inflate(R.layout.fragment_my_schedule, container, false);
 
-            dh.close();
-            /*SET UP --RECYCLERVIEW*/
-            String previousDay = "";
+        dh.close();
+        /*SET UP --RECYCLERVIEW*/
+        String previousDay = "";
 
-            AppController.logTimes("BEFORE EMPTYSPOTS LIST");
-            schedulesList = setEmptyScheduleSpots(schedulesList);
+        AppController.logTimes("BEFORE EMPTYSPOTS LIST");
+        schedulesList = setEmptyScheduleSpots(schedulesList);
 
-            AppController.logTimes("BEFORE HEADERS LIST");
-            for (int i = 0; i < schedulesList.size(); i++) { // add in the day headers
-                Breakouts breakout = schedulesList.get(i).breakout;
+        AppController.logTimes("BEFORE HEADERS LIST");
+        for (int i = 0; i < schedulesList.size(); i++) { // add in the day headers
+            Breakouts breakout = schedulesList.get(i).breakout;
 
-                AppController.logTimes("IN HEADERS LIST");
-                if (!breakout.getDayOfWeek().equals(previousDay)) {
-                    schedulesList.add(i, null);
-                    i++;
-                    previousDay = breakout.getDayOfWeek();
-                }
+            AppController.logTimes("IN HEADERS LIST");
+            if (!breakout.getDayOfWeek().equals(previousDay)) {
+                schedulesList.add(i, null);
+                i++;
+                previousDay = breakout.getDayOfWeek();
             }
-
-            AppController.logTimes("AFTER MODIFIED LIST");
-            dh.close();
-            scheduleView = (RecyclerView) view.findViewById(R.id.recyclerview);
-            scheduleView.setHasFixedSize(true);
-            llm = new LinearLayoutManager(getContext());
-            llm.setOrientation(LinearLayoutManager.VERTICAL);
-            scheduleView.setLayoutManager(llm);
-            adapter = new MyScheduleAdapter(schedulesList, getActivity(), this);
-            scheduleView.setAdapter(adapter);
-            /*SET UP --RECYCLERVIEW*/
         }
-        /************NEED TO RELOAD THE DATA**********/
-        else{//if there's nothing, show only the synch button to get schedule
-            view = inflater.inflate(R.layout.fragment_synch_error, container, false);
-            ImageView synchSched = (ImageView) view.findViewById(R.id.imgSyncSchedule);
-            synchSched.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ConnectivityManager cm =
-                            (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-                    NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-                    boolean isConnected = activeNetwork != null &&
-                            activeNetwork.isConnectedOrConnecting();
-                    if(isConnected) {
-                        RequestSpreadsheets requestSpreadsheets = new RequestSpreadsheets(getActivity(), true, false, false);
-                        requestSpreadsheets.getSpreadsheetKeys();
-                    }else{
-                        Snackbar.make(v, "No Connection, please try again later.", Snackbar.LENGTH_LONG).show();
-                    }
-                }
-            });
+        schedulesList.add(0, null);
+        if(getArguments().containsKey(SELECTED_ID)) {
+            selectedIndex = getPosFromSchedID(schedulesList,getArguments().getInt(SELECTED_ID));
         }
+        AppController.logTimes("AFTER MODIFIED LIST");
+        dh.close();
+        scheduleView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        scheduleView.setHasFixedSize(true);
+        llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        scheduleView.setLayoutManager(llm);
+        adapter = new MyScheduleAdapter(schedulesList, getActivity(), this, selectedIndex);
+        scheduleView.setAdapter(adapter);
+        if(AppController.firstTimeFlash) {
+            scheduleView.getLayoutManager().smoothScrollToPosition(scheduleView, null, selectedIndex + 1);
+        }
+        /*SET UP --RECYCLERVIEW*/
+
 
 
         AppController.logTimes("MY SCHEDULE FRAGMENT");
@@ -141,6 +133,14 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
         AppController.logTimes("AFTERISBREAKOUTIN");
         return mySchedule;
     }
+    private int getPosFromSchedID(List<ScheduleJoined> schedules, int scheduleID){
+        for(int i = 0; i < schedules.size(); i++){
+            if(schedules.get(i)!=null && schedules.get(i).schedule.getId()==scheduleID){
+                return i;
+            }
+        }
+        return 0;
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -153,6 +153,7 @@ public class MyScheduleFragment extends Fragment implements MyScheduleAdapter.iU
             dh.close();
         }
     }
+
 
     @Override
     public void removeItem(int selected_id) {
