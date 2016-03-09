@@ -9,7 +9,7 @@
     <application
         android:name=".Utils.AppController"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_logo_icon"
         android:label="StoryMakers"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
