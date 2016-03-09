@@ -57,8 +57,6 @@ public class RequestSpreadsheets {
                 ParseJSON parsed = new ParseJSON(activity);
                 parsed.uploadSheet(response, ParseJSON.SPREADSHEET_CALL);
 
-
-
                 if(isFirst || isSynch) {
                     getScheduleSpreadsheet(activity.getString(R.string.spreadsheet_url) + dh.getSpreadsheetKey(Spreadsheets.SCHEDULES_SHEET));
                     getBreakoutSpreadsheet(activity.getString(R.string.spreadsheet_url) + dh.getSpreadsheetKey(Spreadsheets.BREAKOUTS_SHEET));
@@ -66,6 +64,7 @@ public class RequestSpreadsheets {
                     getSpeakerSpreadsheet(activity.getString(R.string.spreadsheet_url) + dh.getSpreadsheetKey(Spreadsheets.SPEAKERS_SHEET));
                     getNotificationSpreadsheet(activity.getString(R.string.spreadsheet_url) + dh.getSpreadsheetKey(Spreadsheets.NOTIFICATIONS_SHEET));
                 }else{ //if it isn't the first time, and we aren't synching the data, send them to the main activity
+                    getNotificationSpreadsheet(activity.getString(R.string.spreadsheet_url) + dh.getSpreadsheetKey(Spreadsheets.NOTIFICATIONS_SHEET));
                     Intent i = new Intent(activity, MainActivity.class);
                     activity.startActivity(i);
                     activity.finish();

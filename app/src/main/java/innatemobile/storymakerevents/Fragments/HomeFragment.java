@@ -82,7 +82,8 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
             DatabaseHandler dh = new DatabaseHandler(getContext());
             schedulesList = dh.getNextThreeSchedule();
                 view = inflater.inflate(R.layout.fragment_home, container, false);
-                final CardView notificationCard = (CardView) view.findViewById(R.id.notificationCard);
+                txtNotification = (TextView) view.findViewById(R.id.txtNotification);
+            final CardView notificationCard = (CardView) view.findViewById(R.id.notificationCard);
                 ImageView closeNotificationCard = (ImageView) view.findViewById(R.id.close_notification);
                 FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
 
