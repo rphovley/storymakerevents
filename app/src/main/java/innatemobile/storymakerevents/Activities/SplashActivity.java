@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
@@ -41,11 +42,15 @@ public class SplashActivity extends AppCompatActivity implements RequestSpreadsh
     private static final String TAG_GET_SPEAKER = "speaker";
     private boolean hasSchedule, hasSpeaker, hasBreakout, hasPresentation, hasNotification = false;
     private RequestSpreadsheets requester;
-
+    View splash_logo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_main);
+        splash_logo = findViewById(R.id.splash_logo);
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT){
+            splash_logo.setVisibility(View.GONE);
+        }
         System.setProperty("http.keepAlive", "false");
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(this);

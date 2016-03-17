@@ -31,6 +31,14 @@
             android:background="@drawable/synch_selector"
             android:padding="@dimen/margin"
             android:layout_gravity="left"/>
+        <ImageView
+            android:id="@+id/help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:background="@drawable/help_selector"
+            android:padding="@dimen/margin"
+            android:layout_gravity="right"/>
     </FrameLayout>
     <!--NEXT CLASS HEADER-->
     <!--NEXT CLASS CONTENT-->

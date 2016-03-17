@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         });
 
         /***************TAB ICONS INITIALIZATION AND LOGIC*************/
-        startNotifications();
+        //startNotifications();
         AppController.logTimes("MAIN ACTIVITY");
     }
 

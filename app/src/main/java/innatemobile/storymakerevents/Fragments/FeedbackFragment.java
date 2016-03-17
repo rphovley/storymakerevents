@@ -43,20 +43,20 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feedback, container, false);
-        android.support.v7.widget.SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.toggleFeedback);
-        txtSubText    = (TextView) view.findViewById(R.id.txtFeedbackSub);
+        //android.support.v7.widget.SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.toggleFeedback);
+        //txtSubText    = (TextView) view.findViewById(R.id.txtFeedbackSub);
         txtCourse     = (TextView) view.findViewById(R.id.txtCourseFeedback);
         txtConference = (TextView) view.findViewById(R.id.txtConferenceFeedback);
         prefs = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
-        if(!prefs.getBoolean(MainActivity.TOGGLE_NOTIFICATIONS, false)) {
+        /*if(!prefs.getBoolean(MainActivity.TOGGLE_NOTIFICATIONS, false)) {
             toggle.setChecked(false);
             txtSubText.setText("Notifications for feedback reminders are off");
         }else{
             toggle.setChecked(true);
             txtSubText.setText("Notifications for feedback reminders are on");
-        }
-        toggle.setOnClickListener(this);
+        }*/
+        //toggle.setOnClickListener(this);
         txtConference.setOnClickListener(this);
         txtCourse.setOnClickListener(this);
         return view;
@@ -65,7 +65,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.toggleFeedback:
+           /* case R.id.toggleFeedback:
                 if(!prefs.getBoolean(MainActivity.TOGGLE_NOTIFICATIONS, false)) {
                     // run your one time code
                     SharedPreferences.Editor editor = prefs.edit();
@@ -80,7 +80,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                     txtSubText.setText("Notifications for feedback reminders are off");
                     editor.apply();
                 }
-                break;
+                break;*/
             case R.id.txtCourseFeedback:
                 openBrowser(Spreadsheets.COURSE_SHEET, 1);
                 break;

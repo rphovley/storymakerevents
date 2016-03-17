@@ -9,7 +9,7 @@
     <application
         android:name=".Utils.AppController"
         android:allowBackup="true"
-        android:icon="@drawable/ic_logo_icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="StoryMakers"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -63,8 +63,12 @@
         <activity
             android:name=".Activities.BioActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_bio"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.HelpActivity"
+            android:label="@string/title_activity_help"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -95,6 +95,15 @@
     </style>
     <!--CARD STYLES-->
 
+    <!--HELP STYLES-->
+    <style name="helpText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">@dimen/margin</item>
+        <item name="android:layout_marginTop">@dimen/large_margin</item>
+    </style>
+
+    <!--HELP STYLES-->
 
     <!--DON"T USE THESE STYLES!  DELETE SOON!  NOT APART OF ACTUAL DESIGN-->
     <!--Splash Screen Style-->
@@ -106,25 +115,6 @@
         <item name="android:textSize">@dimen/splashTitleSize</item>
         <item name="android:background">@color/colorPrimary</item>
     </style>
-
-    <!--Speaker Card View Styles-->
-    <style name="textStyle">
-        <item name="android:layout_weight">.333333</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:padding">3dp</item>
-        <item name="android:layout_marginLeft">5dp</item>
-        <item name="android:textColor">@color/dark_purple_900</item>
-        <item name="android:textSize">@dimen/cardTextSize</item>
-    </style>
-
-    <style name="eventCard">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_marginTop">2dp</item>
-        <item name="android:layout_marginBottom">2dp</item>
-    </style>
-
 
     <!--DON"T USE THESE STYLES!  DELETE SOON!  NOT APART OF ACTUAL DESIGN-->
 

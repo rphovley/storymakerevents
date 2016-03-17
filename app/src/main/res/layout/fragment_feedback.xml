@@ -49,7 +49,7 @@
                 android:text="@string/sCourseFeedback"
                 style="@style/clicakableCard"/>
         </android.support.v7.widget.CardView>
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -70,6 +70,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txtFeedbackSub"
                 android:paddingLeft="@dimen/tab_margin" />
-        </LinearLayout>
+        </LinearLayout>-->
     </LinearLayout>
 </LinearLayout>

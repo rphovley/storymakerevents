@@ -31,6 +31,7 @@ import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Speakers;
 import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
+import innatemobile.storymakerevents.Utils.AppController;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
 import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 
@@ -239,8 +240,8 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
         protected TextView txtPresentationName, txtSpeakerName, txtRoom, txtTime,
                 txtDayHeader, txtBreakoutName, txtFeedback, txtViewBio;
         protected TextView txtNotification, txtNextTitle, txtNextSpeaker, txtNextDescription, txtNextTime;
-        protected ImageView synch, imgAddClass;
-        protected View btnLayoutRemove, nextHomeCard;
+        protected ImageView synch, help, imgAddClass;
+        protected View btnLayoutRemove, nextHomeCard, fixedScheduleLayout;
         public UpcomingScheduleCardViewHolder(final View itemView) {
             super(itemView);
             txtPresentationName = (TextView) itemView.findViewById(R.id.txtPresentationTitle);
@@ -250,6 +251,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             txtDayHeader        = (TextView) itemView.findViewById(R.id.txtDayHeader);
             txtBreakoutName     = (TextView) itemView.findViewById(R.id.txtBreakoutName);
             btnLayoutRemove     = itemView.findViewById(R.id.btnLayoutRemoveFromSchedule);
+            fixedScheduleLayout = itemView.findViewById(R.id.fixedScheduleLayout);
             txtNotification     = (TextView) itemView.findViewById(R.id.txtNotification);
             txtNextTitle        = (TextView) itemView.findViewById(R.id.txtNextTitle);
             txtNextSpeaker      = (TextView) itemView.findViewById(R.id.txtNextSpeaker);
@@ -261,6 +263,8 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             nextHomeCard        = itemView.findViewById(R.id.nextHomeCard);
 
             synch = (ImageView) itemView.findViewById(R.id.synch);
+            help = (ImageView) itemView.findViewById(R.id.help);
+
             if(txtFeedback!=null){
                 txtFeedback.setOnClickListener(this);
             }
@@ -269,6 +273,9 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             }
             if(synch!=null) {
                 synch.setOnClickListener(this);
+            }
+            if(help!=null){
+                help.setOnClickListener(this);
             }
             if(btnLayoutRemove!=null){
                 btnLayoutRemove.setOnClickListener(this);
@@ -279,6 +286,9 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             }
             if(nextHomeCard!=null){
                 nextHomeCard.setOnClickListener(this);
+            }
+            if(fixedScheduleLayout!=null){
+                fixedScheduleLayout.setOnClickListener(this);
             }
 
         }
@@ -300,8 +310,14 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
                         Snackbar.make(v, "No Connection, please try again later.", Snackbar.LENGTH_LONG).show();
                     }
                     break;
+                case R.id.help:
+                    AppController.switchToHelp(activity, AppController.HOME_POS);
+                    break;
                 case R.id.btnLayoutRemoveFromSchedule:
-                    switchToPresentation();
+                    AppController.switchToPresentation(activity, schedulesList, this.getAdapterPosition());
+                    break;
+                case R.id.fixedScheduleLayout:
+                    AppController.switchToPresentation(activity, schedulesList, this.getAdapterPosition());
                     break;
                 case R.id.imgAddClass:
                     iUpcoming.addClass();
@@ -337,23 +353,6 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
                     return true;
             }
             return false;
-        }
-        public void switchToPresentation(){
-            DatabaseHandler dh = new DatabaseHandler(activity);
-            Intent i = new Intent(activity, PresentationActivity.class);
-            int id = schedulesList.get(this.getAdapterPosition()).schedule.getBreakout_id();
-            Breakouts breakout = schedulesList.get(this.getAdapterPosition()).breakout;
-            String start = breakout.getStartReadable();
-            String end = breakout.getEndReadable();
-            String day = breakout.getDayOfWeek();
-            i.putExtra(BreakoutAdapter.BREAKOUT_ID_TAG, id);
-            i.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, start);
-            i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, end);
-            i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, day);
-            i.putExtra(BreakoutAdapter.BREAKOUT_CAME_FROM_BREAKOUT, false);
-            i.putExtra(AddScheduleAdapter.PRESENTATION_ID, schedulesList.get(this.getAdapterPosition()).schedule.getPresentation_id());
-            dh.close();
-            activity.startActivity(i);
         }
         public void switchToFeedback(){
             DatabaseHandler dh = new DatabaseHandler(activity);

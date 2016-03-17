@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/margin"
-    android:orientation="vertical">
-    <innatemobile.storymakerevents.CustomViews.RobotoTextView
-        style="@style/defaultText.pageHeader"
-        android:id="@+id/txtPageHeader"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/sMySchedule"/>
-    <innatemobile.storymakerevents.CustomViews.RobotoTextView
-        style="@style/top_header_border"/>
-</LinearLayout>
+        android:clickable="true"
+        android:background="@drawable/help_selector"
+        android:layout_margin="@dimen/small_margin"
+        android:layout_gravity="right"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin"
+        android:orientation="vertical">
+        <innatemobile.storymakerevents.CustomViews.RobotoTextView
+            style="@style/defaultText.pageHeader"
+            android:id="@+id/txtPageHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/sMySchedule"/>
+        <innatemobile.storymakerevents.CustomViews.RobotoTextView
+            style="@style/top_header_border"/>
+    </LinearLayout>
+</FrameLayout>

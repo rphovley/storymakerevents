@@ -15,7 +15,15 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.List;
+
+import innatemobile.storymakerevents.Activities.HelpActivity;
 import innatemobile.storymakerevents.Activities.MainActivity;
+import innatemobile.storymakerevents.Activities.PresentationActivity;
+import innatemobile.storymakerevents.Adapters.AddScheduleAdapter;
+import innatemobile.storymakerevents.Adapters.BreakoutAdapter;
+import innatemobile.storymakerevents.Models.Breakouts;
+import innatemobile.storymakerevents.Models.ScheduleJoined;
 
 /**
  * Created by rphovley on 1/25/2016.
@@ -35,6 +43,7 @@ public class AppController extends Application {
 
     public static final String HIGHLIGHTED_POSITION_TAG = "highlighted_pos";
     public static final String SCHEDULE_ID_TAG = "schedule_id";
+    public static final String HELP_FROM_TAG = "help_from";
     public static boolean firstTimeFlash = false;
     /**********ACTIVITY TRANSITION VARIABLES****************/
 
@@ -65,12 +74,36 @@ public class AppController extends Application {
         return String.valueOf(SystemClock.currentThreadTimeMillis() - startTime);
     }
     /****************LOGGER****************/
+    /**********ACTIVITY TRANSITIONS****************/
     public static void switchToMain(Context c, int selectedTab, int schedule_id){
         Intent i = new Intent(c, MainActivity.class);
         i.putExtra(HIGHLIGHTED_POSITION_TAG, selectedTab);
         i.putExtra(SCHEDULE_ID_TAG, schedule_id);
         c.startActivity(i);
     }
+    public static void switchToPresentation(Context c, List<ScheduleJoined> schedulesList, int position){
+        DatabaseHandler dh = new DatabaseHandler(c);
+        Intent i = new Intent(c, PresentationActivity.class);
+        int id = schedulesList.get(position).schedule.getBreakout_id();
+        Breakouts breakout = schedulesList.get(position).breakout;
+        String start = breakout.getStartReadable();
+        String end = breakout.getEndReadable();
+        String day = breakout.getDayOfWeek();
+        i.putExtra(BreakoutAdapter.BREAKOUT_ID_TAG, id);
+        i.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, start);
+        i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, end);
+        i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, day);
+        i.putExtra(BreakoutAdapter.BREAKOUT_CAME_FROM_BREAKOUT, false);
+        i.putExtra(AddScheduleAdapter.PRESENTATION_ID, schedulesList.get(position).schedule.getPresentation_id());
+        dh.close();
+        c.startActivity(i);
+    }
+    public static void switchToHelp(Context c, int fromPage){
+        Intent i = new Intent(c, HelpActivity.class);
+        i.putExtra(HELP_FROM_TAG, fromPage);
+        c.startActivity(i);
+    }
+    /**********ACTIVITY TRANSITIONS****************/
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(getApplicationContext());

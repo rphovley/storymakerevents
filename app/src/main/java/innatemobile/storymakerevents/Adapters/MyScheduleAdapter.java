@@ -184,7 +184,7 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
     public class MyScheduleCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
         protected TextView txtPresentationName, txtSpeakerName, txtRoom, txtTime,
                 txtDayHeader, txtBreakoutName, txtEmptyTime, btnAddEmpty;
-        protected ImageView synch;
+        protected ImageView synch, help;
         protected View btnLayoutRemove, fixedScheduleLayout;
         protected TextView txtPageHeader;
 
@@ -202,8 +202,12 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
             fixedScheduleLayout = itemView.findViewById(R.id.fixedScheduleLayout);
             txtPageHeader       = (TextView) itemView.findViewById(R.id.txtPageHeader);
             synch = (ImageView) itemView.findViewById(R.id.synch);
+            help = (ImageView) itemView.findViewById(R.id.help);
             if(synch!=null) {
                 synch.setOnClickListener(this);
+            }
+            if(help!=null){
+                help.setOnClickListener(this);
             }
             if(btnAddEmpty!=null){
                 btnAddEmpty.setOnClickListener(this);
@@ -236,6 +240,9 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
                         Snackbar.make(v, "No Connection, please try again later.", Snackbar.LENGTH_LONG).show();
                     }
                     break;
+                case R.id.help:
+                    AppController.switchToHelp(activity, AppController.SCHEDULE_POS);
+                    break;
                 case R.id.btnAddEmpty:
                     DatabaseHandler dh = new DatabaseHandler(activity);
                     Intent i = new Intent(activity, AddScheduleActivity.class);
@@ -253,10 +260,10 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
                     activity.startActivity(i);
                     break;
                 case R.id.btnLayoutRemoveFromSchedule:
-                    goToPresentation(this.getAdapterPosition());
+                    AppController.switchToPresentation(activity, schedulesList, this.getAdapterPosition());
                     break;
                 case R.id.fixedScheduleLayout:
-                    goToPresentation(this.getAdapterPosition());
+                    AppController.switchToPresentation(activity, schedulesList, this.getAdapterPosition());
             }
         }
 
@@ -301,23 +308,7 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
         colorAnimation.start();
         AppController.firstTimeFlash = false;
     }
-    public void goToPresentation(int position){
-        DatabaseHandler dh = new DatabaseHandler(activity);
-        Intent i = new Intent(activity, PresentationActivity.class);
-        int id = schedulesList.get(position).schedule.getBreakout_id();
-        Breakouts breakout = schedulesList.get(position).breakout;
-        String start = breakout.getStartReadable();
-        String end = breakout.getEndReadable();
-        String day = breakout.getDayOfWeek();
-        i.putExtra(BreakoutAdapter.BREAKOUT_ID_TAG, id);
-        i.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, start);
-        i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, end);
-        i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, day);
-        i.putExtra(BreakoutAdapter.BREAKOUT_CAME_FROM_BREAKOUT, false);
-        i.putExtra(AddScheduleAdapter.PRESENTATION_ID, schedulesList.get(position).schedule.getPresentation_id());
-        dh.close();
-        activity.startActivity(i);
-    }
+
 
     public static List<ScheduleJoined> isBreakoutInSchedule(List<ScheduleJoined> mySchedule, Breakouts breakout, Context c){
         int index = 0;

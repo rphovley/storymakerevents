@@ -65,7 +65,7 @@ public class BioActivity extends AppCompatActivity {
         schedule_id = getIntent().getExtras().getInt(PresentationActivity.SCHEDULE_ID);
         DatabaseHandler dh = new DatabaseHandler(this);
         Speakers speaker = dh.getSpeaker(speaker_id);
-        Map config = new HashMap();
+        Map<String, String> config = new HashMap();
         config.put("cloud_name","innatemobile");
         config.put("api_key", "25355876463913");
         config.put("api_secret", "v9sw4llJArudRhzXc5oVhy-7FPE");

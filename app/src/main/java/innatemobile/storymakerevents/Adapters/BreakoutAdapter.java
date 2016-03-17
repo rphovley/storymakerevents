@@ -15,6 +15,7 @@ import innatemobile.storymakerevents.Activities.MainActivity;
 import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.Speakers;
 import innatemobile.storymakerevents.R;
+import innatemobile.storymakerevents.Utils.AppController;
 
 /**
  * Created by rphovley on 2/13/2016.
@@ -76,7 +77,7 @@ public class BreakoutAdapter  extends RecyclerView.Adapter<BreakoutAdapter.Break
 
     public class BreakoutCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         protected TextView txtBreakoutName, txtBreakoutTime, txtHeaderPage;
-        protected View cardBreakout;
+        protected View cardBreakout, help;
 
         public BreakoutCardViewHolder(final View itemView) {
             super(itemView);
@@ -84,6 +85,10 @@ public class BreakoutAdapter  extends RecyclerView.Adapter<BreakoutAdapter.Break
             txtBreakoutTime = (TextView) itemView.findViewById(R.id.breakoutTime);
             cardBreakout = itemView.findViewById(R.id.breakout_card);
             txtHeaderPage = (TextView) itemView.findViewById(R.id.txtPageHeader);
+            help = itemView.findViewById(R.id.help);
+            if(help!=null){
+                help.setOnClickListener(this);
+            }
             if(cardBreakout!=null) {
                 cardBreakout.setOnClickListener(this);
             }
@@ -104,6 +109,9 @@ public class BreakoutAdapter  extends RecyclerView.Adapter<BreakoutAdapter.Break
                     i.putExtra(BREAKOUT_DAY_TAG, day);
                     i.putExtra(BREAKOUT_CAME_FROM_BREAKOUT, true);
                     activity.startActivity(i);
+                    break;
+                case R.id.help:
+                    AppController.switchToHelp(activity, AppController.ADD_POS);
                     break;
             }
         }

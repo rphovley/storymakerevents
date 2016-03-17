@@ -204,7 +204,7 @@ public class RequestSpreadsheets {
 
         if(hasSpeaker && hasSchedule && hasBreakout && hasPresentation) {
             Intent i = new Intent(activity, MainActivity.class);
-            if (progress.isShowing()){
+            if (progress!=null && progress.isShowing()){
                 progress.dismiss();
             }
             activity.startActivity(i);

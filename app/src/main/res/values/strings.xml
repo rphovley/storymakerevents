@@ -29,4 +29,10 @@
     <string name="sFeedbackNotifications">Feedback Notifications</string>
     <string name="title_activity_bio">BioActivity</string>
     <string name="sFeedbackPres">Feedback</string>
+    <string name="title_activity_help">HelpActivity</string>
+    <string name="sTips">Tips</string>
+    <string name="sRemoveTip">To remove an item from your schedule press and hold the item, and then select \'REMOVE\' when prompted</string>
+    <string name="sUpcomingHelp">The \'Upcoming Schedule\' section tells you what events are coming up next.  This both includes presentations and other events like registration</string>
+    <string name="sNextClassHelp">The \'Next Class\' section tells you which presentation is coming up next in your schedule</string>
+    <string name="sDetailHelp">Tap on an item in your schedule to get more information about that item.</string>
 </resources>
