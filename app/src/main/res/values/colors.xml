@@ -21,6 +21,10 @@
     <drawable name="colorPrimaryDark">@color/colorPrimaryDark</drawable>
     <drawable name="colorPrimaryDarker">@color/colorPrimaryDarker</drawable>
 
+
+
+    <!--android:background="?attr/selectableItemBackground"-->
+    
     <!--DRAWABLES FOR ON CLICK CARDS-->
     <!--GO TO https://design.google.com/icons/ FOR ICON LINKS-->
     <!-- Material Design - Color Palette -->
