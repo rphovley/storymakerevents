@@ -27,4 +27,5 @@
     <dimen name="fixed_card_text_size">14sp</dimen>
     <dimen name="large_margin">20dp</dimen>
     <dimen name="sPresIconSize">36dp</dimen>
+    <dimen name="speaker_name_size">150dp</dimen>
 </resources>

@@ -73,7 +73,11 @@
                     android:textSize="@dimen/text_header"
                     android:text="Art Hovley"
                     android:id="@+id/txtNextSpeaker"
-                    android:layout_alignParentRight="true"/>
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/txtNextTitle"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="right"/>
             </RelativeLayout>
             <innatemobile.storymakerevents.CustomViews.RobotoTextView
                 style="@style/defaultText.light"

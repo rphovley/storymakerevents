@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.SharedPreferencesCompat;
@@ -40,7 +41,8 @@ public class SplashActivity extends AppCompatActivity implements RequestSpreadsh
     private static final String TAG_GET_PRESENTATION = "presentation";
     private static final String TAG_GET_BREAKOUT = "breakout";
     private static final String TAG_GET_SPEAKER = "speaker";
-    private boolean hasSchedule, hasSpeaker, hasBreakout, hasPresentation, hasNotification = false;
+    private static final int SPLASH_TIME_OUT = 5000;
+    private boolean hasSchedule, hasSpeaker, hasBreakout, hasPresentation, hasNotification, hasRequestFinished = false;
     private RequestSpreadsheets requester;
     View splash_logo;
     @Override
@@ -66,6 +68,7 @@ public class SplashActivity extends AppCompatActivity implements RequestSpreadsh
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("firstTimeSplash", true);
                 editor.apply();
+                requester.getSpreadsheetKeys();
             }else{
                 Snackbar.make(findViewById(R.id.splash_main), "No Connection, please try again later.", Snackbar.LENGTH_LONG).show();
                 Intent i = new Intent(this, MainActivity.class);
@@ -75,26 +78,27 @@ public class SplashActivity extends AppCompatActivity implements RequestSpreadsh
         } else {
             if(isConnected) {
                 requester = new RequestSpreadsheets(this, false, false, false);
+                requester.getSpreadsheetKeys();
             }else{
                 Snackbar.make(findViewById(R.id.splash_main), "No Internet Connection.", Snackbar.LENGTH_LONG).show();
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
             }
         }
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
-        /*getApplicationContext().deleteDatabase("storymakersSchedule");*/
-        if(isConnected) {
-            requester.getSpreadsheetKeys();
-        }else{
-            Snackbar.make(findViewById(R.id.splash_main), "No Internet Connection.", Snackbar.LENGTH_LONG).show();
-            Intent i = new Intent(this, MainActivity.class);
-            startActivity(i);
-        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(!hasRequestFinished) {
+                    requester.has_request_expired = true;
+                    AppController.switchToMain(SplashActivity.this, 0, 0);
+                }
+            }
+        }, SPLASH_TIME_OUT);
     }
 
     @Override
     public void communicateNotificationResult() {
-
+        hasRequestFinished = true;
     }
 }

@@ -30,6 +30,8 @@ public class RequestSpreadsheets {
     private ProgressDialog progress;
     private iRequestSheet iRequest;
 
+    public boolean has_request_expired = false;
+
     public RequestSpreadsheets(Activity activity, boolean isSynch, boolean isFirst, boolean keepScreen) {
         this.activity = activity;
         this.isSynch = isSynch;
@@ -65,9 +67,6 @@ public class RequestSpreadsheets {
                     getNotificationSpreadsheet(activity.getString(R.string.spreadsheet_url) + dh.getSpreadsheetKey(Spreadsheets.NOTIFICATIONS_SHEET));
                 }else{ //if it isn't the first time, and we aren't synching the data, send them to the main activity
                     getNotificationSpreadsheet(activity.getString(R.string.spreadsheet_url) + dh.getSpreadsheetKey(Spreadsheets.NOTIFICATIONS_SHEET));
-                    Intent i = new Intent(activity, MainActivity.class);
-                    activity.startActivity(i);
-                    activity.finish();
                     dh.close();
                 }
                 dh.close();
@@ -201,20 +200,21 @@ public class RequestSpreadsheets {
     }
 
     private void allComplete(){
-
-        if(hasSpeaker && hasSchedule && hasBreakout && hasPresentation) {
-            Intent i = new Intent(activity, MainActivity.class);
-            if (progress!=null && progress.isShowing()){
-                progress.dismiss();
+            if(!has_request_expired && hasSpeaker && hasSchedule && hasBreakout && hasPresentation) {
+                iRequest.communicateNotificationResult();
+                Intent i = new Intent(activity, MainActivity.class);
+                if (progress!=null && progress.isShowing()){
+                    progress.dismiss();
+                }
+                activity.startActivity(i);
+                activity.finish();
             }
-            activity.startActivity(i);
-            activity.finish();
-        }
+
     }
 
     private void notificationComplete(){
         iRequest.communicateNotificationResult();
-        if(!keepScreen) {
+        if(!keepScreen && !has_request_expired) {
             Intent i = new Intent(activity, MainActivity.class);
             activity.startActivity(i);
             activity.finish();

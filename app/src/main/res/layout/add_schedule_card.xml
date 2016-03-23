@@ -47,16 +47,17 @@
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:gravity="left"
-                        android:text="Presentation Name IS Really Long and can't" />
+                        android:text="" />
                     <innatemobile.storymakerevents.CustomViews.RobotoTextView
-                        android:clickable="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/cardTextSize"
-                        android:gravity="left"
+                        android:gravity="right"
                         android:text=""
                         android:id="@+id/txtSpeakerName"
-                        android:layout_alignParentRight="true" />
+                        android:layout_toRightOf="@+id/txtPresentationTitle"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
                 </RelativeLayout>
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
                     android:layout_width="wrap_content"
