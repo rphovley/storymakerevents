@@ -35,30 +35,30 @@
                 android:paddingLeft="@dimen/small_margin"
                 android:paddingRight="@dimen/small_margin"
                 android:paddingBottom="@dimen/small_margin">
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
                     <innatemobile.storymakerevents.CustomViews.RobotoTextView
                         android:clickable="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtPresentationTitle"
                         android:textSize="@dimen/cardTextSize"
-                        android:singleLine="true"
                         android:ellipsize="end"
                         android:gravity="left"
+                        app:fontName="RobotoCondensed-Bold.ttf"
                         android:text="" />
                     <innatemobile.storymakerevents.CustomViews.RobotoTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/cardTextSize"
-                        android:gravity="right"
                         android:text=""
                         android:id="@+id/txtSpeakerName"
                         android:layout_toRightOf="@+id/txtPresentationTitle"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true" />
-                </RelativeLayout>
+                </LinearLayout>
                 <innatemobile.storymakerevents.CustomViews.RobotoTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

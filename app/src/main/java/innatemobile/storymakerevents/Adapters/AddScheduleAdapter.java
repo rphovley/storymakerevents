@@ -68,8 +68,8 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
         }
         if(presentation!=null) {
             String presentationName = presentation.getTitle();
-            if(presentationName.length()>10){
-                presentationName = presentationName.substring(0,10).concat("...");
+            if(presentationName.length()>45){
+                presentationName = presentationName.substring(0,45).concat("...");
             }
             String description = presentation.getDescription();
             if(presentation.getDescription().length()>65){
