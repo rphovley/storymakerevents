@@ -10,7 +10,7 @@
     <string name="spreadsheet_url">https://spreadsheets.google.com/tq?key=</string>
     <string name="spreadsheet_key">1Y8jMldIfTCOdiirkINlMHJNij1C_ura01Ol40AwZxHs</string>
     <string name="sLDS">LDS</string>
-    <string name="sStorymakers">Storymakers</string>
+    <string name="sStorymakers">LDStorymakers</string>
     <string name="sConference">Conference</string>
     <string name="sNotificationDefault">Welcome to Storymakers 2016!  Click on the second tab to view your schedule.  Select the + button to add a class to your schedule!</string>
     <string name="sFirstClass">Add your first class</string>

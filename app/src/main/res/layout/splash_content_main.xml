@@ -23,11 +23,6 @@
         <innatemobile.storymakerevents.CustomViews.RobotoTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sLDS"
-            style="@style/splashStyle"/>
-        <innatemobile.storymakerevents.CustomViews.RobotoTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="@string/sStorymakers"
             style="@style/splashStyle"/>
         <innatemobile.storymakerevents.CustomViews.RobotoTextView
