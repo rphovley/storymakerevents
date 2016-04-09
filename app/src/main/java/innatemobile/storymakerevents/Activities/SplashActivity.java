@@ -24,6 +24,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import java.io.File;
+
 import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.AppController;
@@ -53,7 +55,7 @@ public class SplashActivity extends AppCompatActivity implements RequestSpreadsh
         if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT){
             splash_logo.setVisibility(View.GONE);
         }
-        System.setProperty("http.keepAlive", "false");
+        disableConnectionReuseIfNecessary();
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(this);
         // run your one time code
@@ -100,5 +102,11 @@ public class SplashActivity extends AppCompatActivity implements RequestSpreadsh
     @Override
     public void communicateNotificationResult() {
         hasRequestFinished = true;
+    }
+    private void disableConnectionReuseIfNecessary() {
+        // HTTP connection reuse which was buggy pre-froyo
+        if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {
+            System.setProperty("http.keepAlive", "false");
+        }
     }
 }

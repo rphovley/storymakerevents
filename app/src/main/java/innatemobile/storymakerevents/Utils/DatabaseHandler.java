@@ -266,6 +266,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * SCHEDULE METHODS
      *******************/
     public void addSchedule(Schedules schedule) {
+        if(!isScheduleAlreadyInSchedule(schedule.getId())) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues content = new ContentValues();
+            content.put(SCHEDULE_ID, schedule.getId());
+            content.put(SCHEDULE_PRESENTATION_ID, schedule.getPresentation_id());
+            content.put(SCHEDULE_BREAKOUT_ID, schedule.getBreakout_id());
+            content.put(SCHEDULE_SECTION, schedule.getSection_id());
+            content.put(SCHEDULE_LOCATION, schedule.getLocation());
+            content.put(SCHEDULE_IS_PRESENTATION, schedule.isPresentationDB());
+            db.insert(TABLE_SCHEDULE, null, content);
+            db.close();
+        }else{
+            updateSchedule(schedule);
+        }
+    }
+    public void updateSchedule(Schedules schedule){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues content = new ContentValues();
         content.put(SCHEDULE_ID, schedule.getId());
@@ -274,10 +290,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         content.put(SCHEDULE_SECTION, schedule.getSection_id());
         content.put(SCHEDULE_LOCATION, schedule.getLocation());
         content.put(SCHEDULE_IS_PRESENTATION, schedule.isPresentationDB());
-        db.insert(TABLE_SCHEDULE, null, content);
+        db.update(TABLE_MY_SCHEDULE, content, SCHEDULE_ID + "=?", new String[]{String.valueOf(schedule.getId())});
         db.close();
     }
-
+    public boolean isScheduleAlreadyInSchedule(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor= db.query(TABLE_SCHEDULE,new String[] {SCHEDULE_ID},
+                SCHEDULE_ID + "=?", new String[]{String.valueOf(id)},null,null,null,null);
+        if (cursor != null && cursor.getCount() > 0) {
+            db.close();
+            return true;
+        }
+        db.close();
+        return false;
+    }
     public Schedules getSchedule(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         //query the database to return the spreadsheet key for the spreadsheet name
@@ -422,6 +448,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     /********************MY SCHEDULE METHODS*******************/
     public void addMySchedule(Schedules schedule){
+        if(!isScheduleAlreadyInMySchedule(schedule.getId())) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues content = new ContentValues();
+            content.put(SCHEDULE_ID, schedule.getId());
+            content.put(SCHEDULE_PRESENTATION_ID, schedule.getPresentation_id());
+            content.put(SCHEDULE_BREAKOUT_ID, schedule.getBreakout_id());
+            content.put(SCHEDULE_SECTION, schedule.getSection_id());
+            content.put(SCHEDULE_LOCATION, schedule.getLocation());
+            content.put(SCHEDULE_IS_PRESENTATION, schedule.isPresentationDB());
+            db.insert(TABLE_MY_SCHEDULE, null, content);
+            db.close();
+        }else{
+            updateMySchedule(schedule);
+        }
+    }
+    public void updateMySchedule(Schedules schedule){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues content = new ContentValues();
         content.put(SCHEDULE_ID, schedule.getId());
@@ -430,8 +472,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         content.put(SCHEDULE_SECTION, schedule.getSection_id());
         content.put(SCHEDULE_LOCATION, schedule.getLocation());
         content.put(SCHEDULE_IS_PRESENTATION, schedule.isPresentationDB());
-        db.insert(TABLE_MY_SCHEDULE, null, content);
+        db.update(TABLE_MY_SCHEDULE, content, SCHEDULE_ID + "=?", new String[]{String.valueOf(schedule.getId())});
         db.close();
+    }
+    public boolean isScheduleAlreadyInMySchedule(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor= db.query(TABLE_MY_SCHEDULE,new String[] {SCHEDULE_ID},
+                SCHEDULE_ID + "=?", new String[]{String.valueOf(id)},null,null,null,null);
+        if (cursor != null && cursor.getCount() > 0) {
+            db.close();
+            return true;
+        }
+        db.close();
+        return false;
     }
     public void removeFromSchedule(int presentation_id) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -468,7 +521,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_MY_SCHEDULE +
                 " my JOIN " + TABLE_BREAKOUTS + " br ON my." + SCHEDULE_BREAKOUT_ID + "=br." + BREAKOUT_ID +
                 " JOIN " + TABLE_PRESENTATIONS + " pr ON my." + SCHEDULE_PRESENTATION_ID + "= pr." + PRESENTATION_ID +
-                " JOIN " + TABLE_SPEAKERS + " s ON pr." + PRESENTATION_SPEAKER_ID + "= s." + SPEAKER_ID+
+                " LEFT JOIN " + TABLE_SPEAKERS + " s ON pr." + PRESENTATION_SPEAKER_ID + "= s." + SPEAKER_ID+
                 " ORDER BY " + "br. " + BREAKOUT_DATE + ", br." +BREAKOUT_START;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -500,10 +553,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 presentation.setSpeaker_id(cursor.getInt(14));
                 presentation.setIsIntensive(cursor.getInt(15));
                 presentation.setIsKeynote(cursor.getInt(16));
-                speaker.setId(Integer.parseInt(cursor.getString(17)));
-                speaker.setName(cursor.getString(18));
-                speaker.setBio(cursor.getString(19));
-                speaker.setImage(cursor.getString(20));
+                if(cursor.getString(17)!=null) { //make sure that the schedule item has a speaker
+                    speaker.setId(Integer.parseInt(cursor.getString(17)));
+                    speaker.setName(cursor.getString(18));
+                    speaker.setBio(cursor.getString(19));
+                    speaker.setImage(cursor.getString(20));
+                }
                 ScheduleJoined scheduleJoined = new ScheduleJoined(schedule, breakouts, presentation, speaker);
                 scheduleList.add(scheduleJoined);
             }while(cursor.moveToNext());
@@ -599,7 +654,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_MY_SCHEDULE +
                 " my JOIN " + TABLE_BREAKOUTS + " br ON my." + SCHEDULE_BREAKOUT_ID + "=br." + BREAKOUT_ID +
                 " JOIN " + TABLE_PRESENTATIONS + " pr ON my." + SCHEDULE_PRESENTATION_ID + "= pr." + PRESENTATION_ID +
-                " JOIN " + TABLE_SPEAKERS + " s ON pr." + PRESENTATION_SPEAKER_ID + "= s." + SPEAKER_ID+
+                " LEFT JOIN " + TABLE_SPEAKERS + " s ON pr." + PRESENTATION_SPEAKER_ID + "= s." + SPEAKER_ID+
                 " WHERE br." + BREAKOUT_DATE +" || br." + BREAKOUT_START + " >= DateTime(?" + ")" +
                 " ORDER BY " + "br. " + BREAKOUT_DATE + ", br." +BREAKOUT_START + " LIMIT 3";
         Cursor cursor = db.rawQuery(selectQuery, new String[]{sTime});
@@ -626,10 +681,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 presentation.setSpeaker_id(cursor.getInt(14));
                 presentation.setIsIntensive(cursor.getInt(15));
                 presentation.setIsKeynote(cursor.getInt(16));
-                speaker.setId(Integer.parseInt(cursor.getString(17)));
-                speaker.setName(cursor.getString(18));
-                speaker.setBio(cursor.getString(19));
-                speaker.setImage(cursor.getString(20));
+                if(cursor.getString(17)!=null) { //in case the schedule item has no speaker
+                    speaker.setId(Integer.parseInt(cursor.getString(17)));
+                    speaker.setName(cursor.getString(18));
+                    speaker.setBio(cursor.getString(19));
+                    speaker.setImage(cursor.getString(20));
+                }
                 ScheduleJoined scheduleJoined = new ScheduleJoined(schedule, breakouts, presentation, speaker);
                 scheduleList.add(scheduleJoined);
             }while(cursor.moveToNext());
@@ -670,6 +727,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     /********************BREAKOUT METHODS*******************/
     public void addBreakout(Breakouts breakout){
+        if(!isAlreadyInBreakout(breakout.getId())) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues content = new ContentValues();
+            content.put(BREAKOUT_ID, breakout.getId());
+            content.put(BREAKOUT_START, breakout.getStartString());
+            content.put(BREAKOUT_END, breakout.getStringEnd());
+            content.put(BREAKOUT_DATE, breakout.getStringDate());
+            content.put(BREAKOUT_NAME, breakout.getBreakoutName());
+            db.insert(TABLE_BREAKOUTS, null, content);
+            db.close();
+        }else{
+            updateBreakout(breakout);
+        }
+    }
+    public void updateBreakout(Breakouts breakout){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues content = new ContentValues();
         content.put(BREAKOUT_ID, breakout.getId());
@@ -677,8 +749,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         content.put(BREAKOUT_END, breakout.getStringEnd());
         content.put(BREAKOUT_DATE, breakout.getStringDate());
         content.put(BREAKOUT_NAME, breakout.getBreakoutName());
-        db.insert(TABLE_BREAKOUTS, null, content);
+        db.update(TABLE_BREAKOUTS,content, BREAKOUT_ID + "=?", new String[]{String.valueOf(breakout.getId())} );
         db.close();
+    }
+    public boolean isAlreadyInBreakout(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor= db.query(TABLE_BREAKOUTS,new String[] {BREAKOUT_ID},
+                BREAKOUT_ID + "=?", new String[]{String.valueOf(id)},null,null,null,null);
+        if (cursor != null && cursor.getCount() > 0) {
+            db.close();
+            return true;
+        }
+        db.close();
+        return false;
+
     }
     public Breakouts getBreakout(int id){
         SQLiteDatabase db = this.getReadableDatabase();

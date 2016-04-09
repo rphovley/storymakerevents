@@ -309,19 +309,22 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
         AppController.firstTimeFlash = false;
     }
 
-
+    /**
+     * Iterates over the schedule for the user and determines if the breakout passed into the function
+     * is in the users schedule.  It does this by iterating over their schedule while mySchedTime is less
+     * than or equal to the breakout time
+     * */
     public static List<ScheduleJoined> isBreakoutInSchedule(List<ScheduleJoined> mySchedule, Breakouts breakout, Context c){
         int index = 0;
         Boolean isBreakoutInSchedule = false;
         Date mySchedTime = new Date(0);
-        //LinkedHashMapIndex<String, Schedules> tests = dh.getAllMyScheduleHash();
         AppController.logTimes("BEFORE INDEX TEST");
 
         while (!isBreakoutInSchedule && mySchedTime.getTime() <= breakout.getDateAndStartTime().getTime()){ //while we are still looking for the time
             //gets the time for the schedule item currently being checked
-            if(mySchedule.get(index)!=null) {
+            if (mySchedule.get(index) != null) {
                 Breakouts mySchedBreakout = mySchedule.get(index).breakout;
-                mySchedTime.setTime(mySchedBreakout.getDateAndStartTime().getTime());
+                mySchedTime.setTime(mySchedBreakout.getDateAndStartTime().getTime()); //mySchedTime is an index of sorts, we are going up the values until the time is greater than the breakout time
                 Date test = breakout.getDateAndStartTime();
                 Date test2 = mySchedTime;
                 if (mySchedule.get(index).schedule.isPresentation() && test.getTime() == test2.getTime()) {

@@ -100,6 +100,7 @@ public class RequestSpreadsheets {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("TAG", "ERROR getting speaker", error);
+                allComplete();
             }
         });
         AppController.getInstance().addToRequestQueue(strReq, TAG_REQUEST_STRING);
@@ -123,6 +124,7 @@ public class RequestSpreadsheets {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("TAG", "ERROR getting schedule", error);
+                allComplete();
             }
         });
         AppController.getInstance().addToRequestQueue(strReq, TAG_GET_SCHEDULE);
@@ -146,6 +148,7 @@ public class RequestSpreadsheets {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("TAG", "ERROR getting breakout", error);
+                allComplete();
             }
         });
         AppController.getInstance().addToRequestQueue(strReq, TAG_GET_BREAKOUT);
@@ -194,6 +197,7 @@ public class RequestSpreadsheets {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("TAG", "ERROR getting notifications", error);
+                allComplete();
             }
         });
         AppController.getInstance().addToRequestQueue(strReq, TAG_REQUEST_STRING);

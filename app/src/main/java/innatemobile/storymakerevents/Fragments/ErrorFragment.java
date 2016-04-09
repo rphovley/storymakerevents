@@ -31,8 +31,8 @@ public class ErrorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_synch_error, container, false);
-        ImageView synchSched = (ImageView) view.findViewById(R.id.imgSyncSchedule);
-        synchSched.setOnClickListener(new View.OnClickListener() {
+        View syncPage = view.findViewById(R.id.synchImgContainer);
+        syncPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ConnectivityManager cm =

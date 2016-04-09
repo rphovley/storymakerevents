@@ -225,7 +225,7 @@ public class ParseJSON {
                 value = row.getJSONObject(i).getString("v");
                 fValue = row.getJSONObject(i).getString("f");
             }catch(JSONException e){
-                Log.d("PARSE", "ERROR GETTING VALUE FROM schedule row", e);
+                Log.d("PARSE", "ERROR GETTING VALUE FROM breakout row", e);
             }
             switch (i) {
                 case COLUMN_BREAKOUT_NAME:
@@ -327,7 +327,7 @@ public class ParseJSON {
                     }
                 }
             } catch (JSONException e) {
-                Log.d(TAG, "Failed to parse value in object in ParseJson.uploadSheetPresentations() ", e);
+                Log.d(TAG, "Failed to parse value in object in ParseJson.uploadSheetPresentations().notifications ", e);
             }
         }
         dh.addNotification(notifications);
