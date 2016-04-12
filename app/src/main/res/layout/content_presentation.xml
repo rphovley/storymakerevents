@@ -157,6 +157,18 @@
                     android:id="@+id/txtLocation"
                     android:text="Location"
                     android:layout_height="match_parent" />
+                <innatemobile.storymakerevents.CustomViews.RobotoTextView
+                    android:id="@+id/txtMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:textAllCaps="true"
+                    android:clickable="true"
+                    android:textColor="@color/text_selector"
+                    app:fontName="RobotoCondensed-Regular.ttf"
+                    android:text="@string/sMapLink"
+                    android:layout_gravity="center_vertical" />
             </LinearLayout>
             <!--LOCATION-->
 

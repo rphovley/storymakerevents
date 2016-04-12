@@ -19,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -47,7 +48,8 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
     ImageView imgUpNav;
     Speakers speaker;
 
-    TextView txtPresentationName, txtPresentationDescription, txtLocation, txtTime, txtSpeaker, txtViewBio, txtFeedback;
+    TextView txtPresentationName, txtPresentationDescription, txtLocation, txtTime,
+            txtSpeaker, txtViewBio, txtFeedback, txtMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +88,9 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
         txtSpeaker                 = (TextView) findViewById(R.id.txtSpeakerName);
         txtViewBio                 = (TextView) findViewById(R.id.txtViewBio);
         txtFeedback                = (TextView) findViewById(R.id.txtFeedback);
+        txtMap                     = (TextView) findViewById(R.id.txtMap);
         txtFeedback.setOnClickListener(this);
-
+        txtMap.setOnClickListener(this);
         if(speaker!=null && speaker.getName()!=null) {
             txtViewBio.setOnClickListener(this);
         }else{
@@ -154,6 +157,9 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
             case R.id.txtViewBio:
                 switchToBio();
                 break;
+            case R.id.txtMap:
+                openBrowser();
+                break;
         }
     }
 
@@ -176,5 +182,18 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
+    }
+
+    public void openBrowser(){
+        DatabaseHandler dh = new DatabaseHandler(this);
+        String url = dh.getSpreadsheetLink(Spreadsheets.MAP_LINK);
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        if(url!=null) {
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        }else{
+            Toast.makeText(this,"Your device needs to resync to get the map.  Go to the main page, and sync your schedule",Toast.LENGTH_LONG).show();
+        }
+
     }
 }

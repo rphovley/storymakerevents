@@ -29,6 +29,7 @@
     <string name="sFeedbackNotifications">Feedback Notifications</string>
     <string name="title_activity_bio">BioActivity</string>
     <string name="sFeedbackPres">Feedback</string>
+    <string name="sMapLink">Map</string>
     <string name="title_activity_help">HelpActivity</string>
     <string name="sTips">Tips</string>
     <string name="sRemoveTip">To remove an item from your schedule press and hold the item, and then select \'REMOVE\' when prompted</string>

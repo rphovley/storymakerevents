@@ -12,6 +12,7 @@ public class Spreadsheets {
     public static final String NOTIFICATIONS_SHEET = "Notifications";
     public static final String CONFERENCE_SHEET    = "Conference Feedback";
     public static final String COURSE_SHEET        = "Course Feedback";
+    public static final String MAP_LINK            = "Conference Map";
 
     private int id;
     private String name;

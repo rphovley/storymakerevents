@@ -113,6 +113,7 @@ public class ParseJSON {
                 switch(i){
                     case COLUMN_SHEET_ID:
                         sheet.setId((int) Float.parseFloat(value));
+                        break;
                     case COLUMN_SHEET_NAME:
                         sheet.setName(value);
                         break;

@@ -446,8 +446,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
     /********************SCHEDULE METHODS*******************/
 
+
+
     /********************MY SCHEDULE METHODS*******************/
-    public void addMySchedule(Schedules schedule){
+    public void addMySchedule(Schedules schedule){ //TODO: merge schedule and my schedule so that my schedule is just a meta tag to the schedule table
         if(!isScheduleAlreadyInMySchedule(schedule.getId())) {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues content = new ContentValues();

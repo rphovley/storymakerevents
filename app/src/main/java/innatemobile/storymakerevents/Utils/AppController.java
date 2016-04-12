@@ -22,6 +22,11 @@ import innatemobile.storymakerevents.Adapters.BreakoutAdapter;
 import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.ScheduleJoined;
 
+//TODO add header comments to functions
+//TODO group and order functions for better organization
+//TODO toggle the "Add Class" and "Remove Class" on the PresentationActivity Page
+//TODO add link to External page for the conference map
+
 /**
  * Created by rphovley on 1/25/2016.
  * AndroidHive tutorial http://www.androidhive.info/2014/05/android-working-with-volley-library-1/ for volley related items
