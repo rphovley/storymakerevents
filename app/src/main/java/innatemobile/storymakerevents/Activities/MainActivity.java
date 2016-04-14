@@ -117,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
             }
         });
     }
-
     /**
     * Sets up the tab icons to have correct colors, especially on older devices
     * */
@@ -255,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
 
     }
 
+    /*************************VIEW PAGER**************************************************/
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -293,6 +293,8 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         public CharSequence getPageTitle(int position) {
             return "";        }
     }
+
+    /*************************VIEW PAGER**************************************************/
 
 
 }

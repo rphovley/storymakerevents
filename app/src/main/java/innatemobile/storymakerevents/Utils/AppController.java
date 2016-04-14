@@ -26,10 +26,8 @@ import innatemobile.storymakerevents.Models.ScheduleJoined;
 //TODO add header comments to functions
 //TODO group and order functions for better organization
 //TODO toggle the "Add Class" and "Remove Class" on the PresentationActivity Page
+//TODO fix the Samsung SDk 17, 4.2, android volley bug
 
-//TODO Refactor Activity AddSchedule
-//TODO Refactor Activity Main
-//TODO Refactor Activity Splash
 //TODO Refactor Adapter AddSchedule
 //TODO Refactor Adapter Breakout
 //TODO Refactor Adapter MySchedule

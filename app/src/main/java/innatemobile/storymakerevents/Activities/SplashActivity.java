@@ -35,16 +35,13 @@ import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 
 /**
  * Created by rphovley on 1/29/2016.
+ * The splash activity is the initial screen that appears
+ * when the user opens the app.  It requests the scheduling information.
  */
 public class SplashActivity extends AppCompatActivity implements RequestSpreadsheets.iRequestSheet{
 
-    private static final String TAG_REQUEST_STRING = "request";
-    private static final String TAG_GET_SCHEDULE = "schedule";
-    private static final String TAG_GET_PRESENTATION = "presentation";
-    private static final String TAG_GET_BREAKOUT = "breakout";
-    private static final String TAG_GET_SPEAKER = "speaker";
     private static final int SPLASH_TIME_OUT = 5000;
-    private boolean hasSchedule, hasSpeaker, hasBreakout, hasPresentation, hasNotification, hasRequestFinished = false;
+    private boolean hasRequestFinished = false;
     private RequestSpreadsheets requester;
     View splash_logo;
     @Override
@@ -52,7 +49,7 @@ public class SplashActivity extends AppCompatActivity implements RequestSpreadsh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_main);
         splash_logo = findViewById(R.id.splash_logo);
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT){
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT){  //svg problem for splash image on devices pre kitkat
             splash_logo.setVisibility(View.GONE);
         }
         disableConnectionReuseIfNecessary();
@@ -103,6 +100,10 @@ public class SplashActivity extends AppCompatActivity implements RequestSpreadsh
     public void communicateNotificationResult() {
         hasRequestFinished = true;
     }
+    /**
+     * Helps to fix a volley bug with phones that are older.  Still doesn't fix the
+     * problem with devices that are Samsung version 4.2, SDK 17.  Like the SG3
+     * */
     private void disableConnectionReuseIfNecessary() {
         // HTTP connection reuse which was buggy pre-froyo
         if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {

@@ -16,7 +16,10 @@ import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.RequestSpreadsheets;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This Fragment is used to display on the main page when the app
+ * has not received all of the scheduling information it needs.  The
+ * only option presented is to sync the schedule to attempt to get the
+ * needed information
  */
 public class ErrorFragment extends Fragment {
 
@@ -25,12 +28,20 @@ public class ErrorFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_synch_error, container, false);
+        view = inflater.inflate(R.layout.fragment_synch_error, container, false);
+        bindViews();
+        return view;
+    }
+
+    /**
+     * Binds the views to the data
+     * */
+    public void bindViews(){
         View syncPage = view.findViewById(R.id.synchImgContainer);
         syncPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,8 +60,5 @@ public class ErrorFragment extends Fragment {
                 }
             }
         });
-        return view;
-
     }
-
 }

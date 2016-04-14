@@ -35,7 +35,10 @@ import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.AppController;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
-
+/**
+ * Activity to display a particular presentations information
+ * Contains helpful links to the presenters bio, an add class link, a map link, and a feedback link
+ * */
 public class PresentationActivity extends AppCompatActivity implements View.OnClickListener{
     /************Class Scope Variables**********/
 

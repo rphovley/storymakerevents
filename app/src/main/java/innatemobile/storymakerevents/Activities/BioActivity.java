@@ -19,7 +19,9 @@ import innatemobile.storymakerevents.Models.Speakers;
 import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.AppController;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
-
+/**
+ * Activity to display a particular speakers information (bio and image)
+ * */
 public class BioActivity extends AppCompatActivity {
     /************Class Scope Variables**********/
     final String IMAGE_URL = "http://res.cloudinary.com/innatemobile/image/upload/";
