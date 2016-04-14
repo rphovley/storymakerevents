@@ -37,24 +37,31 @@ import innatemobile.storymakerevents.Utils.AppController;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
 
 public class PresentationActivity extends AppCompatActivity implements View.OnClickListener{
-    public static final String SPEAKER_ID = "speaker_id";
-    public  static final String SCHEDULE_ID = "schedule_id" ;
-    String sStart;
-    String sEnd;
-    String sDay;
-    int breakoutID;
+    /************Class Scope Variables**********/
+
+
     Presentations pres;
     List<Schedules> sched;
-    ImageView imgUpNav;
     Speakers speaker;
+    Breakouts breakoutStart, breakoutEnd;
 
+    /*Views*/
     TextView txtPresentationName, txtPresentationDescription, txtLocation, txtTime,
             txtSpeaker, txtViewBio, txtFeedback, txtMap;
+    /************Class Scope Variables**********/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_presentation);
-
+        initToolbar();
+        getPresentationInfo(); //gets information from the database and extras for the presentation
+        bindViews();
+    }
+    /**
+     * Creates the toolbar at the top of the presentation page
+     * */
+    public void initToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,22 +72,31 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimaryDarkest));
         }
-        breakoutID = getIntent().getExtras().getInt(BreakoutAdapter.BREAKOUT_ID_TAG);
-        sStart = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_START_TAG);
-        sEnd = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_END_TAG);
-        sDay = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_DAY_TAG);
-        int pres_id = getIntent().getExtras().getInt(AddScheduleAdapter.PRESENTATION_ID);
+    }
+    /**
+     * get information about the presentation from intent extras and from database
+     * */
+    public void getPresentationInfo(){
+        int breakoutID = getIntent().getExtras().getInt(BreakoutAdapter.BREAKOUT_ID_TAG);
+        int presID = getIntent().getExtras().getInt(AddScheduleAdapter.PRESENTATION_ID);
+        String sStart = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_START_TAG);
+        String sEnd = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_END_TAG);
+        String sDay = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_DAY_TAG);
         DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
-        pres = dh.getPresentation(pres_id);
-        sched = dh.getScheduleByBreakoutPres(breakoutID, pres_id);
+        pres = dh.getPresentation(presID);
+        sched = dh.getScheduleByBreakoutPres(breakoutID, presID);
         if(pres.isIntensive()==1){
-            sched = dh.getScheduleIntByPresentation(pres_id, sched.get(0).getSection_id());
+            sched = dh.getScheduleIntByPresentation(presID, sched.get(0).getSection_id());
         }
-        Breakouts start = dh.getBreakout(sched.get(0).getBreakout_id());
-        Breakouts end = dh.getBreakout(sched.get(sched.size() - 1).getBreakout_id());
-        String time = start.getDayOfWeek() + " " + start.getStartReadable() + "-" + end.getEndReadable();
         speaker = dh.getSpeaker(pres.getSpeaker_id());
-
+        breakoutStart = dh.getBreakout(sched.get(0).getBreakout_id());
+        breakoutEnd = dh.getBreakout(sched.get(sched.size() - 1).getBreakout_id());
+        dh.close();
+    }
+    /**
+     * bind data to the views in the layout
+     * */
+    public void bindViews(){
         txtPresentationName        = (TextView) findViewById(R.id.txtPresentationTitle);
         txtPresentationDescription = (TextView) findViewById(R.id.txtPresentationDescription);
         txtLocation                = (TextView) findViewById(R.id.txtLocation);
@@ -100,13 +116,13 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
         txtPresentationName.setText(pres.getTitle());
         txtPresentationDescription.setText(pres.getDescription());
         txtLocation.setText(sched.get(0).getLocation());
+
+        String time = breakoutStart.getDayOfWeek() + " " + breakoutStart.getStartReadable() + "-" + breakoutEnd.getEndReadable();
         txtTime.setText(time);
         if(speaker!=null) {
             txtSpeaker.setText(speaker.getName());
         }
-        dh.close();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -147,30 +163,25 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
 
         return(super.onOptionsItemSelected(item));
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.txtFeedback:
-                switchToFeedback();
+                googleFeedback();
                 break;
             case R.id.txtViewBio:
-                switchToBio();
+                AppController.switchToBio(this, speaker.getId(), sched.get(0).getId());
                 break;
             case R.id.txtMap:
-                openBrowser();
+                openMap();
                 break;
         }
     }
 
-    public void switchToBio(){
-        Intent i = new Intent(getApplication(), BioActivity.class);
-        i.putExtra(SPEAKER_ID, speaker.getId());
-        i.putExtra(SCHEDULE_ID, sched.get(0).getId());
-        startActivity(i);
-    }
-
-    public void switchToFeedback(){
+    /**
+     * opens the browser to the feedback for the particular presenter
+     * */
+    public void googleFeedback(){
         DatabaseHandler dh = new DatabaseHandler(this);
         String url = dh.getSpreadsheetLink(Spreadsheets.COURSE_SHEET);
         url += dh.getSpreadsheetKey(Spreadsheets.COURSE_SHEET);
@@ -184,7 +195,10 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
         startActivity(i);
     }
 
-    public void openBrowser(){
+    /**
+     * opens the browser for the map
+     * */
+    public void openMap(){
         DatabaseHandler dh = new DatabaseHandler(this);
         String url = dh.getSpreadsheetLink(Spreadsheets.MAP_LINK);
         Intent i = new Intent(Intent.ACTION_VIEW);

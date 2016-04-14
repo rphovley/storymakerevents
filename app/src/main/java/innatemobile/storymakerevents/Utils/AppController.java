@@ -14,6 +14,7 @@ import com.android.volley.toolbox.Volley;
 
 import java.util.List;
 
+import innatemobile.storymakerevents.Activities.BioActivity;
 import innatemobile.storymakerevents.Activities.HelpActivity;
 import innatemobile.storymakerevents.Activities.MainActivity;
 import innatemobile.storymakerevents.Activities.PresentationActivity;
@@ -25,7 +26,24 @@ import innatemobile.storymakerevents.Models.ScheduleJoined;
 //TODO add header comments to functions
 //TODO group and order functions for better organization
 //TODO toggle the "Add Class" and "Remove Class" on the PresentationActivity Page
-//TODO add link to External page for the conference map
+
+//TODO Refactor Activity AddSchedule
+//TODO Refactor Activity Help
+//TODO Refactor Activity Main
+//TODO Refactor Activity Splash
+//TODO Refactor Adapter AddSchedule
+//TODO Refactor Adapter Breakout
+//TODO Refactor Adapter MySchedule
+//TODO Refactor Adapter UpcomingSchedule
+//TODO Refactor Fragment Breakout
+//TODO Refactor Fragment Error
+//TODO Refactor Fragment Feedback
+//TODO Refactor Fragment Home
+//TODO Refactor Fragment MySchedule
+
+
+
+
 
 /**
  * Created by rphovley on 1/25/2016.
@@ -46,6 +64,8 @@ public class AppController extends Application {
     public static final String HIGHLIGHTED_POSITION_TAG = "highlighted_pos";
     public static final String SCHEDULE_ID_TAG = "schedule_id";
     public static final String HELP_FROM_TAG = "help_from";
+    public static final String SPEAKER_ID = "speaker_id";
+    public  static final String SCHEDULE_ID = "schedule_id" ;
     public static boolean firstTimeFlash = false;
     /**********ACTIVITY TRANSITION VARIABLES****************/
 
@@ -77,12 +97,18 @@ public class AppController extends Application {
     }
     /****************LOGGER****************/
     /**********ACTIVITY TRANSITIONS****************/
+    /**
+     * Switches from current activity to the main activity
+     * */
     public static void switchToMain(Context c, int selectedTab, int schedule_id){
         Intent i = new Intent(c, MainActivity.class);
         i.putExtra(HIGHLIGHTED_POSITION_TAG, selectedTab);
         i.putExtra(SCHEDULE_ID_TAG, schedule_id);
         c.startActivity(i);
     }
+    /**
+     * Switches from current activity to the presentation activity
+     * */
     public static void switchToPresentation(Context c, List<ScheduleJoined> schedulesList, int position){
         DatabaseHandler dh = new DatabaseHandler(c);
         Intent i = new Intent(c, PresentationActivity.class);
@@ -100,9 +126,21 @@ public class AppController extends Application {
         dh.close();
         c.startActivity(i);
     }
+    /**
+     * Switches from current activity to the help activity
+     * */
     public static void switchToHelp(Context c, int fromPage){
         Intent i = new Intent(c, HelpActivity.class);
         i.putExtra(HELP_FROM_TAG, fromPage);
+        c.startActivity(i);
+    }
+    /**
+     * Switches from current activity to the bio activity
+     * */
+    public static void switchToBio(Context c, int speaker_id, int schedule_id){
+        Intent i = new Intent(c, BioActivity.class);
+        i.putExtra(SPEAKER_ID, speaker_id);
+        i.putExtra(SCHEDULE_ID, schedule_id);
         c.startActivity(i);
     }
     /**********ACTIVITY TRANSITIONS****************/
@@ -129,17 +167,9 @@ public class AppController extends Application {
         getRequestQueue().add(req);
     }
 
-    public <T> void addToRequestQueue(Request<T> req) {
-        req.setTag(TAG);
-        getRequestQueue().add(req);
-    }
-
-    public void cancelPendingRequests(Object tag) {
-        if (mRequestQueue != null) {
-            mRequestQueue.cancelAll(tag);
-        }
-    }
-
+    /**
+     * Makes sure the app has all the information it needs to function correctly.
+     * */
     public static boolean checkDatabaseForContent(Context c){
         DatabaseHandler dh = new DatabaseHandler(c);
         if(dh.getAllSchedule() == null || dh.getAllSchedule().size() == 0){

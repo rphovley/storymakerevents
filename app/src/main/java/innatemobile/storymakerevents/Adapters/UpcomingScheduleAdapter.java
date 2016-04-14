@@ -323,15 +323,19 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
                     iUpcoming.addClass();
                     break;
                 case R.id.txtFeedback:
-                    switchToFeedback();
+                    googleFeedback();
                     break;
                 case R.id.txtViewBio:
-                    switchToBio();
+                    Schedules bioSched = dh.getNextSchedule();
+                    Presentations pres = dh.getPresentation(bioSched.getPresentation_id());
+                    dh.close();
+                    AppController.switchToBio(activity, pres.getSpeaker_id(), bioSched.getId());
                     break;
                 case R.id.nextHomeCard:
                     DatabaseHandler dh3 = new DatabaseHandler(activity);
                     final Schedules sched = dh3.getNextSchedule();
                     final Breakouts breakout3 = dh3.getBreakout(sched.getBreakout_id());
+                    dh.close();
                     iUpcoming.viewPresentation(breakout3, sched.getPresentation_id());
                     break;
 
@@ -354,7 +358,10 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             }
             return false;
         }
-        public void switchToFeedback(){
+        /**
+         * open feedback form for the next presentation
+         * */
+        public void googleFeedback(){
             DatabaseHandler dh = new DatabaseHandler(activity);
             String url = dh.getSpreadsheetLink(Spreadsheets.COURSE_SHEET);
             Schedules sched = dh.getNextSchedule();
@@ -372,14 +379,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             i.setData(Uri.parse(url));
             activity.startActivity(i);
         }
-        public void switchToBio(){
-            Schedules sched = dh.getNextSchedule();
-            Presentations pres = dh.getPresentation(sched.getPresentation_id());
-            Intent i = new Intent(activity, BioActivity.class);
-            i.putExtra(PresentationActivity.SPEAKER_ID, pres.getSpeaker_id());
-            i.putExtra(PresentationActivity.SCHEDULE_ID, sched.getId());
-            activity.startActivity(i);
-        }
+
 
     }
 

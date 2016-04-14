@@ -1,58 +1,55 @@
 package innatemobile.storymakerevents.Activities;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.cloudinary.Cloudinary;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import innatemobile.storymakerevents.Adapters.AddScheduleAdapter;
-import innatemobile.storymakerevents.Adapters.BreakoutAdapter;
-import innatemobile.storymakerevents.Models.Breakouts;
-import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Speakers;
-import innatemobile.storymakerevents.Models.Spreadsheets;
 import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.AppController;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
-import innatemobile.storymakerevents.Utils.ParseJSON;
 
 public class BioActivity extends AppCompatActivity {
-
+    /************Class Scope Variables**********/
+    final String IMAGE_URL = "http://res.cloudinary.com/innatemobile/image/upload/";
+    Speakers speaker;
+    /*VIEWS*/
     TextView txtBio, txtSpeakerName;
     ImageView imgSpeaker;
+    /************Class Scope Variables**********/
 
-    int speaker_id, schedule_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bio);
+        initToolbar();
+        getSpeakerInfo();
+        bindViews();
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return false;
+    }
+    /**
+     * Creates the toolbar at the top of the presentation page
+     * */
+    public void initToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        if(getSupportActionBar()!=null) {
+            getSupportActionBar().setTitle("");
+        }
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_launcher_white);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -60,22 +57,31 @@ public class BioActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDarkest));
         }
-        speaker_id = getIntent().getExtras().getInt(PresentationActivity.SPEAKER_ID);
-        schedule_id = getIntent().getExtras().getInt(PresentationActivity.SCHEDULE_ID);
+    }
+
+    /**
+     * get information about the presentation from intent extras and from database
+     * */
+    public void getSpeakerInfo(){
+        int speaker_id = getIntent().getExtras().getInt(AppController.SPEAKER_ID);
         DatabaseHandler dh = new DatabaseHandler(this);
-        Speakers speaker = dh.getSpeaker(speaker_id);
-        Map<String, String> config = new HashMap();
+        speaker = dh.getSpeaker(speaker_id);
+        Map<String, String> config = new HashMap<>();
         config.put("cloud_name","innatemobile");
         config.put("api_key", "25355876463913");
         config.put("api_secret", "v9sw4llJArudRhzXc5oVhy-7FPE");
         Cloudinary cloudinary = new Cloudinary(config);
 
+    }
+    /**
+     * bind data to the views in the layout
+     * */
+    public void bindViews(){
         txtBio = (TextView) findViewById(R.id.txtBio);
         txtSpeakerName = (TextView) findViewById(R.id.txtSpeakerName);
         imgSpeaker = (ImageView) findViewById(R.id.imgSpeaker);
-        String url = "http://res.cloudinary.com/innatemobile/image/upload/";
         String image_name = speaker.getImage().toUpperCase().replace(" ", "_");
-        url += image_name;
+        String url = IMAGE_URL + image_name;
         ImageLoader imgLoader = AppController.getInstance().getImageLoader();
         imgLoader.get(url, new ImageLoader.ImageListener() {
             @Override
@@ -96,35 +102,8 @@ public class BioActivity extends AppCompatActivity {
             txtBio.setText(speaker.getBio());
             txtSpeakerName.setText(speaker.getName());
         }
-
-
-
-
-
-
-
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // do something useful
-                /*DatabaseHandler dh = new DatabaseHandler(this);
-                Schedules sched = dh.getSchedule(schedule_id);
-                Breakouts breakout = dh.getBreakout(sched.getBreakout_id());
-                Intent i = new Intent(this, PresentationActivity.class);
-                i.putExtra(BreakoutAdapter.BREAKOUT_ID_TAG, breakout.getId());
-                i.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, breakout.getStartReadable());
-                i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, breakout.getEndReadable());
-                i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, breakout.getDayOfWeek());
-                i.putExtra(AddScheduleAdapter.PRESENTATION_ID, sched.getPresentation_id());*/
-                Intent i = new Intent(this, MainActivity.class);
-                startActivity(i);
-                return (true);
 
-        }
-        return false;
-    }
 
 
 }

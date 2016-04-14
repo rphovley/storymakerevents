@@ -69,15 +69,26 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppController.startTime = SystemClock.currentThreadTimeMillis();
+        AppController.startTime = SystemClock.currentThreadTimeMillis();//sets the start time for logging for the rest of the app
         setContentView(R.layout.activity_main);
-
         if(getIntent().getExtras()!=null){
             selectedPos     = getIntent().getExtras().getInt(AppController.HIGHLIGHTED_POSITION_TAG);
             selectedSchedId = getIntent().getExtras().getInt(AppController.SCHEDULE_ID_TAG);
         }
         /***************TAB ICONS, VIEWPAGER INITIALIZATION AND LOGIC*************/
-        /*TAB ICONS*/
+        /*ICONS*/
+        bindIcons();
+        /*VIEWPAGER*/
+        setupViewPager();
+
+        //startNotifications();
+        AppController.logTimes("MAIN ACTIVITY");
+    }
+
+    /**
+     * binds tab icon views to the correct drawable resources
+     * */
+    public void bindIcons(){
         home           = ContextCompat.getDrawable(this, R.drawable.ic_home_black_24px);
         myschedule     = ContextCompat.getDrawable(this, R.drawable.calendar);
         schedule       = ContextCompat.getDrawable(this, R.drawable.calendar_add);
@@ -85,11 +96,14 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         colorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
         colorIconWhite   = ContextCompat.getColor(this, R.color.color_icons);
         tabIcons = new ArrayList<>(Arrays.asList(home, myschedule, schedule, notification));
-
-        /*VIEWPAGER*/
+    }
+    /**
+    * Sets up viewpager to use the appropriate icons and selects the highlighted position for the viewpager
+    * */
+    public void setupViewPager(){
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setOffscreenPageLimit(1);
-        setupViewPager(viewPager);
+        addFragmentsToPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
@@ -102,13 +116,9 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
                 highlightSelectedIcon(position, selectedPos);
             }
         });
-
-        /***************TAB ICONS INITIALIZATION AND LOGIC*************/
-        //startNotifications();
-        AppController.logTimes("MAIN ACTIVITY");
     }
 
-    /*
+    /**
     * Sets up the tab icons to have correct colors, especially on older devices
     * */
     private void setupTabIcons() {
@@ -121,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
             }
         }
     }
-    /*
+    /**
     * Change the item at "position" to be highlighted, and remove highlighting from "unselected" tab
     * */
     private void highlightSelectedIcon(int position, int unselected){
@@ -131,10 +141,10 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
                 PorterDuffColorFilter(ContextCompat.getColor(this, R.color.color_icons), PorterDuff.Mode.MULTIPLY));
         selectedPos = position;
     }
-    /*
+    /**
     * Add fragments to the viewpager
     * */
-    private void setupViewPager(ViewPager viewPager) {
+    private void addFragmentsToPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         if(AppController.checkDatabaseForContent(this)) {
             adapter.addFrag(new HomeFragment(), "HOME");
@@ -149,7 +159,8 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         viewPager.setAdapter(adapter);
     }
 
-    /*
+    /*************************INTERFACE METHODS*******************************************/
+    /**
     * Method to notify the notification view that we have updated information.
     * Ensures that if new information is in the system, the home fragment updates with it.
     * *Implemented from RequestSpreadsheets.iRequestSheet
@@ -162,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         }
     }
 
-    /*
+    /**
     * Sets the current item in the viewpager to "MySchedule" Tab
     * *Implemented from HomeFragment.iHomeFragment
     * */
@@ -171,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         highlightSelectedIcon(2, 0);
         viewPager.setCurrentItem(2);
     }
-    /*
+    /**
     * switch to Presentation activity
     * *Implemented from HomeFragment.iHomeFragment
     * */
@@ -190,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         startActivity(i);
     }
 
-    /*
+    /**
     *  update the upcoming schedule adapter when the MySchedule has changed
     * Implemented from MyScheduleAdapter.iMySchedule
     * */
@@ -201,6 +212,47 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
             home.scheduleChanged();*/
             //adapter.update();
         }
+    }
+    /*************************INTERFACE METHODS*******************************************/
+
+    /**
+    * AlarmReceiver posts notifications to phone from alarms set
+    * */
+    public static class AlarmReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            if(prefs.getBoolean(MainActivity.TOGGLE_NOTIFICATIONS, false)) {
+                NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(context)
+                                .setSmallIcon(R.drawable.ic_chat_24dp)
+                                .setContentTitle("Test Feedback Notification")
+                                .setContentText("Testing... testing... 1, 2, 3");
+                Intent resultIntent = new Intent(context, MainActivity.class);
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+                stackBuilder.addParentStack(MainActivity.class);
+                stackBuilder.addNextIntent(resultIntent);
+                PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                mBuilder.setContentIntent(resultPendingIntent);
+                NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.notify(1, mBuilder.build());
+            }
+        }
+    }
+    /**
+    * Test notification
+    * */
+    private void startNotifications() {
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 5000, pendingIntent);
+        DatabaseHandler dh = new DatabaseHandler(this);
+        Breakouts breakout = dh.getBreakout(1);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, breakout.getDate().getTime(), pendingIntent);
+
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -240,46 +292,6 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         @Override
         public CharSequence getPageTitle(int position) {
             return "";        }
-    }
-
-    /*
-    * AlarmReceiver posts notifications to phone from alarms set
-    * */
-    public static class AlarmReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            SharedPreferences prefs = PreferenceManager
-                    .getDefaultSharedPreferences(context);
-            if(prefs.getBoolean(MainActivity.TOGGLE_NOTIFICATIONS, false)) {
-                NotificationCompat.Builder mBuilder =
-                        new NotificationCompat.Builder(context)
-                                .setSmallIcon(R.drawable.ic_chat_24dp)
-                                .setContentTitle("Test Feedback Notification")
-                                .setContentText("Testing... testing... 1, 2, 3");
-                Intent resultIntent = new Intent(context, MainActivity.class);
-                TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                stackBuilder.addParentStack(MainActivity.class);
-                stackBuilder.addNextIntent(resultIntent);
-                PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-                mBuilder.setContentIntent(resultPendingIntent);
-                NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                mNotificationManager.notify(1, mBuilder.build());
-            }
-        }
-    }
-    /*
-    * Test notification
-    * */
-    private void startNotifications() {
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 5000, pendingIntent);
-        DatabaseHandler dh = new DatabaseHandler(this);
-        Breakouts breakout = dh.getBreakout(1);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, breakout.getDate().getTime(), pendingIntent);
-
     }
 
 
