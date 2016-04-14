@@ -13,6 +13,7 @@ import innatemobile.storymakerevents.Adapters.AddScheduleAdapter;
 import innatemobile.storymakerevents.Adapters.BreakoutAdapter;
 import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.R;
+import innatemobile.storymakerevents.Utils.AppController;
 import innatemobile.storymakerevents.Utils.DatabaseHandler;
 /**
  * Activity to display a particular breakouts presentations
@@ -70,11 +71,11 @@ public class AddScheduleActivity extends AppCompatActivity implements AddSchedul
      * Get the breakout information from the intent extras and the database
      * */
     public void getBreakoutInfo(){
-        breakoutID   = getIntent().getExtras().getInt(BreakoutAdapter.BREAKOUT_ID_TAG);
-        String start = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_START_TAG);
-        String end   = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_END_TAG);
-        String day   = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_DAY_TAG);
-        cameFromBreakout = getIntent().getExtras().getBoolean(BreakoutAdapter.BREAKOUT_CAME_FROM_BREAKOUT);
+        breakoutID   = getIntent().getExtras().getInt(AppController.BREAKOUT_ID_TAG);
+        String start = getIntent().getExtras().getString(AppController.BREAKOUT_START_TAG);
+        String end   = getIntent().getExtras().getString(AppController.BREAKOUT_END_TAG);
+        String day   = getIntent().getExtras().getString(AppController.BREAKOUT_DAY_TAG);
+        cameFromBreakout = getIntent().getExtras().getBoolean(AppController.BREAKOUT_CAME_FROM_BREAKOUT);
         DatabaseHandler dh = new DatabaseHandler(this);
         schedulesList = dh.getScheduleByBreakout(breakoutID);
         if(getSupportActionBar()!=null) {

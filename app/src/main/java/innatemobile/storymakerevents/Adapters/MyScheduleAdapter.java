@@ -251,11 +251,11 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
                     String start = breakout.getStartReadable();
                     String end = breakout.getEndReadable();
                     String day = breakout.getDayOfWeek();
-                    i.putExtra(BreakoutAdapter.BREAKOUT_ID_TAG, id);
-                    i.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, start);
-                    i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, end);
-                    i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, day);
-                    i.putExtra(BreakoutAdapter.BREAKOUT_CAME_FROM_BREAKOUT, false);
+                    i.putExtra(AppController.BREAKOUT_ID_TAG, id);
+                    i.putExtra(AppController.BREAKOUT_START_TAG, start);
+                    i.putExtra(AppController.BREAKOUT_END_TAG, end);
+                    i.putExtra(AppController.BREAKOUT_DAY_TAG, day);
+                    i.putExtra(AppController.BREAKOUT_CAME_FROM_BREAKOUT, false);
                     dh.close();
                     activity.startActivity(i);
                     break;

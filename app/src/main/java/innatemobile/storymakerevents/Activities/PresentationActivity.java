@@ -82,11 +82,8 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
      * get information about the presentation from intent extras and from database
      * */
     public void getPresentationInfo(){
-        int breakoutID = getIntent().getExtras().getInt(BreakoutAdapter.BREAKOUT_ID_TAG);
+        int breakoutID = getIntent().getExtras().getInt(AppController.BREAKOUT_ID_TAG);
         int presID = getIntent().getExtras().getInt(AddScheduleAdapter.PRESENTATION_ID);
-        String sStart = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_START_TAG);
-        String sEnd = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_END_TAG);
-        String sDay = getIntent().getExtras().getString(BreakoutAdapter.BREAKOUT_DAY_TAG);
         DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
         pres = dh.getPresentation(presID);
         sched = dh.getScheduleByBreakoutPres(breakoutID, presID);
@@ -155,7 +152,7 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
                     dh.addMySchedule(sched.get(0));
                 }
                 dh.close();
-                String presName = "";
+                String presName;
                 if(pres.getTitle().length()>15){
                     presName = pres.getTitle().substring(0,15) + "...";
                 }else{

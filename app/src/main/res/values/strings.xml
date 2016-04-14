@@ -1,17 +1,17 @@
 <resources>
     <string name="app_name">storymakerevents</string>
-    <string name="action_settings">Settings</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 
     <!--URL TO GET SPREADSHEETS FROM-->
     <string name="spreadsheet_url">https://spreadsheets.google.com/tq?key=</string>
-    <string name="spreadsheet_key">1Y8jMldIfTCOdiirkINlMHJNij1C_ura01Ol40AwZxHs</string>
+    <string name="spreadsheet_key">1Y8jMldIfTCOdiirkINlMHJNij1C_ura01Ol40AwZxHs</string>\
+    <!--URL TO GET SPREADSHEETS FROM-->
+
+    <!--SPLASH TEXT-->
     <string name="sLDS">LDS</string>
     <string name="sStorymakers">LDStorymakers</string>
     <string name="sConference">Conference</string>
+    <!--SPLASH TEXT-->
+
     <string name="sNotificationDefault">Welcome to Storymakers 2016!  Click on the second tab to view your schedule.  Select the + button to add a class to your schedule!</string>
     <string name="sFirstClass">Add your first class</string>
     <string name="title_activity_add_schedule">AddScheduleActivity</string>
@@ -31,9 +31,15 @@
     <string name="sFeedbackPres">Feedback</string>
     <string name="sMapLink">Map</string>
     <string name="title_activity_help">HelpActivity</string>
+
+    <!--HELP TEXT-->
     <string name="sTips">Tips</string>
     <string name="sRemoveTip">To remove an item from your schedule press and hold the item, and then select \'REMOVE\' when prompted</string>
     <string name="sUpcomingHelp">The \'Upcoming Schedule\' section tells you what events are coming up next.  This both includes presentations and other events like registration</string>
     <string name="sNextClassHelp">The \'Next Class\' section tells you which presentation is coming up next in your schedule</string>
     <string name="sDetailHelp">Tap on an item in your schedule to get more information about that item.</string>
+    <!--HELP TEXT-->
+
+    <!--MAIN PAGE FRAGMENT HEADERS-->
+    <string name="sBreakoutHeader">Add Class</string>
 </resources>

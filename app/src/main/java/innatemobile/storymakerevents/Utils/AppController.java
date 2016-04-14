@@ -14,6 +14,7 @@ import com.android.volley.toolbox.Volley;
 
 import java.util.List;
 
+import innatemobile.storymakerevents.Activities.AddScheduleActivity;
 import innatemobile.storymakerevents.Activities.BioActivity;
 import innatemobile.storymakerevents.Activities.HelpActivity;
 import innatemobile.storymakerevents.Activities.MainActivity;
@@ -32,7 +33,6 @@ import innatemobile.storymakerevents.Models.ScheduleJoined;
 //TODO Refactor Adapter Breakout
 //TODO Refactor Adapter MySchedule
 //TODO Refactor Adapter UpcomingSchedule
-//TODO Refactor Fragment Breakout
 //TODO Refactor Fragment Home
 //TODO Refactor Fragment MySchedule
 
@@ -60,8 +60,14 @@ public class AppController extends Application {
     public static final String SCHEDULE_ID_TAG = "schedule_id";
     public static final String HELP_FROM_TAG = "help_from";
     public static final String SPEAKER_ID = "speaker_id";
-    public  static final String SCHEDULE_ID = "schedule_id" ;
-    public static boolean firstTimeFlash = false;
+    public static final String SCHEDULE_ID = "schedule_id" ;
+    public static final String BREAKOUT_ID_TAG = "breakout_id";
+    public static final String BREAKOUT_START_TAG = "start_time";
+    public static final String BREAKOUT_END_TAG = "end_time";
+    public static final String BREAKOUT_DAY_TAG = "day";
+    public static final String BREAKOUT_CAME_FROM_BREAKOUT = "came_from_breakout";
+
+    public static boolean firstTimeFlash = false; //determines if the orange flash when adding a class has already happened or not
     /**********ACTIVITY TRANSITION VARIABLES****************/
 
     private RequestQueue mRequestQueue;
@@ -101,6 +107,23 @@ public class AppController extends Application {
         i.putExtra(SCHEDULE_ID_TAG, schedule_id);
         c.startActivity(i);
     }
+
+    /**
+     * Switches from current activity to the add schedule activity
+     * */
+    public static void switchToAddToSchedule(Context c, List<Breakouts> breakoutList, int position){
+        Intent i = new Intent(c, AddScheduleActivity.class);
+        int id = breakoutList.get(position).getId();
+        String start = breakoutList.get(position).getStartReadable();
+        String end = breakoutList.get(position).getEndReadable();
+        String day = breakoutList.get(position).getDayOfWeek();
+        i.putExtra(AppController.BREAKOUT_ID_TAG, id);
+        i.putExtra(AppController.BREAKOUT_START_TAG, start);
+        i.putExtra(AppController.BREAKOUT_END_TAG, end);
+        i.putExtra(AppController.BREAKOUT_DAY_TAG, day);
+        i.putExtra(AppController.BREAKOUT_CAME_FROM_BREAKOUT, true);
+        c.startActivity(i);
+    }
     /**
      * Switches from current activity to the presentation activity
      * */
@@ -108,15 +131,8 @@ public class AppController extends Application {
         DatabaseHandler dh = new DatabaseHandler(c);
         Intent i = new Intent(c, PresentationActivity.class);
         int id = schedulesList.get(position).schedule.getBreakout_id();
-        Breakouts breakout = schedulesList.get(position).breakout;
-        String start = breakout.getStartReadable();
-        String end = breakout.getEndReadable();
-        String day = breakout.getDayOfWeek();
-        i.putExtra(BreakoutAdapter.BREAKOUT_ID_TAG, id);
-        i.putExtra(BreakoutAdapter.BREAKOUT_START_TAG, start);
-        i.putExtra(BreakoutAdapter.BREAKOUT_END_TAG, end);
-        i.putExtra(BreakoutAdapter.BREAKOUT_DAY_TAG, day);
-        i.putExtra(BreakoutAdapter.BREAKOUT_CAME_FROM_BREAKOUT, false);
+        i.putExtra(AppController.BREAKOUT_ID_TAG, id);
+        i.putExtra(AppController.BREAKOUT_CAME_FROM_BREAKOUT, false);
         i.putExtra(AddScheduleAdapter.PRESENTATION_ID, schedulesList.get(position).schedule.getPresentation_id());
         dh.close();
         c.startActivity(i);
