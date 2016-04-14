@@ -28,7 +28,6 @@ import innatemobile.storymakerevents.Models.ScheduleJoined;
 //TODO toggle the "Add Class" and "Remove Class" on the PresentationActivity Page
 
 //TODO Refactor Activity AddSchedule
-//TODO Refactor Activity Help
 //TODO Refactor Activity Main
 //TODO Refactor Activity Splash
 //TODO Refactor Adapter AddSchedule
@@ -41,13 +40,13 @@ import innatemobile.storymakerevents.Models.ScheduleJoined;
 //TODO Refactor Fragment Home
 //TODO Refactor Fragment MySchedule
 
-
-
-
-
 /**
  * Created by rphovley on 1/25/2016.
- * AndroidHive tutorial http://www.androidhive.info/2014/05/android-working-with-volley-library-1/ for volley related items
+ * This class is used to manage anything that requires a global context for the app such as
+ *  Volley Library
+ *  Activity changes
+ *  Logging behavior
+ * Used the forllowing tutorial for volley:  AndroidHive tutorial http://www.androidhive.info/2014/05/android-working-with-volley-library-1/ for volley related items
  */
 public class AppController extends Application {
     public static final String TAG = AppController.class
@@ -144,6 +143,11 @@ public class AppController extends Application {
         c.startActivity(i);
     }
     /**********ACTIVITY TRANSITIONS****************/
+
+    /**********ANDROID VOLLEY**********************/
+    /**
+     * Get the request que from android volley instance
+     * */
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -152,6 +156,9 @@ public class AppController extends Application {
         return mRequestQueue;
     }
 
+    /**
+     * get the image loader from android volley instance
+     * */
     public ImageLoader getImageLoader() {
         getRequestQueue();
         if (mImageLoader == null) {
@@ -161,11 +168,17 @@ public class AppController extends Application {
         return this.mImageLoader;
     }
 
+    /**
+     * Add the request to the volley queue
+     * */
     public <T> void addToRequestQueue(Request<T> req, String tag) {
         // set the default tag if tag is empty
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
         getRequestQueue().add(req);
     }
+
+
+    /**********ANDROID VOLLEY**********************/
 
     /**
      * Makes sure the app has all the information it needs to function correctly.
