@@ -33,8 +33,6 @@ import innatemobile.storymakerevents.Models.ScheduleJoined;
 //TODO Refactor Adapter MySchedule
 //TODO Refactor Adapter UpcomingSchedule
 //TODO Refactor Fragment Breakout
-//TODO Refactor Fragment Error
-//TODO Refactor Fragment Feedback
 //TODO Refactor Fragment Home
 //TODO Refactor Fragment MySchedule
 

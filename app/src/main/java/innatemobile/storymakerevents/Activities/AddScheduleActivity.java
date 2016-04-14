@@ -61,10 +61,10 @@ public class AddScheduleActivity extends AppCompatActivity implements AddSchedul
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if(getSupportActionBar()!=null) {
-            getSupportActionBar().setTitle("");
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_launcher_white);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_launcher_white);
+        getSupportActionBar().setTitle("");
     }
     /**
      * Get the breakout information from the intent extras and the database
