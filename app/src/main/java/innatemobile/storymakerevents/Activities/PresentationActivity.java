@@ -1,12 +1,9 @@
 package innatemobile.storymakerevents.Activities;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,16 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
-
-import innatemobile.storymakerevents.Adapters.AddScheduleAdapter;
-import innatemobile.storymakerevents.Adapters.BreakoutAdapter;
 import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.Presentations;
 import innatemobile.storymakerevents.Models.Schedules;
@@ -83,7 +75,7 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
      * */
     public void getPresentationInfo(){
         int breakoutID = getIntent().getExtras().getInt(AppController.BREAKOUT_ID_TAG);
-        int presID = getIntent().getExtras().getInt(AddScheduleAdapter.PRESENTATION_ID);
+        int presID = getIntent().getExtras().getInt(AppController.PRESENTATION_ID);
         DatabaseHandler dh = new DatabaseHandler(getApplicationContext());
         pres = dh.getPresentation(presID);
         sched = dh.getScheduleByBreakoutPres(breakoutID, presID);

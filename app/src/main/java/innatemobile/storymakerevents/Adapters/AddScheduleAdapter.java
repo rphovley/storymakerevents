@@ -20,6 +20,7 @@ import innatemobile.storymakerevents.Activities.MainActivity;
 import innatemobile.storymakerevents.Activities.PresentationActivity;
 import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.Presentations;
+import innatemobile.storymakerevents.Models.ScheduleJoined;
 import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.Models.Speakers;
 import innatemobile.storymakerevents.R;
@@ -28,22 +29,27 @@ import innatemobile.storymakerevents.Utils.DatabaseHandler;
 
 /**
  * Created by rphovley on 2/14/2016.
+ * Adapter to inflate schedule items for a particular breakout in the AddSchedule Activity
  */
 public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.AddScheduleCardViewHolder> {
 
-    public List<Schedules> schedulesList;
-    public Activity activity;
+    /******************Class Scope Variables***********************/
+    /**
+     * Add presentation layout flag for the item
+     * */
     private static final int ADD_PRESENTATION_LAYOUT    = 0;
+    /**
+     * Remove presentation layout flag for the item
+     * */
     private static final int REMOVE_PRESENTATION_LAYOUT = 1;
-    public static String BREAKOUT_ID_TAG = "breakout_id";
-    public static String BREAKOUT_START_TAG = "start_time";
-    public static String BREAKOUT_END_TAG   = "end_time";
-    public static String BREAKOUT_DAY_TAG   = "day";
-    public static String PRESENTATION_ID    = "presenation_id";
+
+    public List<ScheduleJoined> schedulesList;
+    public Activity activity;
     DatabaseHandler dh;
     AdapterChanged ac;
+    /******************Class Scope Variables***********************/
 
-    public AddScheduleAdapter(List<Schedules> schedulesList, Activity activity)
+    public AddScheduleAdapter(List<ScheduleJoined> schedulesList, Activity activity)
     {
         this.ac = (AdapterChanged) activity;
         this.schedulesList     = schedulesList;
@@ -58,7 +64,7 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
     @Override
     public void onBindViewHolder(AddScheduleCardViewHolder holder, int position) {
         dh = new DatabaseHandler(activity);
-        int presentation_id = schedulesList.get(position).getPresentation_id();
+        int presentation_id = schedulesList.get(position).presentation.getId();
         Presentations presentation = dh.getPresentation(presentation_id);
         int speaker_id      = presentation.getSpeaker_id();
         Speakers speaker = dh.getSpeaker(speaker_id);
@@ -83,7 +89,7 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
     }
     @Override
     public AddScheduleCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = null;
+        View itemView;
         if(viewType==ADD_PRESENTATION_LAYOUT) {
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_schedule_card, parent, false);
         }else{
@@ -95,7 +101,7 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
     @Override
     public int getItemViewType(int position) {
         dh = new DatabaseHandler(activity);
-        int presentation_id = schedulesList.get(position).getPresentation_id();
+        int presentation_id = schedulesList.get(position).presentation.getId();
         List<Schedules> myScheduleList = dh.getMyScheduleByPresentation(presentation_id);
         dh.close();
         if(myScheduleList!= null){
@@ -141,7 +147,7 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
             switch(v.getId()) {
                 case R.id.btnAddToSchedule:
                     dh = new DatabaseHandler(activity);
-                    Schedules sched = schedulesList.get(this.getAdapterPosition());
+                    Schedules sched = schedulesList.get(this.getAdapterPosition()).schedule;
                     Presentations present = dh.getPresentation(sched.getPresentation_id());
 
                     if(present.isIntensive()==1) {
@@ -150,56 +156,42 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
                             dh.addMySchedule(intensive.get(i));
                         }
                     }else{
-                        dh.addMySchedule(schedulesList.get(this.getAdapterPosition()));
+                        dh.addMySchedule(schedulesList.get(this.getAdapterPosition()).schedule);
                     }
                     ac.addedPresentation(this.getAdapterPosition());
                     dh.close();
-                    String presName = "";
-                    if(present.getTitle().length()>15){
-                        presName = present.getTitle().substring(0,15) + "...";
-                    }else{
-                        presName = present.getTitle();
-                    }
-                    Snackbar.make(itemView, presName + " Added to Schedule", Snackbar.LENGTH_LONG).show();
+                    snackBarNotifySchedule(itemView, " Added to Schedule");
                     AppController.switchToMain(activity, AppController.SCHEDULE_POS, sched.getId());
                     break;
-                case R.id.btnRemoveFromSchedule:
-                    //remove presentation from schedule
+                case R.id.btnRemoveFromSchedule: //remove presentation from schedule
                     dh = new DatabaseHandler(activity);
-                    dh.removeFromSchedule(schedulesList.get(this.getAdapterPosition()).getPresentation_id());
-                    Presentations presents = dh.getPresentation(schedulesList.get(this.getAdapterPosition()).getPresentation_id());
-                    ac.removedPresentation(this.getAdapterPosition());
-                    String presName2 = "";
-                    if(presents.getTitle().length()>15){
-                        presName2 = presents.getTitle().substring(0,15) + "...";
-                    }else{
-                        presName2 = presents.getTitle();
-                    }
-                    Snackbar.make(itemView,  presName2 + " Removed From Schedule", Snackbar.LENGTH_LONG).show();
+                    dh.removeFromSchedule(schedulesList.get(this.getAdapterPosition()).presentation.getId());
+                    dh.close();
+                    snackBarNotifySchedule(itemView, " Removed From Schedule");
                     break;
                 case R.id.add_schedule_card:
-                    Intent i = new Intent(activity, PresentationActivity.class);
-                    int breakout_id = schedulesList.get(this.getAdapterPosition()).getBreakout_id();
-                    Breakouts breakout = dh.getBreakout(breakout_id);
-
-                    int id = breakout.getId();
-                    String start = breakout.getStartReadable();
-                    String end = breakout.getEndReadable();
-                    String day = breakout.getDayOfWeek();
-                    int pres_id = schedulesList.get(this.getAdapterPosition()).getPresentation_id();
-                    i.putExtra(BREAKOUT_ID_TAG, id);
-                    i.putExtra(BREAKOUT_START_TAG, start);
-                    i.putExtra(BREAKOUT_END_TAG, end);
-                    i.putExtra(BREAKOUT_DAY_TAG, day);
-                    i.putExtra(PRESENTATION_ID, pres_id);
-                    activity.startActivity(i);
+                    AppController.switchToPresentation(activity, schedulesList, getAdapterPosition());
 
             }
+        }
+        /**
+         * calls the snackbar to notify the user that the item has been added to their schedule
+         * */
+        private void snackBarNotifySchedule(View itemView, String message){
+            Presentations presents = dh.getPresentation(schedulesList.get(this.getAdapterPosition()).presentation.getId());
+            ac.removedPresentation(this.getAdapterPosition());
+            String presName;
+            if(presents.getTitle().length()>15){
+                presName = presents.getTitle().substring(0,15) + "...";
+            }else{
+                presName = presents.getTitle();
+            }
+            Snackbar.make(itemView,  presName + message, Snackbar.LENGTH_LONG).show();
         }
     }
 
     public interface AdapterChanged{
-        public void addedPresentation(int position);
-        public void removedPresentation(int position);
+        void addedPresentation(int position);
+        void removedPresentation(int position);
     }
 }

@@ -348,6 +348,58 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return scheduleList;
     }
+    public List<ScheduleJoined> getScheduleJoinByBreakout(int breakout_id){
+        List<ScheduleJoined> scheduleList = new ArrayList<ScheduleJoined>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_SCHEDULE +
+                " my JOIN " + TABLE_BREAKOUTS + " br ON my." + SCHEDULE_BREAKOUT_ID + "=br." + BREAKOUT_ID +
+                " JOIN " + TABLE_PRESENTATIONS + " pr ON my." + SCHEDULE_PRESENTATION_ID + "= pr." + PRESENTATION_ID +
+                " LEFT JOIN " + TABLE_SPEAKERS + " s ON pr." + PRESENTATION_SPEAKER_ID + "= s." + SPEAKER_ID+
+                " WHERE br." + BREAKOUT_ID + " = " + breakout_id +
+                " ORDER BY " + "br. " + BREAKOUT_DATE + ", br." +BREAKOUT_START;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if(cursor.moveToFirst() && cursor.getCount() > 0){
+            do {
+                Schedules schedule = new Schedules();
+                Breakouts breakouts = new Breakouts();
+                Presentations presentation = new Presentations();
+                Speakers speaker = new Speakers();
+                schedule.setId(Integer.parseInt(cursor.getString(0)));
+                schedule.setPresentation_id(Integer.parseInt(cursor.getString(1)));
+                schedule.setBreakout_id(Integer.parseInt(cursor.getString(2)));
+                schedule.setSection_id(Integer.parseInt(cursor.getString(3)));
+                schedule.setLocation(cursor.getString(4));
+                schedule.setIsPresentationDB(Integer.parseInt(cursor.getString(5)));
+                breakouts.setId(Integer.parseInt(cursor.getString(6)));
+                breakouts.setStart(cursor.getString(7));
+                breakouts.setEnd(cursor.getString(8));
+                breakouts.setDate(cursor.getString(9));
+                breakouts.setBreakoutName(cursor.getString(10));
+                breakouts.setId(Integer.parseInt(cursor.getString(6)));
+                breakouts.setStart(cursor.getString(7));
+                breakouts.setEnd(cursor.getString(8));
+                breakouts.setDate(cursor.getString(9));
+                breakouts.setBreakoutName(cursor.getString(10));
+                presentation.setId(cursor.getInt(11));
+                presentation.setTitle(cursor.getString(13));
+                presentation.setDescription(cursor.getString(12));
+                presentation.setSpeaker_id(cursor.getInt(14));
+                presentation.setIsIntensive(cursor.getInt(15));
+                presentation.setIsKeynote(cursor.getInt(16));
+                if(cursor.getString(17)!=null) { //make sure that the schedule item has a speaker
+                    speaker.setId(Integer.parseInt(cursor.getString(17)));
+                    speaker.setName(cursor.getString(18));
+                    speaker.setBio(cursor.getString(19));
+                    speaker.setImage(cursor.getString(20));
+                }
+                ScheduleJoined scheduleJoined = new ScheduleJoined(schedule, breakouts, presentation, speaker);
+                scheduleList.add(scheduleJoined);
+            }while(cursor.moveToNext());
+        }
+        db.close();
+        return scheduleList;
+    }
     public List<Schedules> getScheduleByBreakout(int id){
         List<Schedules> scheduleList = new ArrayList<Schedules>();
         SQLiteDatabase db = this.getReadableDatabase();

@@ -1,25 +1,16 @@
 package innatemobile.storymakerevents.Fragments;
 
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.HashMap;
 import java.util.List;
-
 import innatemobile.storymakerevents.Adapters.MyScheduleAdapter;
 import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.ScheduleJoined;

@@ -332,11 +332,7 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
                     AppController.switchToBio(activity, pres.getSpeaker_id(), bioSched.getId());
                     break;
                 case R.id.nextHomeCard:
-                    DatabaseHandler dh3 = new DatabaseHandler(activity);
-                    final Schedules sched = dh3.getNextSchedule();
-                    final Breakouts breakout3 = dh3.getBreakout(sched.getBreakout_id());
-                    dh.close();
-                    iUpcoming.viewPresentation(breakout3, sched.getPresentation_id());
+                    AppController.switchToNextPresentation(activity);
                     break;
 
             }
@@ -384,9 +380,8 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
     }
 
     public interface iUpcomingAdapter{
-        public void removeItem(int selected_id);
-        public void notifyItemsChanged(List<HashMap<Integer, Boolean>> changed);
-        public void addClass();
-        public void viewPresentation(Breakouts breakout, int pres_id);
+        void removeItem(int selected_id);
+        void notifyItemsChanged(List<HashMap<Integer, Boolean>> changed);
+        void addClass();
     }
 }

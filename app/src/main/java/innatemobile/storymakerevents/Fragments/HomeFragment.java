@@ -194,13 +194,7 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
         iHome.addToClassFirst();
     }
 
-    @Override
-    public void viewPresentation(Breakouts breakout, int pres_id) {
-        iHome.viewPresentation(breakout, pres_id);
-    }
-
     public interface iHomeFragment {
         void addToClassFirst();
-        void viewPresentation(Breakouts breakout, int pres_id);
     }
 }

@@ -185,20 +185,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
     * switch to Presentation activity
     * *Implemented from HomeFragment.iHomeFragment
     * */
-    @Override
-    public void viewPresentation(Breakouts breakout, int pres_id) {
-        Intent i = new Intent(this, PresentationActivity.class);
-        int id = breakout.getId();
-        String start = breakout.getStartReadable();
-        String end = breakout.getEndReadable();
-        String day = breakout.getDayOfWeek();
-        i.putExtra(AddScheduleAdapter.BREAKOUT_ID_TAG, id);
-        i.putExtra(AddScheduleAdapter.BREAKOUT_START_TAG, start);
-        i.putExtra(AddScheduleAdapter.BREAKOUT_END_TAG, end);
-        i.putExtra(AddScheduleAdapter.BREAKOUT_DAY_TAG, day);
-        i.putExtra(AddScheduleAdapter.PRESENTATION_ID, pres_id);
-        startActivity(i);
-    }
+
 
     /**
     *  update the upcoming schedule adapter when the MySchedule has changed

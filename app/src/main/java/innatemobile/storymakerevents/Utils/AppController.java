@@ -23,6 +23,7 @@ import innatemobile.storymakerevents.Adapters.AddScheduleAdapter;
 import innatemobile.storymakerevents.Adapters.BreakoutAdapter;
 import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.ScheduleJoined;
+import innatemobile.storymakerevents.Models.Schedules;
 
 //TODO add header comments to functions
 //TODO group and order functions for better organization
@@ -30,7 +31,6 @@ import innatemobile.storymakerevents.Models.ScheduleJoined;
 //TODO fix the Samsung SDk 17, 4.2, android volley bug
 
 //TODO Refactor Adapter AddSchedule
-//TODO Refactor Adapter Breakout
 //TODO Refactor Adapter MySchedule
 //TODO Refactor Adapter UpcomingSchedule
 //TODO Refactor Fragment Home
@@ -61,6 +61,7 @@ public class AppController extends Application {
     public static final String HELP_FROM_TAG = "help_from";
     public static final String SPEAKER_ID = "speaker_id";
     public static final String SCHEDULE_ID = "schedule_id" ;
+    public static final String PRESENTATION_ID = "presentation_id" ;
     public static final String BREAKOUT_ID_TAG = "breakout_id";
     public static final String BREAKOUT_START_TAG = "start_time";
     public static final String BREAKOUT_END_TAG = "end_time";
@@ -133,8 +134,22 @@ public class AppController extends Application {
         int id = schedulesList.get(position).schedule.getBreakout_id();
         i.putExtra(AppController.BREAKOUT_ID_TAG, id);
         i.putExtra(AppController.BREAKOUT_CAME_FROM_BREAKOUT, false);
-        i.putExtra(AddScheduleAdapter.PRESENTATION_ID, schedulesList.get(position).schedule.getPresentation_id());
+        i.putExtra(AppController.PRESENTATION_ID, schedulesList.get(position).schedule.getPresentation_id());
         dh.close();
+        c.startActivity(i);
+    }
+    /**
+     * Switches from current activity to the presentation activity with the next presentations info
+     * */
+    public static void switchToNextPresentation(Context c){
+        DatabaseHandler dh = new DatabaseHandler(c);
+        Schedules sched = dh.getNextSchedule();
+        Breakouts breakout = dh.getBreakout(sched.getBreakout_id());
+        dh.close();
+        Intent i = new Intent(c, PresentationActivity.class);
+        i.putExtra(AppController.BREAKOUT_ID_TAG, breakout.getId());
+        i.putExtra(AppController.BREAKOUT_CAME_FROM_BREAKOUT, false);
+        i.putExtra(AppController.PRESENTATION_ID, sched.getPresentation_id());
         c.startActivity(i);
     }
     /**

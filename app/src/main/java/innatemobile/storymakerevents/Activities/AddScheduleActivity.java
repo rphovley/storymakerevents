@@ -8,9 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import java.util.List;
-
 import innatemobile.storymakerevents.Adapters.AddScheduleAdapter;
-import innatemobile.storymakerevents.Adapters.BreakoutAdapter;
+import innatemobile.storymakerevents.Models.ScheduleJoined;
 import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.AppController;
@@ -26,7 +25,7 @@ public class AddScheduleActivity extends AppCompatActivity implements AddSchedul
     RecyclerView scheduleView;
     LinearLayoutManager llm;
     AddScheduleAdapter adapter;
-    List<Schedules> schedulesList;
+    List<ScheduleJoined> schedulesList;
     boolean cameFromBreakout;
     int breakoutID;
 
@@ -77,7 +76,7 @@ public class AddScheduleActivity extends AppCompatActivity implements AddSchedul
         String day   = getIntent().getExtras().getString(AppController.BREAKOUT_DAY_TAG);
         cameFromBreakout = getIntent().getExtras().getBoolean(AppController.BREAKOUT_CAME_FROM_BREAKOUT);
         DatabaseHandler dh = new DatabaseHandler(this);
-        schedulesList = dh.getScheduleByBreakout(breakoutID);
+        schedulesList = dh.getScheduleJoinByBreakout(breakoutID);
         if(getSupportActionBar()!=null) {
             getSupportActionBar().setTitle(day + " " + start + "-" + end);
         }
