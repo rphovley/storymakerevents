@@ -312,7 +312,8 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
     /**
      * Iterates over the schedule for the user and determines if the breakout passed into the function
      * is in the users schedule.  It does this by iterating over their schedule while mySchedTime is less
-     * than or equal to the breakout time
+     * than or equal to the breakout time and then adds that to the schedule
+     * ASSUMES:
      * */
     public static List<ScheduleJoined> isBreakoutInSchedule(List<ScheduleJoined> mySchedule, Breakouts breakout, Context c){
         int index = 0;
@@ -320,7 +321,8 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
         Date mySchedTime = new Date(0);
         AppController.logTimes("BEFORE INDEX TEST");
 
-        while (!isBreakoutInSchedule && mySchedTime.getTime() <= breakout.getDateAndStartTime().getTime()){ //while we are still looking for the time
+        //while we are still looking for the time
+        while (!isBreakoutInSchedule && mySchedTime.getTime() <= breakout.getDateAndStartTime().getTime() && mySchedule.size() > index){
             //gets the time for the schedule item currently being checked
             if (mySchedule.get(index) != null) {
                 Breakouts mySchedBreakout = mySchedule.get(index).breakout;
@@ -343,6 +345,7 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
             schedule.setIsEmptyBreakout(true);
             ScheduleJoined scheduleJoined = new ScheduleJoined(schedule, breakout, null, null);
             mySchedule.add(index-1, scheduleJoined);
+//            mySchedule.add(index-1, scheduleJoined);
         }
 
 

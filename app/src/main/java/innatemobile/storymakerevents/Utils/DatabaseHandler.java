@@ -837,7 +837,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         List<Breakouts> breakoutList = new ArrayList<Breakouts>();
         SQLiteDatabase db = this.getReadableDatabase();
         //query the database to return the spreadsheet key for the spreadsheet name
-        String selectQuery = "SELECT  * FROM " + TABLE_BREAKOUTS;
+        String selectQuery = "SELECT  * FROM " + TABLE_BREAKOUTS +
+                " ORDER BY " + BREAKOUT_DATE + "," +BREAKOUT_START + " ASC";
         Cursor cursor = db.rawQuery(selectQuery, null);
         if(cursor!=null && cursor.moveToFirst() && cursor.getCount() > 0){
             do {
@@ -856,7 +857,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         //query the database to return the spreadsheet key for the spreadsheet name
         String selectQuery = "SELECT  * FROM " + TABLE_BREAKOUTS +
-                " WHERE " + BREAKOUT_ID + "=" + BREAKOUT_NAME;
+                " WHERE " + BREAKOUT_ID + "=" + BREAKOUT_NAME +
+                " ORDER BY " + BREAKOUT_DATE + "," +BREAKOUT_START + " ASC";
         Cursor cursor = db.rawQuery(selectQuery, null);
         if(cursor.moveToFirst() && cursor!=null && cursor.getCount() > 0){
             do {

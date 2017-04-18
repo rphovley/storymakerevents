@@ -52,6 +52,7 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
     UpcomingScheduleAdapter adapter;
     List<ScheduleJoined> schedulesList;
     iHomeFragment iHome;
+    View view;
     /************Class Scope Variables**********/
 
     @Override
@@ -60,7 +61,7 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
         AppController.logTimes("START OF HOME FRAGMENT");
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
-        View view = null;
+        view = null;
         iHome = (iHomeFragment) getActivity();
         /************FIRST TIME USE**********/
         if(!prefs.getBoolean("firstTimeHome", false)){ // action to run on first use of app
@@ -124,29 +125,30 @@ public class HomeFragment extends Fragment implements UpcomingScheduleAdapter.iU
                 });
 
 
-                /*SET UP --RECYCLERVIEW*/
-                String previousDay = "";
-                for (int i = 0; i < schedulesList.size(); i++) { // add in the day headers
-                    Breakouts breakout = schedulesList.get(i).breakout;
-                    if (!breakout.getDayOfWeek().equals(previousDay)) {
-                        schedulesList.add(i, null);
-                        i++;
-                        previousDay = breakout.getDayOfWeek();
-                    }
-                }
-                scheduleView = (RecyclerView) view.findViewById(R.id.recyclerview);
-                scheduleView.setHasFixedSize(true);
-                llm = new LinearLayoutManager(getContext());
-                llm.setOrientation(LinearLayoutManager.VERTICAL);
-                scheduleView.setLayoutManager(llm);
-                adapter = new UpcomingScheduleAdapter(schedulesList, getActivity(), this);
-                scheduleView.setAdapter(adapter);
-                /*SET UP --RECYCLERVIEW*/
+                if(schedulesList!=null)setupRecyclerView();
             }
         AppController.logTimes("END HOME FRAGMENT");
         return view;
     }
 
+    private void setupRecyclerView(){
+        String previousDay = "";
+        for (int i = 0; i < schedulesList.size(); i++) { // add in the day headers
+            Breakouts breakout = schedulesList.get(i).breakout;
+            if (!breakout.getDayOfWeek().equals(previousDay)) {
+                schedulesList.add(i, null);
+                i++;
+                previousDay = breakout.getDayOfWeek();
+            }
+        }
+        scheduleView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        scheduleView.setHasFixedSize(true);
+        llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        scheduleView.setLayoutManager(llm);
+        adapter = new UpcomingScheduleAdapter(schedulesList, getActivity(), this);
+        scheduleView.setAdapter(adapter);
+    }
 
     @Override
     public void onResume() {
