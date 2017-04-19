@@ -364,8 +364,10 @@ public class UpcomingScheduleAdapter extends RecyclerView.Adapter<UpcomingSchedu
             if(sched !=null && sched.getPresentation_id() != -1){
                 url += dh.getSpreadsheetKey(Spreadsheets.COURSE_SHEET);
                 Presentations pres = dh.getPresentation(sched.getPresentation_id());
+                Speakers speak = dh.getSpeaker(pres.getSpeaker_id());
+                dh.close();
                 try {
-                    url += URLEncoder.encode(pres.getTitle(), "UTF-8");
+                    url += URLEncoder.encode(pres.getTitle() + "/" + speak.getName(), "UTF-8");
                 }catch(UnsupportedEncodingException e){
                     Log.d("FeedbackFragment", "UnsupportedEncoding", e);
                 }

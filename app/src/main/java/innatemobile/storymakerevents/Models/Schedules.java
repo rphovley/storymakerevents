@@ -42,6 +42,8 @@ public class Schedules {
         this.isPresentation = isPresentation;
     }
 
+
+
     public boolean isPresentation() {
         return isPresentation;
     }
