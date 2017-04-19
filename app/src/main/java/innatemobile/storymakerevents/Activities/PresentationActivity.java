@@ -180,7 +180,9 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
         String url = dh.getSpreadsheetLink(Spreadsheets.COURSE_SHEET);
         url += dh.getSpreadsheetKey(Spreadsheets.COURSE_SHEET);
         try {
-            url += URLEncoder.encode(pres.getTitle(), "UTF-8");
+            Speakers speak = dh.getSpeaker(pres.getSpeaker_id());
+            dh.close();
+            url += URLEncoder.encode(pres.getTitle() + "/" + speak.getName(), "UTF-8");
         }catch(UnsupportedEncodingException e){
             Log.d("FeedbackFragment", "UnsupportedEncoding", e);
         }
