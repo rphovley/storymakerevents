@@ -88,8 +88,7 @@
                         android:layout_width="@dimen/speaker_name_size"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtSpeakerName"
-                        android:layout_alignParentLeft="true"
-                        android:text="What if the speakers go on forever and you can't ever see the end; that would be bad right?" />
+                        android:layout_alignParentLeft="true" />
                     <innatemobile.storymakerevents.CustomViews.RobotoTextView
                         android:id="@+id/txtViewBio"
                         android:layout_width="wrap_content"
