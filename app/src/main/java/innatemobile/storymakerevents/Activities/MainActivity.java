@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements RequestSpreadshee
         if(getIntent().getExtras()!=null){
             selectedPos     = getIntent().getExtras().getInt(AppController.HIGHLIGHTED_POSITION_TAG);
             selectedSchedId = getIntent().getExtras().getInt(AppController.SCHEDULE_ID_TAG);
+            Snackbar.make(findViewById(android.R.id.content).getRootView(), "Schedule modified", Snackbar.LENGTH_SHORT).show();
         }
         /***************TAB ICONS, VIEWPAGER INITIALIZATION AND LOGIC*************/
         /*ICONS*/

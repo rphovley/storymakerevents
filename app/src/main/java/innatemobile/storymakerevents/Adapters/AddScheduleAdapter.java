@@ -1,24 +1,15 @@
 package innatemobile.storymakerevents.Adapters;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
-import innatemobile.storymakerevents.Activities.AddScheduleActivity;
-import innatemobile.storymakerevents.Activities.MainActivity;
-import innatemobile.storymakerevents.Activities.PresentationActivity;
-import innatemobile.storymakerevents.Models.Breakouts;
 import innatemobile.storymakerevents.Models.Presentations;
 import innatemobile.storymakerevents.Models.ScheduleJoined;
 import innatemobile.storymakerevents.Models.Schedules;
@@ -43,10 +34,10 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
      * */
     private static final int REMOVE_PRESENTATION_LAYOUT = 1;
 
-    public List<ScheduleJoined> schedulesList;
     public Activity activity;
-    DatabaseHandler dh;
-    AdapterChanged ac;
+    private List<ScheduleJoined> schedulesList;
+    private DatabaseHandler dh;
+    private AdapterChanged ac;
     /******************Class Scope Variables***********************/
 
     public AddScheduleAdapter(List<ScheduleJoined> schedulesList, Activity activity)
@@ -62,7 +53,7 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
     }
 
     @Override
-    public void onBindViewHolder(AddScheduleCardViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AddScheduleCardViewHolder holder, int position) {
         dh = new DatabaseHandler(activity);
         int presentation_id = schedulesList.get(position).presentation.getId();
         Presentations presentation = dh.getPresentation(presentation_id);
@@ -72,23 +63,22 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
             String speakerName = speaker.getName();
             holder.txtSpeakerName.setText(speakerName);
         }
-        if(presentation!=null) {
-            String presentationName = presentation.getTitle();
-            if(presentationName.length()>45){
-                presentationName = presentationName.substring(0,45).concat("...");
-            }
-            String description = presentation.getDescription();
-            if(presentation.getDescription().length()>65){
-                description = description.substring(0,65).concat("...");
-            }
-            holder.txtPresentationName.setText(presentationName);
-            holder.txtDescription.setText(description);
+        String presentationName = presentation.getTitle();
+        if(presentationName.length()>45){
+            presentationName = presentationName.substring(0,45).concat("...");
         }
+        String description = presentation.getDescription();
+        if(presentation.getDescription().length()>65){
+            description = description.substring(0,65).concat("...");
+        }
+        holder.txtPresentationName.setText(presentationName);
+        holder.txtDescription.setText(description);
 
         dh.close();
     }
+    @NonNull
     @Override
-    public AddScheduleCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AddScheduleCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView;
         if(viewType==ADD_PRESENTATION_LAYOUT) {
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_schedule_card, parent, false);
@@ -114,17 +104,17 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
     }
 
     public class AddScheduleCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        protected TextView txtPresentationName, txtSpeakerName, txtRoom, txtDescription;
-        protected TextView btnAdd, btnRemove;
-        protected View addCardView;
-        public AddScheduleCardViewHolder(final View itemView) {
+        TextView txtPresentationName, txtSpeakerName, txtRoom, txtDescription;
+        TextView btnAdd, btnRemove;
+        View addCardView;
+        AddScheduleCardViewHolder(final View itemView) {
             super(itemView);
-            txtPresentationName = (TextView) itemView.findViewById(R.id.txtPresentationTitle);
-            txtSpeakerName      = (TextView) itemView.findViewById(R.id.txtSpeakerName);
-            txtRoom             = (TextView) itemView.findViewById(R.id.txtRoom);
-            txtDescription      = (TextView) itemView.findViewById(R.id.txtPresentationDescription);
-            btnAdd              = (TextView) itemView.findViewById(R.id.btnAddToSchedule);
-            btnRemove           = (TextView) itemView.findViewById(R.id.btnRemoveFromSchedule);
+            txtPresentationName = itemView.findViewById(R.id.txtPresentationTitle);
+            txtSpeakerName      = itemView.findViewById(R.id.txtSpeakerName);
+            txtRoom             = itemView.findViewById(R.id.txtRoom);
+            txtDescription      = itemView.findViewById(R.id.txtPresentationDescription);
+            btnAdd              = itemView.findViewById(R.id.btnAddToSchedule);
+            btnRemove           = itemView.findViewById(R.id.btnRemoveFromSchedule);
             addCardView         = itemView.findViewById(R.id.add_schedule_card);
 
             if(btnAdd!=null) {
@@ -160,38 +150,21 @@ public class AddScheduleAdapter extends RecyclerView.Adapter<AddScheduleAdapter.
                     }
                     ac.addedPresentation(this.getAdapterPosition());
                     dh.close();
-                    snackBarNotifySchedule(itemView, " Added to Schedule");
                     AppController.switchToMain(activity, AppController.SCHEDULE_POS, sched.getId());
                     break;
                 case R.id.btnRemoveFromSchedule: //remove presentation from schedule
                     dh = new DatabaseHandler(activity);
                     dh.removeFromSchedule(schedulesList.get(this.getAdapterPosition()).presentation.getId());
                     dh.close();
-                    snackBarNotifySchedule(itemView, " Removed From Schedule");
                     break;
                 case R.id.add_schedule_card:
                     AppController.switchToPresentation(activity, schedulesList, getAdapterPosition());
 
             }
         }
-        /**
-         * calls the snackbar to notify the user that the item has been added to their schedule
-         * */
-        private void snackBarNotifySchedule(View itemView, String message){
-            Presentations presents = dh.getPresentation(schedulesList.get(this.getAdapterPosition()).presentation.getId());
-            ac.removedPresentation(this.getAdapterPosition());
-            String presName;
-            if(presents.getTitle().length()>15){
-                presName = presents.getTitle().substring(0,15) + "...";
-            }else{
-                presName = presents.getTitle();
-            }
-            Snackbar.make(itemView,  presName + message, Snackbar.LENGTH_LONG).show();
-        }
     }
 
     public interface AdapterChanged{
         void addedPresentation(int position);
-        void removedPresentation(int position);
     }
 }

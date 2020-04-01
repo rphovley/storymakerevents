@@ -47,9 +47,9 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
 
     public List<ScheduleJoined> schedulesList;
     public Activity activity;
-    int selectedIndex = -1;
-    DatabaseHandler dh;
-    iUpcomingAdapter iUpcoming;
+    private int selectedIndex = -1;
+    private DatabaseHandler dh;
+    private iUpcomingAdapter iUpcoming;
 
     public MyScheduleAdapter(List<ScheduleJoined> schedulesList, Activity activity, Fragment f, int selectedIndex)
     {
@@ -260,10 +260,9 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
                     activity.startActivity(i);
                     break;
                 case R.id.btnLayoutRemoveFromSchedule:
-                    AppController.switchToPresentation(activity, schedulesList, this.getAdapterPosition());
-                    break;
                 case R.id.fixedScheduleLayout:
                     AppController.switchToPresentation(activity, schedulesList, this.getAdapterPosition());
+                    break;
             }
         }
 
@@ -296,9 +295,7 @@ public class MyScheduleAdapter extends RecyclerView.Adapter<MyScheduleAdapter.My
 
             @Override
             public void onAnimationUpdate(ValueAnimator animator) {
-                //textView.setBackgroundColor((int) animator.getAnimatedValue());
                 if (holder.btnLayoutRemove != null) {
-                    Snackbar.make(holder.btnLayoutRemove, "Added to Schedule", Snackbar.LENGTH_SHORT).show();
                     holder.btnLayoutRemove.setBackgroundColor((Integer) animator.getAnimatedValue());
 
                 }

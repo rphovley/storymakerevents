@@ -150,7 +150,6 @@ public class PresentationActivity extends AppCompatActivity implements View.OnCl
                 }else{
                     presName = pres.getTitle();
                 }
-                Snackbar.make(txtPresentationName, presName + " Added to Schedule", Snackbar.LENGTH_LONG).show();
                 AppController.switchToMain(this, AppController.SCHEDULE_POS, sched.get(0).getId());
                 return(true);
         }

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="innatemobile.storymakerevents">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,14 +13,16 @@
         android:label="StoryMakers"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <receiver android:name=".Activities.MainActivity$AlarmReceiver" />
 
         <activity
             android:name=".Activities.SplashActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            >
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,8 +33,8 @@
             android:name=".Activities.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            >
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
         </activity>
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -44,7 +46,8 @@
             android:label="@string/title_activity_add_schedule"
             android:parentActivityName=".Activities.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="innatemobile.storymakerevents.Activities.MainActivity" />
@@ -55,7 +58,8 @@
             android:label="@string/title_activity_presentation"
             android:parentActivityName=".Activities.AddScheduleActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="innatemobile.storymakerevents.Activities.AddScheduleActivity" />
@@ -65,11 +69,12 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_bio"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Activities.HelpActivity"
             android:label="@string/title_activity_help"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
