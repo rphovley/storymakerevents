@@ -18,7 +18,7 @@
             android:text="@string/sFeedback"/>
         <innatemobile.storymakerevents.CustomViews.RobotoTextView
             style="@style/top_header_border"/>
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="2dp"
@@ -31,8 +31,8 @@
                 android:padding="@dimen/large_margin"
                 android:text="@string/sConferenceFeedback"
                 style="@style/clicakableCard"/>
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin"
@@ -48,7 +48,7 @@
                 android:padding="@dimen/large_margin"
                 android:text="@string/sCourseFeedback"
                 style="@style/clicakableCard"/>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
         <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

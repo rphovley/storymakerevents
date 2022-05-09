@@ -42,7 +42,7 @@
     </FrameLayout>
     <!--NEXT CLASS HEADER-->
     <!--NEXT CLASS CONTENT-->
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/colorPrimaryDark"
@@ -120,7 +120,7 @@
             <!--SURVEY SPEAKER-->
             <!--SURVEY SPEAKER-->
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
     <!--NEXT CLASS CONTENT-->
     <!--MY UPCOMING CLASS HEADER-->
     <LinearLayout

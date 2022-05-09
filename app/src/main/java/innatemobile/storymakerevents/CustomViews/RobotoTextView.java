@@ -3,14 +3,12 @@ package innatemobile.storymakerevents.CustomViews;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
-import android.support.design.widget.Snackbar;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.widget.TextView;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import innatemobile.storymakerevents.R;
 
-public class RobotoTextView extends TextView {
+public class RobotoTextView extends AppCompatTextView {
 
     public RobotoTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);

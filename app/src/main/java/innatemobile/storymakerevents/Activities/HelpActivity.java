@@ -1,36 +1,16 @@
 package innatemobile.storymakerevents.Activities;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
-import com.cloudinary.Cloudinary;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-import org.w3c.dom.Text;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import innatemobile.storymakerevents.Models.Schedules;
 import innatemobile.storymakerevents.R;
 import innatemobile.storymakerevents.Utils.AppController;
-import innatemobile.storymakerevents.Utils.DatabaseHandler;
 
 public class HelpActivity extends AppCompatActivity {
     TextView txtHelp1, txtHelp2, txtHelp3, txtHelp4, txtHelp5;
