@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/layout/activity_add_schedule.xml" value="0.17844202898550723" />
         <entry key="app/src/main/res/layout/activity_help.xml" value="0.17844202898550723" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17844202898550723" />
+        <entry key="app/src/main/res/layout/activity_presentation.xml" value="0.2866847826086957" />
         <entry key="app/src/main/res/layout/content_bio.xml" value="0.17844202898550723" />
         <entry key="app/src/main/res/layout/content_help.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.17844202898550723" />
@@ -22,10 +23,12 @@
         <entry key="app/src/main/res/layout/my_schedule_card.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/page_header.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/recyclerview_container.xml" value="0.17844202898550723" />
+        <entry key="app/src/main/res/layout/remove_schedule_card.xml" value="0.2866847826086957" />
         <entry key="app/src/main/res/layout/splash_content_main.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/splash_main.xml" value="0.17844202898550723" />
         <entry key="app/src/main/res/layout/swipe_right_help.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/tab_icon.xml" value="0.19630192502532928" />
+        <entry key="app/src/main/res/menu/presentation_menu.xml" value="0.4036458333333333" />
       </map>
     </option>
   </component>

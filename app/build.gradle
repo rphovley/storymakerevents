@@ -6,8 +6,8 @@ android {
         applicationId "innatemobile.storymakerevents"
         minSdkVersion 15
         targetSdkVersion 32
-        versionCode 20
-        versionName '1.14'
+        versionCode 21
+        versionName '1.15'
     }
     buildTypes {
         release {

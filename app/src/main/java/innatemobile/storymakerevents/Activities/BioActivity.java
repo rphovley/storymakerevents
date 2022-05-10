@@ -25,7 +25,7 @@ import innatemobile.storymakerevents.Utils.DatabaseHandler;
  * */
 public class BioActivity extends AppCompatActivity {
     /************Class Scope Variables**********/
-    final String IMAGE_URL = "http://res.cloudinary.com/innatemobile/image/upload/";
+    final String IMAGE_URL = "https://res.cloudinary.com/innatemobile/image/upload/";
     Speakers speaker;
     /*VIEWS*/
     TextView txtBio, txtSpeakerName;
@@ -37,7 +37,6 @@ public class BioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bio);
         initToolbar();
-        getSpeakerInfo();
         bindViews();
     }
     @Override
@@ -65,16 +64,10 @@ public class BioActivity extends AppCompatActivity {
     /**
      * get information about the presentation from intent extras and from database
      * */
-    public void getSpeakerInfo(){
+    public Speakers getSpeaker(){
         int speaker_id = getIntent().getExtras().getInt(AppController.SPEAKER_ID);
         DatabaseHandler dh = new DatabaseHandler(this);
-        speaker = dh.getSpeaker(speaker_id);
-        Map<String, String> config = new HashMap<>();
-        config.put("cloud_name","innatemobile");
-        config.put("api_key", "25355876463913");
-        config.put("api_secret", "v9sw4llJArudRhzXc5oVhy-7FPE");
-        Cloudinary cloudinary = new Cloudinary(config);
-
+        return dh.getSpeaker(speaker_id);
     }
     /**
      * bind data to the views in the layout
@@ -83,6 +76,9 @@ public class BioActivity extends AppCompatActivity {
         txtBio = (TextView) findViewById(R.id.txtBio);
         txtSpeakerName = (TextView) findViewById(R.id.txtSpeakerName);
         imgSpeaker = (ImageView) findViewById(R.id.imgSpeaker);
+        speaker = getSpeaker();
+
+
         String image_name = speaker.getImage().toUpperCase().replace(" ", "_");
         String url = IMAGE_URL + image_name;
         ImageLoader imgLoader = AppController.getInstance().getImageLoader();
